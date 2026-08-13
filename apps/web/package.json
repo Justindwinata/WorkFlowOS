@@ -27,7 +27,10 @@
     "zustand": "^4.5.2",
     "@tanstack/react-query": "^5.29.0",
     "@tanstack/query-core": "^5.29.0",
-    "axios": "^1.6.8"
+    "axios": "^1.6.8",
+    "@workflowos/ui": "*",
+    "@workflowos/config": "*",
+    "@workflowos/types": "*"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
