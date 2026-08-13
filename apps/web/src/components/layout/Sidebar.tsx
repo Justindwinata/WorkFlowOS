@@ -14,7 +14,7 @@ import {
   AlertCircle,
   CheckCircle,
   Bell,
-  LogBook,
+  ScrollText,
   Settings,
 } from 'lucide-react';
 
@@ -28,7 +28,7 @@ const routes = [
   { href: '/incidents', icon: AlertCircle, label: 'Incidents' },
   { href: '/approvals', icon: CheckCircle, label: 'Approvals' },
   { href: '/notifications', icon: Bell, label: 'Notifications' },
-  { href: '/audit-log', icon: LogBook, label: 'Audit Log' },
+  { href: '/audit-log', icon: ScrollText, label: 'Audit Log' },
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
