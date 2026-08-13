@@ -1,0 +1,257 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  avatar    String?
+  status    String   @default("active")
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    String
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+  teams     TeamMember[]
+  tasks     Task[]
+  assignments TaskAssignment[]
+  requests  Request[]
+  approvals Approval[]
+  incidents Incident[]
+  notifications Notification[]
+  auditLogs AuditLog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([workspaceId])
+  @@index([roleId])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  permissions Permission[]
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Permission {
+  id    String @id @default(cuid())
+  name  String @unique
+  roles Role[]
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logo      String?
+  users     User[]
+  teams     Team[]
+  projects  Project[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+  members     TeamMember[]
+  projects    Project[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([workspaceId, name])
+  @@index([workspaceId])
+}
+
+model TeamMember {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId String
+  role   String @default("member")
+
+  @@unique([userId, teamId])
+  @@index([teamId])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("active")
+  team        Team     @relation(fields: [teamId], references: [id])
+  teamId      String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([teamId, name])
+  @@index([teamId])
+  @@index([workspaceId])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("backlog")
+  priority    String   @default("medium")
+  dueDate     DateTime?
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   String
+  creator     User     @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  assignments TaskAssignment[]
+  comments    TaskComment[]
+  labels      TaskLabel[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([creatorId])
+  @@index([status])
+  @@index([priority])
+}
+
+model TaskAssignment {
+  id     String @id @default(cuid())
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@unique([taskId, userId])
+  @@index([userId])
+}
+
+model TaskComment {
+  id        String   @id @default(cuid())
+  content   String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([taskId])
+  @@index([authorId])
+}
+
+model TaskLabel {
+  id    String @id @default(cuid())
+  name  String
+  color String?
+  tasks Task[]
+
+  @@unique([name])
+}
+
+model Request {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        String
+  status      String   @default("draft")
+  priority    String   @default("medium")
+  requester   User     @relation(fields: [requesterId], references: [id])
+  requesterId String
+  approvals   Approval[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([requesterId])
+  @@index([status])
+}
+
+model Incident {
+  id              String   @id @default(cuid())
+  title           String
+  description     String?
+  severity        String   @default("medium")
+  priority        String   @default("medium")
+  status          String   @default("open")
+  affectedService String?
+  assignee        User?    @relation(fields: [assigneeId], references: [id])
+  assigneeId      String?
+  resolution      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([assigneeId])
+  @@index([status])
+  @@index([severity])
+}
+
+model Approval {
+  id        String   @id @default(cuid())
+  status    String   @default("pending")
+  comment   String?
+  request   Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  requestId String
+  approver  User     @relation(fields: [approverId], references: [id])
+  approverId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([requestId, approverId])
+  @@index([requestId])
+  @@index([approverId])
+}
+
+model SLA {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  responseTarget    Int
+  resolutionTarget  Int
+  warningThreshold  Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([read])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  actor     User     @relation(fields: [actorId], references: [id])
+  actorId   String
+  summary   String?
+  timestamp DateTime @default(now())
+
+  @@index([actorId])
+  @@index([entityId])
+  @@index([timestamp])
+}
