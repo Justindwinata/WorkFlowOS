@@ -20,9 +20,12 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["../../packages/ui/*"],
-      "@config/*": ["../../packages/config/*"],
-      "@types/*": ["../../packages/types/*"]
+      "@ui": ["../../packages/ui/src/index.ts"],
+      "@ui/*": ["../../packages/ui/src/*"],
+      "@config": ["../../packages/config/src/index.ts"],
+      "@config/*": ["../../packages/config/src/*"],
+      "@types": ["../../packages/types/src/index.ts"],
+      "@types/*": ["../../packages/types/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
