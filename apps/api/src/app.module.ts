@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -18,6 +21,18 @@ import { AuditLogModule } from './audit-log/audit-log.module';
       isGlobal: true,
       envFilePath: '../../.env',
     }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        throttlers: [
+          {
+            ttl: config.get<number>('THROTTLE_TTL') || 60000,
+            limit: config.get<number>('THROTTLE_LIMIT') || 60,
+          },
+        ],
+      }),
+    }),
     PrismaModule,
     AuthModule,
     UsersModule,
@@ -29,6 +44,12 @@ import { AuditLogModule } from './audit-log/audit-log.module';
     ApprovalsModule,
     NotificationsModule,
     AuditLogModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
