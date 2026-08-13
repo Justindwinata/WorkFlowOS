@@ -33,9 +33,11 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
 
   @@index([workspaceId])
   @@index([roleId])
+  @@index([deletedAt])
 }
 
 model Role {
@@ -76,9 +78,11 @@ model Team {
   projects    Project[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
 
   @@unique([workspaceId, name])
   @@index([workspaceId])
+  @@index([deletedAt])
 }
 
 model TeamMember {
@@ -105,10 +109,12 @@ model Project {
   tasks       Task[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
 
   @@unique([teamId, name])
   @@index([teamId])
   @@index([workspaceId])
+  @@index([deletedAt])
 }
 
 model Task {
@@ -127,11 +133,13 @@ model Task {
   labels      TaskLabel[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
 
   @@index([projectId])
   @@index([creatorId])
   @@index([status])
   @@index([priority])
+  @@index([deletedAt])
 }
 
 model TaskAssignment {
@@ -180,9 +188,11 @@ model Request {
   approvals   Approval[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
 
   @@index([requesterId])
   @@index([status])
+  @@index([deletedAt])
 }
 
 model Incident {
@@ -198,10 +208,12 @@ model Incident {
   resolution      String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  deletedAt       DateTime?
 
   @@index([assigneeId])
   @@index([status])
   @@index([severity])
+  @@index([deletedAt])
 }
 
 model Approval {
