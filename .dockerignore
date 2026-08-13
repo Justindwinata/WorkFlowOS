@@ -1,0 +1,13 @@
+workflowos-app/
+.DS_Store
+Thumbs.db
+*.pid
+.env
+.env.local
+.pnp/
+.pnp.loader.mjs
+node_modules/
+
+# Build output
+.vercel_output/
+.vercel_build_output/

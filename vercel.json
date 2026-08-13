@@ -1,0 +1,31 @@
+{
+  "version": "0.6.0",
+  "builds": [
+    {
+      "name": "web",
+      "src": "apps/web/package.json",
+      "use": "vercel-node-build",
+      "config": {
+        "includeFiles": ["apps/web/**/*", "packages/**/*"]
+      }
+    },
+    {
+      "name": "api",
+      "src": "apps/api/package.json",
+      "use": "vercel-node-build",
+      "config": {
+        "includeFiles": ["apps/api/**/*"]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/apps/api/dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/web"
+    }
+  ]
+}
