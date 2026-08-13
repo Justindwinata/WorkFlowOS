@@ -14,6 +14,7 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { ApprovalsModule } from './approvals/approvals.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AuditLogModule } from './audit-log/audit-log.module';
+import { SlaModule } from './sla/sla.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { AuditLogModule } from './audit-log/audit-log.module';
     ApprovalsModule,
     NotificationsModule,
     AuditLogModule,
+    SlaModule,
   ],
   providers: [
     {
