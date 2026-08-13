@@ -8,6 +8,9 @@ import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { RequestsModule } from './requests/requests.module';
 import { IncidentsModule } from './incidents/incidents.module';
+import { ApprovalsModule } from './approvals/approvals.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { AuditLogModule } from './audit-log/audit-log.module';
 
 @Module({
   imports: [
@@ -23,6 +26,9 @@ import { IncidentsModule } from './incidents/incidents.module';
     TasksModule,
     RequestsModule,
     IncidentsModule,
+    ApprovalsModule,
+    NotificationsModule,
+    AuditLogModule,
   ],
 })
 export class AppModule {}
