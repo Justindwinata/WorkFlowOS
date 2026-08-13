@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateAuditLogDto } from './dto/audit-log.dto';
 
 @Injectable()
 export class AuditLogService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateAuditLogDto, actorId: string) {
+  async create(action: string, entity: string, entityId: string, actorId: string, summary?: string) {
     return this.prisma.auditLog.create({
       data: {
-        action: dto.action,
-        entity: dto.entity,
-        entityId: dto.entityId,
+        action,
+        entity,
+        entityId,
         actorId,
-        summary: dto.summary,
+        summary,
       },
-      include: { actor: true },
     });
   }
 
@@ -25,22 +23,6 @@ export class AuditLogService {
       include: { actor: { select: { id: true, email: true, firstName: true, lastName: true } } },
       orderBy: { timestamp: 'desc' },
       take: limit,
-    });
-  }
-
-  async findByEntity(entity: string, entityId: string) {
-    return this.prisma.auditLog.findMany({
-      where: { entity, entityId },
-      include: { actor: { select: { id: true, email: true, firstName: true, lastName: true } } },
-      orderBy: { timestamp: 'desc' },
-    });
-  }
-
-  async findByActor(actorId: string) {
-    return this.prisma.auditLog.findMany({
-      where: { actorId },
-      orderBy: { timestamp: 'desc' },
-      take: 50,
     });
   }
 }

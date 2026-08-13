@@ -27,6 +27,8 @@ export class TasksService {
       include: { assignments: { include: { user: true } }, comments: true },
     });
 
+    await this.auditLogService.create('create', 'task', task.id, userId, `Created task: ${task.title}`);
+
     if (dto.assigneeIds && dto.assigneeIds.length > 0) {
       for (const assigneeId of dto.assigneeIds) {
         await this.prisma.taskAssignment.create({
