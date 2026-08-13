@@ -25,4 +25,20 @@ export class AuditLogService {
       take: limit,
     });
   }
+
+  async findByEntity(entity: string, entityId: string) {
+    return this.prisma.auditLog.findMany({
+      where: { entity, entityId },
+      include: { actor: { select: { id: true, email: true, firstName: true, lastName: true } } },
+      orderBy: { timestamp: 'desc' },
+    });
+  }
+
+  async findByActor(actorId: string) {
+    return this.prisma.auditLog.findMany({
+      where: { actorId },
+      orderBy: { timestamp: 'desc' },
+      take: 50,
+    });
+  }
 }
