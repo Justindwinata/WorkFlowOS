@@ -6,7 +6,8 @@ import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
 import { StatusBadge, PriorityBadge, ActionButton } from '@/components/ui/tabs';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { LoadingState, ErrorState, EmptyState } from '@/components/ui/states';
+import { Plus, Edit, Trash2, AlertTriangle } from 'lucide-react';
 
 interface Incident {
   id: string;
@@ -39,8 +40,19 @@ export default function IncidentsPage() {
     { key: 'assignee', label: 'Assignee' },
   ];
 
-  if (isLoading) return <div className="p-4">Memuat...</div>;
-  if (error) return <div className="p-4 text-destructive">Gagal memuat data</div>;
+  if (isLoading) return <LoadingState message="Memuat incidents..." />;
+  if (error) return <ErrorState title="Data belum dapat dimuat" onRetry={() => {}} />;
+  if (!incidents || incidents.length === 0) {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Incidents</h1>
+          <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Incident</ActionButton>
+        </div>
+        <EmptyState icon={<AlertTriangle className="h-12 w-12" />} title="Belum ada incident" description="Belum ada incident yang dilaporkan." action={<ActionButton icon={<Plus className="h-4 w-4" />}>Buat Incident</ActionButton>} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
