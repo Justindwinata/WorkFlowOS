@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@ui';
 import {
+  BarChart2,
   LayoutDashboard,
   Users,
   Users2,
@@ -16,6 +16,7 @@ import {
   Bell,
   ScrollText,
   Settings,
+  Clock,
 } from 'lucide-react';
 
 const routes = [
@@ -27,6 +28,7 @@ const routes = [
   { href: '/requests', icon: FileText, label: 'Requests' },
   { href: '/incidents', icon: AlertCircle, label: 'Incidents' },
   { href: '/approvals', icon: CheckCircle, label: 'Approvals' },
+  { href: '/sla', icon: Clock, label: 'SLA' },
   { href: '/notifications', icon: Bell, label: 'Notifications' },
   { href: '/audit-log', icon: ScrollText, label: 'Audit Log' },
   { href: '/settings', icon: Settings, label: 'Settings' },
@@ -47,9 +49,7 @@ export function Sidebar() {
               href={route.href}
               className={cn(
                 'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
-                isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-muted',
+                isActive ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-muted',
               )}
             >
               <Icon className="h-4 w-4" />

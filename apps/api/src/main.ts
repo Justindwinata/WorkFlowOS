@@ -9,7 +9,6 @@ import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api', { exclude: ['auth'] });
   app.useGlobalInterceptors(new AuditLogInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));

@@ -16,6 +16,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { AuditLogModule } from './audit-log/audit-log.module';
 import { SlaModule } from './sla/sla.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
     AuditLogModule,
     SlaModule,
     WorkspacesModule,
+    DashboardModule,
   ],
   providers: [
     {

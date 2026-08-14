@@ -1,12 +1,11 @@
 'use client';
 
-import React, { ReactNode } from 'react';
 import { useAuthStore } from '@/lib/auth-store';
 import { Topbar } from '@/components/layout/Topbar';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { redirect } from 'next/navigation';
 
-export function DashboardLayout({ children }: { children: ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
 
   if (isLoading) {
