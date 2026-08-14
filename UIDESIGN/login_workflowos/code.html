@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-container-highest": "#e2e2e5",
+                    "surface-variant": "#e2e2e5",
+                    "surface-bright": "#f9f9fc",
+                    "inverse-on-surface": "#f0f0f3",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "tertiary-container": "#bc4800",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "surface-dim": "#dadadc",
+                    "outline": "#737686",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-error": "#ffffff",
+                    "secondary": "#505f76",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#54647a",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#943700",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container": "#eeeef0",
+                    "inverse-surface": "#2f3133",
+                    "on-background": "#1a1c1e",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "background": "#f8fafc", /* Overridden per spec */
+                    "tertiary-fixed-dim": "#ffb596",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary-container": "#d0e1fb",
+                    "surface": "#ffffff", /* Overridden per spec */
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f3f3f6",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "primary-container": "#2563eb",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-surface-variant": "#434655",
+                    "on-primary-fixed": "#00174b",
+                    "surface-tint": "#0053db",
+                    "primary": "#2563eb", /* Overridden per spec */
+                    "on-surface": "#1a1c1e",
+                    "outline-variant": "#c3c6d7",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-tertiary-container": "#ffede6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "margin-page": "24px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "metadata": ["Inter"],
+                    "body-base": ["Inter"],
+                    "section-title": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-md": ["Inter"],
+                    "button-label": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "metadata": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-base": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "section-title": ["18px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "display-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "button-label": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="h-full bg-background flex items-center justify-center font-body-base text-body-base text-on-background">
+<!-- Container for the form -->
+<div class="w-full max-w-md p-lg sm:p-xl bg-surface border border-surface-variant rounded-lg shadow-sm">
+<!-- Header -->
+<div class="mb-xl text-center">
+<h1 class="font-display-md text-display-md text-primary mb-sm">WorkFlowOS</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Masuk ke WorkFlowOS untuk mengelola pekerjaan Anda.</p>
+</div>
+<!-- Form -->
+<form class="space-y-lg">
+<!-- Email Input -->
+<div class="space-y-xs">
+<label class="block font-metadata text-metadata text-on-surface" for="email">Email / Username</label>
+<input class="w-full px-md py-sm border border-[#CBD5E1] rounded text-on-surface placeholder:text-[#94A3B8] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-colors" id="email" name="email" placeholder="Masukkan email atau username" type="text"/>
+</div>
+<!-- Password Input -->
+<div class="space-y-xs">
+<div class="flex items-center justify-between">
+<label class="block font-metadata text-metadata text-on-surface" for="password">Password</label>
+<a class="font-metadata text-metadata text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary/20 rounded" href="#">Forgot Password?</a>
+</div>
+<input class="w-full px-md py-sm border border-[#CBD5E1] rounded text-on-surface placeholder:text-[#94A3B8] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-colors" id="password" name="password" placeholder="Masukkan password" type="password"/>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-sm bg-primary text-on-primary font-button-label text-button-label rounded hover:bg-surface-tint focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors" type="submit">
+                Sign In
+            </button>
+</form>
+<!-- Footer -->
+<div class="mt-lg text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Belum punya akun? 
+                <a class="text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary/20 rounded" href="#">Sign Up / Register</a>
+</p>
+</div>
+</div>
+</body></html>

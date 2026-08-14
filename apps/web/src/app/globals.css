@@ -4,48 +4,168 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* Background & Surface (Neutral-First) */
+    --background: #f9f9fc;
+    --surface: #f9f9fc;
+    --surface-bright: #f9f9fc;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f3f3f6;
+    --surface-container: #eeeef0;
+    --surface-container-high: #e8e8ea;
+    --surface-container-highest: #e2e2e5;
+    --surface-dim: #dadadc;
+    --surface-bright: #f9f9fc;
+    --surface-variant: #e2e2e5;
+
+    /* Text */
+    --on-surface: #1a1c1e;
+    --on-surface-variant: #434655;
+    --on-background: #1a1c1e;
+
+    /* Primary (Blue) - per DESIGN.md */
+    --primary: #004ac6;
+    --primary-container: #2563eb;
+    --on-primary: #ffffff;
+    --on-primary-container: #eeefff;
+    --primary-fixed: #dbe1ff;
+    --primary-fixed-dim: #b4c5ff;
+    --on-primary-fixed: #00174b;
+    --on-primary-fixed-variant: #003ea8;
+    --surface-tint: #0053db;
+
+    /* Secondary */
+    --secondary: #505f76;
+    --secondary-container: #d0e1fb;
+    --on-secondary: #ffffff;
+    --on-secondary-container: #54647a;
+    --secondary-fixed: #d3e4fe;
+    --secondary-fixed-dim: #b7c8e1;
+    --on-secondary-fixed: #0b1c30;
+    --on-secondary-fixed-variant: #38485d;
+
+    /* Tertiary (Warning/Amber) */
+    --tertiary: #943700;
+    --tertiary-container: #bc4800;
+    --on-tertiary: #ffffff;
+    --on-tertiary-container: #ffede6;
+    --tertiary-fixed: #ffdbcd;
+    --tertiary-fixed-dim: #ffb596;
+    --on-tertiary-fixed: #360f00;
+    --on-tertiary-fixed-variant: #7d2d00;
+
+    /* Error (Red) */
+    --error: #ba1a1a;
+    --error-container: #ffdad6;
+    --on-error: #ffffff;
+    --on-error-container: #93000a;
+
+    /* Success (Green) - per Stitch code.html */
+    --success: #059669;
+    --success-container: #dcfce7;
+    --on-success: #ffffff;
+    --on-success-container: #166534;
+
+    /* Outline */
+    --outline: #737686;
+    --outline-variant: #c3c6d7;
+    --surface-variant: #e2e2e5;
+    --surface-dim: #dadadc;
+
+    /* Inverse */
+    --inverse-surface: #2f3133;
+    --inverse-on-surface: #f0f0f3;
+    --inverse-primary: #b4c5ff;
+
+    /* Primary (from DESIGN.md secondary) */
+    --primary-blue: #2563eb;
+
+    /* On-primary-fixed */
+    --on-primary-fixed: #00174b;
+    --on-primary-fixed-variant: #003ea8;
+    --primary-fixed: #dbe1ff;
+    --primary-fixed-dim: #b4c5ff;
+
+    /* On-secondary-fixed */
+    --on-secondary-fixed: #0b1c30;
+    --on-secondary-fixed-variant: #38485d;
+    --secondary-fixed: #d3e4fe;
+    --secondary-fixed-dim: #b7c8e1;
+
+    /* On-tertiary-fixed */
+    --on-tertiary-fixed: #360f00;
+    --on-tertiary-fixed-variant: #7d2d00;
+    --tertiary-fixed: #ffdbcd;
+    --tertiary-fixed-dim: #ffb596;
+
+    /* Surface containers */
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f3f3f6;
+    --surface-container: #eeeef0;
+    --surface-container-high: #e8e8ea;
+    --surface-container-highest: #e2e2e5;
+
+    /* Legacy shadcn/ui compatibility */
+    --background: 249 249 252;
+    --foreground: 26 28 30;
+    --card: 255 255 255;
+    --card-foreground: 26 28 30;
+    --popover: 255 255 255;
+    --popover-foreground: 26 28 30;
+    --primary: 0 74 198;
+    --primary-foreground: 255 255 255;
+    --secondary: 80 95 118;
+    --secondary-foreground: 255 255 255;
+    --muted: 243 243 246;
+    --muted-foreground: 67 70 85;
+    --accent: 243 243 246;
+    --accent-foreground: 26 28 30;
+    --destructive: 186 26 26;
+    --destructive-foreground: 255 255 255;
+    --border: 226 230 243;
+    --input: 226 230 243;
+    --ring: 0 74 198;
+    --radius: 0.25rem;
+
+    /* Success (Green) */
+    --success: 5 150 105;
+    --success-container: 220 252 231;
+    --on-success: 255 255 255;
+    --on-success-container: 22 101 52;
+
+    /* Tertiary (Warning/Amber) */
+    --tertiary: 148 55 0;
+    --tertiary-container: 188 72 0;
+    --on-tertiary: 255 255 255;
+    --on-tertiary-container: 255 237 230;
+
+    /* Error */
+    --error: 186 26 26;
+    --error-container: 255 218 214;
+    --on-error: 255 255 255;
+    --on-error-container: 147 0 10;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: 31 33 35;
+    --foreground: 240 240 243;
+    --card: 47 49 51;
+    --card-foreground: 240 240 243;
+    --popover: 47 49 51;
+    --popover-foreground: 240 240 243;
+    --primary: 180 197 255;
+    --primary-foreground: 47 49 51;
+    --secondary: 80 95 118;
+    --secondary-foreground: 240 240 243;
+    --muted: 39 42 47;
+    --muted-foreground: 164 170 185;
+    --accent: 39 42 47;
+    --accent-foreground: 240 240 243;
+    --destructive: 186 26 26;
+    --destructive-foreground: 240 240 243;
+    --border: 47 49 51;
+    --input: 47 49 51;
+    --ring: 180 197 255;
+    --radius: 0.25rem;
   }
 }
 
@@ -55,5 +175,64 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
+
+@layer utilities {
+  /* Stitch design tokens as utility classes */
+  .text-on-surface { color: var(--on-surface); }
+  .text-on-surface-variant { color: var(--on-surface-variant); }
+  .text-on-background { color: var(--on-background); }
+  .text-primary { color: var(--primary); }
+  .text-primary-container { color: var(--primary-container); }
+  .text-on-primary { color: var(--on-primary); }
+  .text-on-primary-container { color: var(--on-primary-container); }
+  .text-secondary { color: var(--secondary); }
+  .text-secondary-container { color: var(--secondary-container); }
+  .text-on-secondary { color: var(--on-secondary); }
+  .text-on-secondary-container { color: var(--on-secondary-container); }
+  .text-tertiary { color: var(--tertiary); }
+  .text-tertiary-container { color: var(--tertiary-container); }
+  .text-on-tertiary { color: var(--on-tertiary); }
+  .text-on-tertiary-container { color: var(--on-tertiary-container); }
+  .text-error { color: var(--error); }
+  .text-error-container { color: var(--error-container); }
+  .text-on-error { color: var(--on-error); }
+  .text-on-error-container { color: var(--on-error-container); }
+  .text-success { color: var(--success); }
+  .text-success-container { color: var(--success-container); }
+  .text-on-success { color: var(--on-success); }
+  .text-on-success-container { color: var(--on-success-container); }
+  .text-outline { color: var(--outline); }
+  .text-outline-variant { color: var(--outline-variant); }
+  .text-on-surface { color: var(--on-surface); }
+  .text-on-surface-variant { color: var(--on-surface-variant); }
+  .bg-surface { background-color: var(--surface); }
+  .bg-surface-bright { background-color: var(--surface-bright); }
+  .bg-surface-container-lowest { background-color: var(--surface-container-lowest); }
+  .bg-surface-container-low { background-color: var(--surface-container-low); }
+  .bg-surface-container { background-color: var(--surface-container); }
+  .bg-surface-container-high { background-color: var(--surface-container-high); }
+  .bg-surface-container-highest { background-color: var(--surface-container-highest); }
+  .bg-surface-dim { background-color: var(--surface-dim); }
+  .bg-surface-variant { background-color: var(--surface-variant); }
+  .bg-surface-dim { background-color: var(--surface-dim); }
+  .bg-surface-container-lowest { background-color: var(--surface-container-lowest); }
+  .bg-surface-container-low { background-color: var(--surface-container-low); }
+  .bg-surface-container { background-color: var(--surface-container); }
+  .bg-surface-container-high { background-color: var(--surface-container-high); }
+  .bg-surface-container-highest { background-color: var(--surface-container-highest); }
+  .bg-primary { background-color: var(--primary); }
+  .bg-primary-container { background-color: var(--primary-container); }
+  .bg-secondary { background-color: var(--secondary); }
+  .bg-secondary-container { background-color: var(--secondary-container); }
+  .bg-tertiary { background-color: var(--tertiary); }
+  .bg-tertiary-container { background-color: var(--tertiary-container); }
+  .bg-error { background-color: var(--error); }
+  .bg-error-container { background-color: var(--error-container); }
+  .bg-success { background-color: var(--success); }
+  .bg-success-container { background-color: var(--success-container); }
+  .border-outline { border-color: var(--outline); }
+  .border-outline-variant { border-color: var(--outline-variant); }
+  .border-surface-variant { border-color: var(--surface-variant); }

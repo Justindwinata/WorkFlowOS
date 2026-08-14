@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS - Projects</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-highest": "#e2e2e5",
+                      "surface-variant": "#e2e2e5",
+                      "surface-bright": "#f9f9fc",
+                      "inverse-on-surface": "#f0f0f3",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "tertiary-container": "#bc4800",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#eeefff",
+                      "surface-dim": "#dadadc",
+                      "outline": "#737686",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-error": "#ffffff",
+                      "secondary": "#505f76",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#54647a",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#943700",
+                      "surface-container-high": "#e8e8ea",
+                      "surface-container": "#eeeef0",
+                      "inverse-surface": "#2f3133",
+                      "on-background": "#1a1c1e",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "background": "#f9f9fc",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "inverse-primary": "#b4c5ff",
+                      "secondary-container": "#d0e1fb",
+                      "surface": "#f9f9fc",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f3f3f6",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed": "#ffdbcd",
+                      "primary-container": "#2563eb",
+                      "primary-fixed": "#dbe1ff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-surface-variant": "#434655",
+                      "on-primary-fixed": "#00174b",
+                      "surface-tint": "#0053db",
+                      "primary": "#004ac6",
+                      "on-surface": "#1a1c1e",
+                      "outline-variant": "#c3c6d7",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-tertiary-container": "#ffede6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "margin-page": "24px",
+                      "sm": "8px",
+                      "gutter": "16px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "metadata": ["Inter"],
+                      "body-base": ["Inter"],
+                      "section-title": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "display-md": ["Inter"],
+                      "button-label": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "metadata": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "body-base": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "section-title": ["18px", { "lineHeight": "28px", "fontWeight": "500" }],
+                      "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                      "display-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "button-label": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                      "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface-dim flex flex-col fixed left-0 top-0 h-full z-[100] docked left-0 h-full w-[280px] border-r border-outline-variant dark:border-outline">
+<div class="p-margin-page flex items-center gap-md">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container font-bold text-lg">
+<span class="material-symbols-outlined">layers</span>
+</div>
+<div>
+<h1 class="font-display-md text-display-md font-bold text-on-surface dark:text-inverse-on-surface">WorkFlowOS</h1>
+<p class="font-metadata text-metadata text-on-surface-variant">Enterprise Ops</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-sm px-sm space-y-unit">
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">assignment_ind</span>
+<span>My Work</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">task</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-primary dark:text-primary-fixed-dim font-bold border-l-4 border-primary dark:border-primary-fixed-dim bg-primary-container/10 hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">ad_units</span>
+<span>Requests</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">report_problem</span>
+<span>Incidents</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Approvals</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span>SLA</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>Teams</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Audit Log</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-[280px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim flex justify-between items-center h-16 px-lg sticky top-0 z-[200] docked top-0 right-0 w-full border-b border-outline-variant dark:border-outline">
+<!-- Left Side: Search (Search bar is on_left) -->
+<div class="flex-1 max-w-md focus-within:ring-2 focus-within:ring-primary/20 rounded-DEFAULT">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-sm text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-xs pl-xl pr-sm font-body-base text-body-base text-on-surface placeholder-outline-variant focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" placeholder="Search..." type="text"/>
+</div>
+</div>
+<!-- Right Side: Actions -->
+<div class="flex items-center gap-md">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant rounded-full transition-colors duration-150 active:scale-[0.99]">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant rounded-full transition-colors duration-150 active:scale-[0.99]">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<span class="font-metadata text-metadata text-on-surface-variant ml-sm border-l border-outline-variant pl-md">Admin</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant ml-sm">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A small, professional user avatar portrait of an individual in business attire against a neutral light gray background, suitable for an enterprise software interface. Soft, natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtHZ76FV2QshJbtq09UibtLCnI9T19Ph0B8Pl0q5to2_xHNe7UBiXus3Z81qFnXAEBD2QM68WqMhTLDkHE3CMn4vWHiP9U-2YgUgaEPdH9L8cves2JB86hoxJVpOolcDAQYWS_nYfFFU44wc-i5ohUkbfMsXq6oY3ZhJyKbnWrfD2_OSSf7XwMynFTvPNFachiEJbNgE5ct1vf4b3zUmZwvD9jOXPaynV8qPejDkwkRkZjM8FnOpjh"/>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 bg-background p-margin-page flex flex-col items-center justify-center">
+<div class="max-w-md w-full bg-surface-container-lowest border border-surface-container-highest rounded-xl p-xl flex flex-col items-center text-center shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-full mb-lg">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">folder_open</span>
+</div>
+<h2 class="font-display-md text-display-md text-on-surface mb-sm">Belum ada Project ditemukan.</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-xl max-w-sm">
+                    Mulai kelola inisiatif tim dengan membuat Project baru. Data dan progress akan muncul di sini.
+                </p>
+<button class="bg-primary-container text-on-primary font-button-label text-button-label px-lg py-sm rounded-DEFAULT hover:bg-primary transition-colors duration-150 flex items-center gap-xs">
+<span class="material-symbols-outlined text-lg">add</span>
+                    Create Project
+                </button>
+</div>
+</main>
+</div>
+</body></html>

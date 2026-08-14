@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS - Detail Tim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "primary-container": "#2563eb",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container": "#eeeef0",
+                      "surface": "#f9f9fc",
+                      "surface-variant": "#e2e2e5",
+                      "secondary-fixed": "#d3e4fe",
+                      "surface-container-high": "#e8e8ea",
+                      "on-secondary-fixed": "#0b1c30",
+                      "inverse-on-surface": "#f0f0f3",
+                      "on-primary": "#ffffff",
+                      "outline-variant": "#c3c6d7",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "secondary": "#505f76",
+                      "surface-container-highest": "#e2e2e5",
+                      "on-background": "#1a1c1e",
+                      "on-primary-container": "#eeefff",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "tertiary-container": "#bc4800",
+                      "primary": "#004ac6",
+                      "on-surface-variant": "#434655",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed": "#360f00",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#1a1c1e",
+                      "on-secondary-container": "#54647a",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "secondary-container": "#d0e1fb",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "background": "#f9f9fc",
+                      "on-primary-fixed": "#00174b",
+                      "inverse-primary": "#b4c5ff",
+                      "tertiary": "#943700",
+                      "primary-fixed": "#dbe1ff",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f3f3f6",
+                      "outline": "#737686",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#0053db",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-tertiary-container": "#ffede6",
+                      "surface-dim": "#dadadc",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "inverse-surface": "#2f3133",
+                      "surface-bright": "#f9f9fc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "margin-page": "24px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "unit": "4px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "metadata": [
+                              "Inter"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "button-label": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-md": [
+                              "Inter"
+                      ],
+                      "section-title": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "metadata": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "button-label": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "section-title": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-base min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 z-[100] flex flex-col py-md bg-surface-container border-r border-outline-variant hidden md:flex">
+<div class="px-md mb-lg">
+<div class="font-section-title text-section-title font-bold text-on-surface">WorkFlowOS</div>
+<div class="font-metadata text-metadata text-on-surface-variant">Enterprise Ops</div>
+</div>
+<ul class="flex-1 overflow-y-auto w-full">
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">assignment</span>
+                    Tasks
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">account_tree</span>
+                    Projects
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">ad_units</span>
+                    Requests
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">report_problem</span>
+                    Incidents
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">verified</span>
+                    Approvals
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">timer</span>
+                    SLA
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">group</span>
+                    Users
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm bg-secondary-container text-on-secondary-container border-l-4 border-primary font-semibold hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">groups</span>
+                    Teams
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">notifications</span>
+                    Notifications
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">history</span>
+                    Audit Log
+                </a>
+</li>
+<li>
+<a class="flex items-center px-lg py-sm text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-md">
+<ul>
+<li>
+<a class="flex items-center px-sm py-xs text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">logout</span>
+                        Logout
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-sm py-xs text-on-surface-variant hover:bg-surface-container-high hover:bg-surface-container-highest transition-all duration-150 ease-in-out font-metadata text-metadata" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 0;">support_agent</span>
+                        Support
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- TopNavBar (Mobile) -->
+<header class="fixed top-0 w-full z-[200] flex justify-between items-center px-lg h-16 bg-surface-container-lowest border-b border-outline-variant md:hidden">
+<div class="font-display-md text-display-md font-bold text-primary">WorkFlowOS</div>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 p-sm rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-64 pt-16 md:pt-0 p-margin-page overflow-x-hidden min-h-screen max-w-7xl">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-xs">Engineering Team</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Core product development and infrastructure</p>
+</div>
+<div class="flex gap-sm">
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface font-button-label text-button-label py-sm px-md rounded-lg hover:bg-surface-container-low transition-colors">
+                    Edit Tim
+                </button>
+<button class="bg-primary text-on-primary font-button-label text-button-label py-sm px-md rounded-lg hover:bg-primary-fixed-dim hover:text-primary-fixed transition-colors">
+                    Tambah Anggota
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- KPIs (Spans 8 cols on desktop) -->
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Task Active -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl flex flex-col justify-between">
+<div class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">Active Task</div>
+<div class="font-display-md text-display-md text-on-surface mb-sm">142</div>
+<div class="flex items-center font-metadata text-metadata text-primary">
+<span class="material-symbols-outlined text-[16px] mr-xs">trending_up</span>
+                        +12% vs last week
+                    </div>
+</div>
+<!-- Open Requests -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl flex flex-col justify-between">
+<div class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">Open Requests</div>
+<div class="font-display-md text-display-md text-on-surface mb-sm">38</div>
+<div class="flex items-center font-metadata text-metadata text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] mr-xs">horizontal_rule</span>
+                        Stabil
+                    </div>
+</div>
+<!-- Active Incidents -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl flex flex-col justify-between">
+<div class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">Active Incidents</div>
+<div class="font-display-md text-display-md text-error mb-sm">3</div>
+<div class="flex items-center font-metadata text-metadata text-error">
+<span class="material-symbols-outlined text-[16px] mr-xs">warning</span>
+                        Perlu Perhatian
+                    </div>
+</div>
+<!-- SLA Risk -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl flex flex-col justify-between">
+<div class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">SLA Risk</div>
+<div class="font-display-md text-display-md text-tertiary-container mb-sm">Tinggi</div>
+<div class="flex items-center font-metadata text-metadata text-tertiary-container">
+<span class="material-symbols-outlined text-[16px] mr-xs">timer_off</span>
+                        2 Tasks berisiko
+                    </div>
+</div>
+</div>
+<!-- Team Lead Info (Spans 4 cols on desktop) -->
+<div class="md:col-span-4 bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col justify-center items-center text-center">
+<div class="w-24 h-24 rounded-full overflow-hidden mb-md border-4 border-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a team lead in a bright, modern corporate environment. Light mode aesthetic with clean background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs80hTklWbS9zUlCDc1QcU3wsIxg8QSmR2NAywqhyPD97pgbzDxta8gsyJg_dx7DNrjMwDA9MVEz8QmC7B966Bh1uwUzsUvy2v7yUkulijIP1aloLzdVGBHvwL5vZ-SZ2WObJnGwXLX7x4NvUhoM18IQm5ISiVQBrOGm5ecpA0RD1velP01eZKTXnokjcRpbIJGkaf0Zavql70aZSt0x51ALf441JZS9yw33re7LsfNnyNkg5akXXZ"/>
+</div>
+<h3 class="font-section-title text-section-title font-semibold text-on-surface">Budi Santoso</h3>
+<p class="font-metadata text-metadata text-on-surface-variant mb-md">Team Lead, Engineering</p>
+<div class="flex gap-sm">
+<button class="text-primary hover:bg-surface-container-low p-sm rounded-full transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<button class="text-primary hover:bg-surface-container-low p-sm rounded-full transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">chat</span>
+</button>
+</div>
+</div>
+<!-- Main Content Area: Members & Workload (Spans 8 cols) -->
+<div class="md:col-span-8 flex flex-col gap-gutter">
+<!-- Member List Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex-1">
+<div class="px-md py-sm border-b border-surface-variant bg-surface-container-low flex justify-between items-center">
+<h2 class="font-section-title text-section-title font-medium text-on-surface">Daftar Anggota</h2>
+<span class="font-metadata text-metadata text-on-surface-variant">12 Total</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead class="bg-surface-container-low font-metadata text-metadata text-on-surface-variant uppercase tracking-wider">
+<tr>
+<th class="px-md py-sm border-b border-surface-variant font-medium">Nama</th>
+<th class="px-md py-sm border-b border-surface-variant font-medium">Peran</th>
+<th class="px-md py-sm border-b border-surface-variant font-medium text-center">Task Aktif</th>
+<th class="px-md py-sm border-b border-surface-variant font-medium">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-sm flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed-dim text-on-primary-fixed flex items-center justify-center font-bold text-xs">AS</div>
+<span class="text-on-surface font-medium">Agus Setiawan</span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">Senior Engineer</td>
+<td class="px-md py-sm text-center text-on-surface">14</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-semibold">Aktif</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-sm flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center font-bold text-xs">DW</div>
+<span class="text-on-surface font-medium">Dewi Wijaya</span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">QA Specialist</td>
+<td class="px-md py-sm text-center text-on-surface">8</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-semibold">Aktif</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-md py-sm flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-bold text-xs">RS</div>
+<span class="text-on-surface font-medium">Rizky Siregar</span>
+</td>
+<td class="px-md py-sm text-on-surface-variant">DevOps Engineer</td>
+<td class="px-md py-sm text-center text-on-surface">22</td>
+<td class="px-md py-sm">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-semibold">Sibuk</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Simple Workload Bar Chart -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+<h2 class="font-section-title text-section-title font-medium text-on-surface mb-sm">Beban Kerja Tim (Minggu Ini)</h2>
+<div class="space-y-sm mt-md">
+<div>
+<div class="flex justify-between font-metadata text-metadata text-on-surface-variant mb-xs">
+<span>Development</span>
+<span>65%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-metadata text-metadata text-on-surface-variant mb-xs">
+<span>Bug Fixing</span>
+<span>20%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full" style="width: 20%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-metadata text-metadata text-on-surface-variant mb-xs">
+<span>Meetings &amp; Admin</span>
+<span>15%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Content: Activity Timeline (Spans 4 cols) -->
+<div class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col h-full">
+<div class="flex justify-between items-center mb-md pb-sm border-b border-surface-variant">
+<h2 class="font-section-title text-section-title font-medium text-on-surface">Aktivitas Terbaru</h2>
+<button class="text-primary font-metadata text-metadata hover:underline">Lihat Semua</button>
+</div>
+<div class="flex-1 overflow-y-auto relative">
+<!-- Timeline Line -->
+<div class="absolute left-4 top-2 bottom-2 w-px bg-outline-variant"></div>
+<div class="space-y-md relative z-10">
+<!-- Activity Item -->
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center shrink-0 border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px] text-on-secondary-fixed">check_circle</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface"><strong>Agus Setiawan</strong> menyelesaikan Task <span class="text-primary cursor-pointer hover:underline">ENG-204</span></p>
+<span class="font-metadata text-metadata text-on-surface-variant">2 jam yang lalu</span>
+</div>
+</div>
+<!-- Activity Item -->
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center shrink-0 border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px] text-on-error-container">report</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface">Incident baru dilaporkan: <span class="font-medium text-error">Database Latency</span></p>
+<span class="font-metadata text-metadata text-on-surface-variant">5 jam yang lalu</span>
+</div>
+</div>
+<!-- Activity Item -->
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">comment</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface"><strong>Budi Santoso</strong> menambahkan komentar pada Request <span class="text-primary cursor-pointer hover:underline">REQ-99</span></p>
+<span class="font-metadata text-metadata text-on-surface-variant">Kemarin, 14:30</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

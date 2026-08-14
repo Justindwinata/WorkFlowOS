@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS - Dashboard Mobile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-highest": "#e2e2e5",
+                        "surface-variant": "#e2e2e5",
+                        "surface-bright": "#f9f9fc",
+                        "inverse-on-surface": "#f0f0f3",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "tertiary-container": "#bc4800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "surface-dim": "#dadadc",
+                        "outline": "#737686",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-error": "#ffffff",
+                        "secondary": "#505f76",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#54647a",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#943700",
+                        "surface-container-high": "#e8e8ea",
+                        "surface-container": "#eeeef0",
+                        "inverse-surface": "#2f3133",
+                        "on-background": "#1a1c1e",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "background": "#f9f9fc",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "inverse-primary": "#b4c5ff",
+                        "secondary-container": "#d0e1fb",
+                        "surface": "#f9f9fc",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f3f6",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-surface-variant": "#434655",
+                        "on-primary-fixed": "#00174b",
+                        "surface-tint": "#0053db",
+                        "primary": "#004ac6",
+                        "on-surface": "#1a1c1e",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-container": "#ffede6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "margin-page": "16px",
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "metadata": ["Inter"],
+                        "body-base": ["Inter"],
+                        "section-title": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-md": ["Inter"],
+                        "button-label": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "metadata": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-base": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "section-title": ["18px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "button-label": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-base min-h-screen relative pb-24">
+<!-- Top Navigation (Mobile Version of TopNavBar) -->
+<header class="flex justify-between items-center h-16 px-gutter sticky top-0 z-[200] bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<button aria-label="Menu" class="p-2 text-on-surface hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-display-md text-display-md font-bold text-primary">WorkFlowOS</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full focus-within:ring-2 focus-within:ring-primary/20">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full bg-surface-container-highest object-cover ml-2" data-alt="A small circular avatar placeholder representing an admin user in a corporate environment. The avatar uses neutral, professional lighting against a clean white background, consistent with a minimalist, high-utility enterprise design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCtAoxQOohQCaxEKfoE1qQbujVLvQA_6JqLAMUO5TMO2e10rDMUJeJw1M-FeI6KdpY0hg6unvq_bZM-vvP739j9CwBNMsW1PI1r3OxtFZC7DUVUITOD6W8biJsafMj3rPznI_1__5Eu4aUuLXxJKWzdK1zG_a9ZMtcm5EheNDtLOkwfHUw32QNMN3XAcapaFbi4H81e3j7nzTcAIry98pN2aND005PsIXQFz5U3hpN04dwlC28wNm-"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="p-margin-page space-y-lg">
+<!-- Header -->
+<div>
+<h1 class="font-display-md text-display-md text-on-surface mb-xs">Dashboard</h1>
+<p class="font-metadata text-metadata text-on-surface-variant">Ringkasan operasional hari ini</p>
+</div>
+<!-- KPI Grid (2x2 Mobile) -->
+<div class="grid grid-cols-2 gap-sm">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm shadow-sm flex flex-col justify-between">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Total Tasks</span>
+<span class="font-display-lg text-display-lg text-on-surface my-xs">1,248</span>
+<span class="font-metadata text-metadata text-primary">+12% vs last week</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm shadow-sm flex flex-col justify-between">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Pending Approvals</span>
+<span class="font-display-lg text-display-lg text-on-surface my-xs">34</span>
+<span class="font-metadata text-metadata text-error">Requires Action</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm shadow-sm flex flex-col justify-between">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">SLA Compliance</span>
+<span class="font-display-lg text-display-lg text-on-surface my-xs">98.2%</span>
+<span class="font-metadata text-metadata text-primary-container">On track</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm shadow-sm flex flex-col justify-between">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Active Incidents</span>
+<span class="font-display-lg text-display-lg text-on-surface my-xs">3</span>
+<span class="font-metadata text-metadata text-tertiary">Peringatan</span>
+</div>
+</div>
+<!-- Perlu Perhatian (Actionable Cards) -->
+<section>
+<h2 class="font-section-title text-section-title text-on-surface mb-sm">Perlu Perhatian</h2>
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-sm pb-xs hide-scrollbar">
+<div class="snap-start shrink-0 w-72 bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<span class="px-2 py-1 bg-error-container text-on-error-container rounded-xl font-metadata text-metadata">Bahaya</span>
+<span class="font-metadata text-metadata text-on-surface-variant">10m ago</span>
+</div>
+<h3 class="font-body-base text-body-base font-semibold text-on-surface mb-xs">Database Sync Failure</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">Node-A in region us-west disconnected unexpectedly during primary sync phase.</p>
+<button class="w-full bg-primary-container text-on-primary font-button-label text-button-label py-2 rounded-DEFAULT transition-colors hover:bg-primary">Acknowledge</button>
+</div>
+<div class="snap-start shrink-0 w-72 bg-surface-container-lowest border border-outline-variant rounded-lg p-md shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-xl font-metadata text-metadata">Peringatan</span>
+<span class="font-metadata text-metadata text-on-surface-variant">1h ago</span>
+</div>
+<h3 class="font-body-base text-body-base font-semibold text-on-surface mb-xs">Storage Capacity 85%</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">Volume vol-0abcd1234 on Server 04 is nearing full capacity. Recommend expansion.</p>
+<button class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-button-label text-button-label py-2 rounded-DEFAULT transition-colors hover:bg-surface-container-low">Review Details</button>
+</div>
+</div>
+</section>
+<!-- Team Workload -->
+<section>
+<h2 class="font-section-title text-section-title text-on-surface mb-sm">Team Workload</h2>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-xs">
+<div class="flex items-center gap-sm p-sm border-b border-surface-container-high last:border-0 hover:bg-surface-bright transition-colors">
+<img class="w-10 h-10 rounded-full object-cover bg-surface-container" data-alt="A small, professional headshot avatar of a female enterprise user with dark hair. The image uses neutral lighting against a clean, light gray background, fitting a corporate utility interface aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm_HV69GD9aBJ8Ws_aEIroeScfJzpLWEcCZhWXZyHG5iSAwCrmFIJtV9wmdMHmXb2o6yoW1nug2VRPkzZcf0ewANUcuMQzmZ-7vZK1JzYExFCrCbAKxKUc4sFi-Plt1OwFCGSsFHboanaB7gTPZd0dCmwJ8i-mhhS9rS4ycGrjl6TNpBlmzSW7bB8rhJ1dglZSpFY32CNjRJyeDKvsESNARNqdfWocGDX7OQjF4gTmsScP4g8y5_ef"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Sarah J.</span>
+<span class="font-metadata text-metadata text-on-surface-variant">12 Tasks</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-sm p-sm border-b border-surface-container-high last:border-0 hover:bg-surface-bright transition-colors">
+<img class="w-10 h-10 rounded-full object-cover bg-surface-container" data-alt="A small, professional headshot avatar of a male enterprise user with short hair and glasses. Neutral corporate lighting, light background, minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFNzCEp_XqczxntSHf6RlJ2rGP2GDT03RJRS2cg1atdPtlSmHRhs72J_ZZuiw6uA8IB5AfGvluIryZi7VhJS6Q_gwR90TRnW2TnQBW8KnOSVxneCZ8SP8hxWQhj-cKBiiUcz9fevnCoR67xxyIwaRBjjh_YStcMAQsp0dkU6kONxfmnhX_Jl5xfPBJulAPgRFxA1T7Afr0t7Fet8SW1WdPg8iZIm6WtMvYKeqOgeb_H3I0gvAb2nRn"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Budi P.</span>
+<span class="font-metadata text-metadata text-on-surface-variant">5 Tasks</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 35%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom FAB -->
+<div class="fixed bottom-0 left-0 right-0 p-margin-page bg-gradient-to-t from-surface via-surface to-transparent z-[100] flex justify-end">
+<button class="flex items-center gap-sm bg-primary-container text-on-primary px-lg py-md rounded-full shadow-md hover:bg-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined icon-fill">add</span>
+<span class="font-button-label text-button-label">Create...</span>
+</button>
+</div>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

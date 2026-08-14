@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS - Projects</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#0053db",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2f3133",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "tertiary-container": "#bc4800",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface-variant": "#434655",
+                        "inverse-on-surface": "#f0f0f3",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e2e2e5",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#54647a",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dadadc",
+                        "outline": "#737686",
+                        "primary-fixed": "#dbe1ff",
+                        "background": "#f9f9fc",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-bright": "#f9f9fc",
+                        "secondary-container": "#d0e1fb",
+                        "secondary": "#505f76",
+                        "tertiary": "#943700",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9fc",
+                        "on-surface": "#1a1c1e",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container": "#eeeef0",
+                        "primary-container": "#2563eb",
+                        "on-tertiary-container": "#ffede6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#360f00",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container-high": "#e8e8ea",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-container-low": "#f3f3f6",
+                        "surface-variant": "#e2e2e5",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-background": "#1a1c1e",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "primary": "#004ac6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "24px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "display-md": ["Inter"],
+                        "metadata": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "button-label": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "section-title": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "metadata": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "button-label": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "section-title": ["18px", { "lineHeight": "28px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+    </style>
+</head>
+<body class="bg-background text-on-background flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface dark:bg-inverse-surface text-primary dark:text-primary-fixed-dim font-body-sm text-body-sm fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant dark:border-outline flex-col h-screen z-[100] transition-all duration-200 ease-in-out">
+<div class="p-lg border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">widgets</span>
+<div>
+<h1 class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed-dim">WorkFlowOS</h1>
+<p class="font-metadata text-metadata text-secondary">Enterprise Ops</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-sm">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">assignment_ind</span>
+<span>My Work</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">task</span>
+<span>Tasks</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm border-l-4 border-primary bg-secondary-container/30 text-primary font-button-label" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>Projects</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">ad_units</span>
+<span>Requests</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">report_problem</span>
+<span>Incidents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Approvals</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span>SLA</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Users</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Teams</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span>Notifications</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Audit Log</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-secondary font-body-sm hover:bg-surface-container-high transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[280px] flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface-bright dark:bg-surface-dim text-primary dark:text-primary-fixed-dim font-body-base text-body-base sticky top-0 w-full z-[200] border-b border-outline-variant dark:border-outline flex justify-between items-center h-16 px-lg cursor-pointer transition-opacity duration-150">
+<div class="flex items-center gap-lg">
+<!-- Mobile Menu Button -->
+<button class="md:hidden p-xs rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-xl pr-sm py-xs border border-outline-variant rounded-full text-body-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none w-64 bg-surface" placeholder="Search..." type="text"/>
+</div>
+<button class="p-xs rounded-full hover:bg-surface-container-high relative text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center gap-sm pl-sm border-l border-outline-variant ml-sm">
+<span class="font-metadata text-metadata text-on-surface-variant hidden sm:block">Admin</span>
+<img alt="User Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, professional circular avatar portrait of a business administrator in a modern enterprise software interface. Clean, corporate light-mode lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmnkdu1AWhL-Fi1rnG_pqNng4NH4yRjbB87UoTX91sWoc8QVNj2NEDddaxUX9czRyiUXiNLBZtX3Dj1Y-7B7moYUx5lzxSvOS_-kYt4qPdomPtp5YsO00S2KKKwvGaNQxhEYg_SeGjax1-vqiArMHgHPFzaMjpeBCv27vKrtmrGmcdRv4fasWXALNoJCfPJ90IeIRNpaOLllDjLjI4Wf6eTePe8-dDbsPq2dlaWJDX6CIdH0b5smZU"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-margin-page flex-1 bg-surface-container-lowest">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-lg gap-md">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Projects</h2>
+<p class="font-body-base text-body-base text-secondary mt-xs">Kelola inisiatif dan proyek tim.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-button-label text-button-label px-md py-sm rounded-lg hover:bg-primary-container/90 transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                    Create Project
+                </button>
+</div>
+<!-- Filters (Optional but good for enterprise) -->
+<div class="flex flex-wrap gap-sm mb-lg">
+<select class="border border-outline-variant rounded-md text-body-sm px-sm py-xs bg-surface focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none">
+<option>All Status</option>
+<option>Active</option>
+<option>On Track</option>
+<option>Delayed</option>
+</select>
+<select class="border border-outline-variant rounded-md text-body-sm px-sm py-xs bg-surface focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none">
+<option>All Owners</option>
+<option>Me</option>
+</select>
+</div>
+<!-- Bento Grid / Card Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:bg-surface-bright transition-colors group cursor-pointer relative overflow-hidden flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-section-title text-section-title text-on-surface">Q3 Migration</h3>
+<span class="inline-flex items-center px-2 py-1 rounded-xl text-[10px] font-medium bg-[#ecfdf5] text-[#065f46]">On Track</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-md line-clamp-2">Migrating legacy databases to the new cloud infrastructure before end of quarter.</p>
+<div class="mt-auto">
+<div class="mb-sm">
+<div class="flex justify-between font-metadata text-metadata text-secondary mb-xs">
+<span>Progress</span>
+<span>65%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-surface-variant">
+<div class="flex items-center gap-xs">
+<img class="w-6 h-6 rounded-full border border-surface-lowest object-cover" data-alt="A small circular avatar of a software engineer for a project card, clean bright corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-vWiD4FNv_PZl0FJaZtbKE5Cf9RcJsBMvwYvdxKGaW594U3pJW19p0o3b5svSv_-ZLiCm_7_xwatdTaR54FwLbaRYzN8-vDw01uYCWjRUCgJoKkkhkwbV4RpfbUszfHdvou7A_xQ3NnjCaLM2Qex3JZhdlnAyrb4J1LvDAP2wFp74j8LHfhBy81_5R3LEr5xWeRpP6aX23EC9M1yZGfB5Ffevee_4OuA2KBv4qtBz2xO0p3RU9631" title="Sarah Jenkins"/>
+<span class="font-metadata text-metadata text-on-surface-variant">Owner</span>
+</div>
+<div class="flex items-center gap-xs text-secondary font-metadata text-metadata">
+<span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
+                                Oct 15
+                            </div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:bg-surface-bright transition-colors group cursor-pointer relative overflow-hidden flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-section-title text-section-title text-on-surface">Client Portal Revamp</h3>
+<span class="inline-flex items-center px-2 py-1 rounded-xl text-[10px] font-medium bg-[#fef2f2] text-[#991b1b]">Delayed</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-md line-clamp-2">Redesigning the client-facing portal to improve UX and add reporting features.</p>
+<div class="mt-auto">
+<div class="mb-sm">
+<div class="flex justify-between font-metadata text-metadata text-secondary mb-xs">
+<span>Progress</span>
+<span>30%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-[#ef4444] h-1.5 rounded-full" style="width: 30%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-surface-variant">
+<div class="flex items-center gap-xs">
+<img class="w-6 h-6 rounded-full border border-surface-lowest object-cover" data-alt="A small circular avatar of a product manager for a project card, bright minimal background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIAOyqq_StVFOLpyNGbTNHkuqtG1tXE8SdD7DaIF1yqfiLZvqkgRDKl7CrepS2R_TAONnXZjPgbn8x2fFPgI0UjemMPaYWnLn7ENUMPwImS7Nv1Wu2K03j8DnB6y_KybOFLuAxvCvmnHcQfxvZivx8k4NCjJy4jkQpiE_OwMkT8fd4ASElYI0a47kwpB9ZaGejH_SKoP8QeII8hecbASrMoexSNeDz8bThxk_dKiebwcn5hID_cO66" title="Mike Ross"/>
+<span class="font-metadata text-metadata text-on-surface-variant">Owner</span>
+</div>
+<div class="flex items-center gap-xs text-secondary font-metadata text-metadata">
+<span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
+                                Nov 01
+                            </div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:bg-surface-bright transition-colors group cursor-pointer relative overflow-hidden flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-section-title text-section-title text-on-surface">Security Audit 2024</h3>
+<span class="inline-flex items-center px-2 py-1 rounded-xl text-[10px] font-medium bg-[#eff6ff] text-[#1e40af]">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-md line-clamp-2">Annual comprehensive security review and penetration testing across all services.</p>
+<div class="mt-auto">
+<div class="mb-sm">
+<div class="flex justify-between font-metadata text-metadata text-secondary mb-xs">
+<span>Progress</span>
+<span>15%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-surface-variant">
+<div class="flex items-center gap-xs">
+<img class="w-6 h-6 rounded-full border border-surface-lowest object-cover" data-alt="A small circular avatar of a security analyst, professional bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWx5kWYDSm74k4E2xW2vtyt8_OY8hy0c_ocWxKZsHfU2IFjOz88oQuYbiD2LPgKlvc6_Pnl4Ann4AyI6FN9ajiaYPIzQHsSEvbHp-WVpL1Dud-9oW3toofUc54F-d_lMkSNU_dZQkXxd3L-4qeNBePff-wEiUrCuTnNtMNfyMgEGaiQ6uwGpRURdfYjS4-YDZ4XgbWbU_p3ls42_ZTtx88XzWShW7SX1eyrBFE-sgvAK1acPNzK_qQ" title="Elena Rodriguez"/>
+<span class="font-metadata text-metadata text-on-surface-variant">Owner</span>
+</div>
+<div class="flex items-center gap-xs text-secondary font-metadata text-metadata">
+<span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
+                                Dec 20
+                            </div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:bg-surface-bright transition-colors group cursor-pointer relative overflow-hidden flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-section-title text-section-title text-on-surface">Marketing Site V2</h3>
+<span class="inline-flex items-center px-2 py-1 rounded-xl text-[10px] font-medium bg-[#ecfdf5] text-[#065f46]">On Track</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-md line-clamp-2">Implementation of the new brand guidelines on the main marketing website.</p>
+<div class="mt-auto">
+<div class="mb-sm">
+<div class="flex justify-between font-metadata text-metadata text-secondary mb-xs">
+<span>Progress</span>
+<span>85%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-surface-variant">
+<div class="flex items-center gap-xs">
+<img class="w-6 h-6 rounded-full border border-surface-lowest object-cover" data-alt="A small circular avatar of a marketing director, clean professional modern look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxCiH3-sYkUMDg6mNZjDdH2rZFTJ5OXJ7hCFk5xjK1GypA0oWTyZaVMTraIonQTS6vOEDUd1YJoOoG5WlQIjPHvn9395OGqf65q7QV5v6TIAkpWKvXEduGU1RGK95DVnqDJBLn7fA9st6kdnCiCKRdl1ZP9zvlL1nybPlmUrIk-QiOnPI-WHVBnlY-g4j7_vw0A1zzsxNf7Xk2cYPhE7SdANHnwdFf5DExwge-gQVAeA8WV6e4uLZs" title="David Kim"/>
+<span class="font-metadata text-metadata text-on-surface-variant">Owner</span>
+</div>
+<div class="flex items-center gap-xs text-secondary font-metadata text-metadata">
+<span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
+                                Sep 30
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Details - WorkFlowOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "primary-container": "#2563eb",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container": "#eeeef0",
+                      "surface": "#f9f9fc",
+                      "surface-variant": "#e2e2e5",
+                      "secondary-fixed": "#d3e4fe",
+                      "surface-container-high": "#e8e8ea",
+                      "on-secondary-fixed": "#0b1c30",
+                      "inverse-on-surface": "#f0f0f3",
+                      "on-primary": "#ffffff",
+                      "outline-variant": "#c3c6d7",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "secondary": "#505f76",
+                      "surface-container-highest": "#e2e2e5",
+                      "on-background": "#1a1c1e",
+                      "on-primary-container": "#eeefff",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "tertiary-container": "#bc4800",
+                      "primary": "#004ac6",
+                      "on-surface-variant": "#434655",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed": "#360f00",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#1a1c1e",
+                      "on-secondary-container": "#54647a",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "secondary-container": "#d0e1fb",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "background": "#f9f9fc",
+                      "on-primary-fixed": "#00174b",
+                      "inverse-primary": "#b4c5ff",
+                      "tertiary": "#943700",
+                      "primary-fixed": "#dbe1ff",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f3f3f6",
+                      "outline": "#737686",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#0053db",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-tertiary-container": "#ffede6",
+                      "surface-dim": "#dadadc",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "inverse-surface": "#2f3133",
+                      "surface-bright": "#f9f9fc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "margin-page": "24px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "unit": "4px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "metadata": [
+                              "Inter"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "button-label": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-md": [
+                              "Inter"
+                      ],
+                      "section-title": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "metadata": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "button-label": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "section-title": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+          }
+          .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+          }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-base antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-on-surface-variant text-primary dark:text-primary-fixed-dim font-metadata text-metadata docked h-full left-0 w-64 border-r border-outline-variant dark:border-outline flat no shadows transition-all duration-150 ease-in-out fixed left-0 top-0 h-full w-64 z-[100] flex flex-col py-md hidden md:flex">
+<div class="px-md mb-xl">
+<h1 class="font-section-title text-section-title font-bold text-on-surface dark:text-surface-bright">WorkFlowOS</h1>
+<p class="text-on-surface-variant dark:text-surface-variant opacity-80 mt-xs">Enterprise Ops</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-xs">
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="dashboard">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="assignment">assignment</span>
+                        Tasks
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container border-l-4 border-primary font-semibold hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="account_tree">account_tree</span>
+                        Projects
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="ad_units">ad_units</span>
+                        Requests
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="report_problem">report_problem</span>
+                        Incidents
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="verified">verified</span>
+                        Approvals
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="timer">timer</span>
+                        SLA
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="group">group</span>
+                        Users
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="groups">groups</span>
+                        Teams
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="notifications">notifications</span>
+                        Notifications
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="history">history</span>
+                        Audit Log
+                    </a>
+</li>
+<li>
+<a class="flex items-center px-md py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="settings">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-sm px-md">
+<ul class="space-y-xs">
+<li>
+<a class="flex items-center py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="logout">logout</span>
+                        Logout
+                    </a>
+</li>
+<li>
+<a class="flex items-center py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" data-icon="support_agent">support_agent</span>
+                        Support
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 relative overflow-hidden">
+<!-- TopNavBar (Mobile mainly, or contextual header) -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface text-primary dark:text-primary-fixed-dim font-body-base text-body-base docked full-width top-0 border-b border-outline-variant dark:border-outline flat no shadows transition-colors duration-200 fixed top-0 w-full z-[200] flex justify-between items-center px-lg h-16 md:w-[calc(100%-16rem)] md:left-64 bg-surface-container-lowest">
+<div class="flex items-center gap-md">
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed md:hidden">WorkFlowOS</div>
+<div class="hidden md:flex gap-md">
+<span class="text-on-surface-variant dark:text-surface-variant text-body-sm font-semibold flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-xs" data-icon="chevron_left">chevron_left</span>
+                        Back to Projects
+                    </span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-xs rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-xs rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<button class="bg-primary-container text-on-primary-container font-button-label text-button-label px-md py-sm rounded border border-transparent hover:bg-primary hover:text-on-primary transition-colors">
+                    Workspace
+                </button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover ml-sm" data-alt="A small, circular avatar portrait of a professional corporate user. Professional lighting, neutral gray background. High quality, realistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf74fd9u2F34OMijX2jJNX25q376qJBE3AE0w0DEc_bAPgdX0AYefxA5Bn6A1R-EjRnhJN4uBObb6igpUYg1u-Y48nMsubDCLpcBVwLLspc4YdkpbamChbHNeYq0IzVgfugoiMDzcC-Xcyk-3GXbtVI7Bdy93WvzPslsHavNzdOHBKXEH1fmPpb1boroCNiUwsOS1Ds7y6-d8MjsfkWFv1-uBd_S39fONx0ZyWcFwoEeuN4PC17XDG"/>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto mt-16 p-margin-page bg-background">
+<!-- Project Header Section -->
+<div class="bg-surface border border-outline-variant rounded-lg p-lg mb-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-md gap-md">
+<div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="bg-[#dcfce7] text-[#166534] font-metadata text-metadata px-sm py-xs rounded-xl flex items-center">
+                                On Track
+                            </span>
+<span class="text-outline font-metadata text-metadata">ID: PRJ-9921</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Cloud Infrastructure Migration</h1>
+<p class="text-on-surface-variant font-body-base mt-xs">Modernisasi infrastruktur inti ke layanan cloud terdistribusi untuk efisiensi.</p>
+</div>
+<div class="flex gap-sm">
+<button class="font-button-label text-button-label px-md py-sm rounded border border-outline-variant bg-surface text-on-background hover:bg-surface-container-low transition-colors">
+                            Manage Members
+                        </button>
+<button class="font-button-label text-button-label px-md py-sm rounded bg-primary text-on-primary hover:bg-primary-fixed-variant transition-colors flex items-center">
+<span class="material-symbols-outlined text-[18px] mr-xs" data-icon="edit">edit</span>
+                            Edit Project
+                        </button>
+</div>
+</div>
+<!-- Project Meta -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md border-t border-outline-variant pt-md">
+<div>
+<p class="font-metadata text-metadata text-outline mb-unit">Owner</p>
+<div class="flex items-center gap-sm">
+<img alt="Owner" class="w-6 h-6 rounded-full object-cover" data-alt="Small avatar of a project manager. Friendly professional headshot. Light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTaXLfhKOivMXNqe5ceV0gCFlwZ3-o7zmM3B3Nl1HRDsn1jStfY6YKtKO6W4XQB54hCL24JYGU9xxLYLYfmzcofru8q-z5rrEiowuKhDFfDxfc6gIfO_ueMe27kfckaW4SThoOg0iJ-_QKq8q1ASFZwPqIMtWghIasdcl_HtgFk47c48JjegtElKjykOpux2xmm9ArHVbB3vkyt2ySjNggk0-EdhNuIc8PqeB8XFI973t1q2ge3q3K"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Sarah Jenkins</span>
+</div>
+</div>
+<div>
+<p class="font-metadata text-metadata text-outline mb-unit">Due Date</p>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">24 Oct, 2024</span>
+</div>
+<div class="md:col-span-2">
+<div class="flex justify-between items-center mb-unit">
+<p class="font-metadata text-metadata text-outline">Progress</p>
+<span class="font-metadata text-metadata text-primary font-bold">65%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

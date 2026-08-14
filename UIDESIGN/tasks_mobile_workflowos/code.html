@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkFlowOS - Tasks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-highest": "#e2e2e5",
+                      "surface-variant": "#e2e2e5",
+                      "surface-bright": "#f9f9fc",
+                      "inverse-on-surface": "#f0f0f3",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "tertiary-container": "#bc4800",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#eeefff",
+                      "surface-dim": "#dadadc",
+                      "outline": "#737686",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-error": "#ffffff",
+                      "secondary": "#505f76",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#54647a",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#943700",
+                      "surface-container-high": "#e8e8ea",
+                      "surface-container": "#eeeef0",
+                      "inverse-surface": "#2f3133",
+                      "on-background": "#1a1c1e",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "background": "#f9f9fc",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "inverse-primary": "#b4c5ff",
+                      "secondary-container": "#d0e1fb",
+                      "surface": "#f9f9fc",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f3f3f6",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed": "#ffdbcd",
+                      "primary-container": "#2563eb",
+                      "primary-fixed": "#dbe1ff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-surface-variant": "#434655",
+                      "on-primary-fixed": "#00174b",
+                      "surface-tint": "#0053db",
+                      "primary": "#004ac6",
+                      "on-surface": "#1a1c1e",
+                      "outline-variant": "#c3c6d7",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-tertiary-container": "#ffede6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "margin-page": "24px",
+                      "sm": "8px",
+                      "gutter": "16px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "metadata": [
+                              "Inter"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "section-title": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "display-md": [
+                              "Inter"
+                      ],
+                      "button-label": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "metadata": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "section-title": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "button-label": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-base min-h-screen flex flex-col md:hidden">
+<!-- Top Navigation (Mobile specific minimal version of TopNavBar) -->
+<header class="flex justify-between items-center h-16 px-gutter sticky top-0 z-[200] bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">menu</span>
+<span class="font-display-md text-display-md font-bold text-primary">WorkFlowOS</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full cursor-pointer transition-colors" data-icon="search">search</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<img alt="User Avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm" data-alt="A small, circular avatar portrait of a professional individual in a corporate setting. Clean lighting, neutral background, reflecting an enterprise software aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-rnKJREtQK3z2caa1ODPsxg0A4zyPDoFmWI1m5gAncjYlVA6gsvyIm7QGwvnTut4wSKYH_rSB6Xxwpkfo9kH65e5T_6viYO0TvkzjDx2zgsEjtzcnJjgJpjIcPIuX568DM_d9xpxRgj5nzJitvbfSLLrb6Tz1BJfeX1RMKLQ3uEqJNlqkW52xWREaxks9pKWMzyZn6zlDlztYv7nxqfTTR_nwo4O7nZWnyRvkKHSQ3J5NTWIyRON1"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 px-gutter py-md pb-24 overflow-y-auto">
+<!-- Header & Search -->
+<div class="mb-gutter">
+<div class="flex justify-between items-center mb-md">
+<h1 class="font-section-title text-section-title text-on-surface">Tasks</h1>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('filter-sheet').classList.remove('translate-y-full')">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="font-button-label text-button-label">Filter</span>
+</button>
+</div>
+<div class="relative focus-within:ring-2 focus-within:ring-primary/20 rounded-lg">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-sm pl-10 pr-md font-body-sm text-body-sm text-on-surface focus:border-primary focus:outline-none transition-colors placeholder:text-outline" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<!-- Task List (Cards) -->
+<div class="space-y-sm">
+<!-- Task Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md active:scale-[0.99] transition-transform">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider">TSK-8492</span>
+<span class="px-2 py-xs rounded-xl bg-error-container text-on-error-container font-metadata text-metadata flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] font-bold">arrow_upward</span>
+                        High
+                    </span>
+</div>
+<h3 class="font-button-label text-button-label text-on-surface mb-sm line-clamp-2">Review Q3 Compliance Audit Report</h3>
+<div class="flex justify-between items-center mt-md">
+<span class="px-2 py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-metadata text-metadata">In Progress</span>
+<div class="flex items-center gap-xs">
+<img alt="Assignee" class="w-6 h-6 rounded-full object-cover border border-outline-variant" data-alt="A tiny circular avatar showing a female professional with glasses, corporate lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPqEUClBoK7rVXhhg0O5II6u1gFFA-xTB2ml--5PTVihto_0g5Raz5lMpaA-4qaw-8L1ZKy6gjMutZEbsrtszxqi3ouhpGFBPW9VF915rroMNsM9_1YIpjFtCoHaxlyWiz-nGm86NEBRbTDQFBIw6w7Fw6CXCqTbb33phGfQxyxGUuHgPu4NxVbPYM2d-BoF1VJsbzS7WAQliEK2I5CfxcuztCs6V0ES_LcgmdDM5Yd0QeqY3jGIQ3"/>
+</div>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md active:scale-[0.99] transition-transform">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider">TSK-8491</span>
+<span class="px-2 py-xs rounded-xl bg-secondary-container text-on-secondary-container font-metadata text-metadata flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px]">remove</span>
+                        Medium
+                    </span>
+</div>
+<h3 class="font-button-label text-button-label text-on-surface mb-sm line-clamp-2">Update Vendor Security Requirements Documentation</h3>
+<div class="flex justify-between items-center mt-md">
+<span class="px-2 py-xs rounded-xl bg-[#dcfce7] text-[#166534] font-metadata text-metadata">Done</span>
+<div class="flex items-center gap-xs">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-metadata text-metadata border border-outline-variant">
+                            JS
+                        </div>
+</div>
+</div>
+</div>
+<!-- Task Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md active:scale-[0.99] transition-transform">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider">TSK-8490</span>
+<span class="px-2 py-xs rounded-xl bg-error-container text-on-error-container font-metadata text-metadata flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] font-bold">arrow_upward</span>
+                        High
+                    </span>
+</div>
+<h3 class="font-button-label text-button-label text-on-surface mb-sm line-clamp-2">Deploy Enterprise Single Sign-On Module</h3>
+<div class="flex justify-between items-center mt-md">
+<span class="px-2 py-xs rounded-xl bg-[#fef08a] text-[#854d0e] font-metadata text-metadata">Pending Review</span>
+<div class="flex items-center gap-xs">
+<img alt="Assignee" class="w-6 h-6 rounded-full object-cover border border-outline-variant" data-alt="A tiny circular avatar showing a male developer in a corporate office setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgSPLKcp3SS05Zu9z2btBnQcc4ELbuf5270nLjiY_r1Tv2wvLTe07nvAFc-At6vbnmyzVOX0QdqRdQaVUy0Qfc4q3bvF50DZ-d28d9SNvefRziBNLg13AXG8DNx9AxSEf_KreRnKq0GmHxwvVj4s1UrLRk-TT_S9ffJfTXjiFYyjrZGe8DsCOKxF-9uCdyMx-IsmXxTfQAj31eSmeS43NXsDPO7gup8B_ZSombDkO6nSKnIBJKoluG"/>
+</div>
+</div>
+</div>
+<!-- Task Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md active:scale-[0.99] transition-transform">
+<div class="flex justify-between items-start mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider">TSK-8489</span>
+<span class="px-2 py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-metadata text-metadata flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px]">arrow_downward</span>
+                        Low
+                    </span>
+</div>
+<h3 class="font-button-label text-button-label text-on-surface mb-sm line-clamp-2">Schedule Quarterly Team All-Hands Sync</h3>
+<div class="flex justify-between items-center mt-md">
+<span class="px-2 py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-metadata text-metadata">To Do</span>
+<div class="flex items-center gap-xs">
+<div class="w-6 h-6 rounded-full border border-dashed border-outline-variant flex items-center justify-center text-outline-variant">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Action Button -->
+<div class="fixed bottom-0 left-0 w-full p-gutter bg-surface/90 backdrop-blur-sm border-t border-outline-variant z-50 flex justify-center pb-8">
+<button class="w-full max-w-[300px] bg-primary-container text-on-primary-container font-button-label text-button-label py-sm px-lg rounded-full shadow-[0_4px_12px_rgba(37,99,235,0.2)] flex items-center justify-center gap-xs active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+            Create Task
+        </button>
+</div>
+<!-- Bottom Sheet Filter (Hidden by default) -->
+<div class="fixed inset-0 z-[1000] flex flex-col justify-end translate-y-full transition-transform duration-300" id="filter-sheet">
+<div class="absolute inset-0 bg-on-background/20 backdrop-blur-sm" onclick="document.getElementById('filter-sheet').classList.add('translate-y-full')"></div>
+<div class="relative bg-surface-container-lowest w-full rounded-t-xl p-gutter pb-8 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-outline-variant flex flex-col max-h-[80vh]">
+<div class="w-12 h-1 bg-outline-variant rounded-full mx-auto mb-md"></div>
+<div class="flex justify-between items-center mb-lg">
+<h2 class="font-section-title text-section-title text-on-surface">Filters</h2>
+<button class="font-button-label text-button-label text-primary" onclick="document.getElementById('filter-sheet').classList.add('translate-y-full')">Done</button>
+</div>
+<div class="overflow-y-auto space-y-lg">
+<!-- Status Filter -->
+<div>
+<h3 class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">Status</h3>
+<div class="flex flex-wrap gap-xs">
+<button class="px-md py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-body-sm text-body-sm border border-outline-variant active:bg-primary-container active:text-on-primary-container transition-colors">To Do</button>
+<button class="px-md py-xs rounded-xl bg-primary-container text-on-primary-container font-body-sm text-body-sm border border-primary transition-colors">In Progress</button>
+<button class="px-md py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-body-sm text-body-sm border border-outline-variant active:bg-primary-container active:text-on-primary-container transition-colors">Pending</button>
+<button class="px-md py-xs rounded-xl bg-surface-container-high text-on-surface-variant font-body-sm text-body-sm border border-outline-variant active:bg-primary-container active:text-on-primary-container transition-colors">Done</button>
+</div>
+</div>
+<!-- Priority Filter -->
+<div>
+<h3 class="font-metadata text-metadata text-on-surface-variant uppercase tracking-wider mb-sm">Priority</h3>
+<div class="flex flex-col gap-sm">
+<label class="flex items-center gap-sm">
+<input checked="" class="rounded text-primary border-outline-variant focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">High</span>
+</label>
+<label class="flex items-center gap-sm">
+<input class="rounded text-primary border-outline-variant focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Medium</span>
+</label>
+<label class="flex items-center gap-sm">
+<input class="rounded text-primary border-outline-variant focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Low</span>
+</label>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg bg-surface-container text-on-surface font-button-label text-button-label py-sm rounded-lg border border-outline-variant hover:bg-surface-container-high active:scale-[0.98] transition-all">
+                Clear Filters
+            </button>
+</div>
+</div>
+</body></html>

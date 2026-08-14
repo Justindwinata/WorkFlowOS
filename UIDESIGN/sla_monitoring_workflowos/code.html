@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SLA Monitoring - WorkFlowOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#0053db",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2f3133",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "tertiary-container": "#bc4800",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e2e2e5",
+                    "tertiary-fixed": "#ffdbcd",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#54647a",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadadc",
+                    "outline": "#737686",
+                    "primary-fixed": "#dbe1ff",
+                    "background": "#f9f9fc",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "surface-bright": "#f9f9fc",
+                    "secondary-container": "#d0e1fb",
+                    "secondary": "#505f76",
+                    "tertiary": "#943700",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9fc",
+                    "on-surface": "#1a1c1e",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container": "#eeeef0",
+                    "primary-container": "#2563eb",
+                    "on-tertiary-container": "#ffede6",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#360f00",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-high": "#e8e8ea",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "surface-container-low": "#f3f3f6",
+                    "surface-variant": "#e2e2e5",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-background": "#1a1c1e",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "primary": "#004ac6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-page": "24px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "unit": "4px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-base": ["Inter"],
+                    "display-md": ["Inter"],
+                    "metadata": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "button-label": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "section-title": ["Inter"]
+            },
+            "fontSize": {
+                    "body-base": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "metadata": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "button-label": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "section-title": ["18px", {"lineHeight": "28px", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Hide scrollbar for clean enterprise look but maintain functionality */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #737686; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-base antialiased flex w-full min-h-screen overflow-x-hidden">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-surface dark:bg-inverse-surface fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant dark:border-outline flex flex-col h-screen z-[100] hidden md:flex transition-all duration-200 ease-in-out">
+<div class="p-lg flex items-center gap-sm border-b border-outline-variant dark:border-outline">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim text-2xl" data-icon="layers">layers</span>
+<div>
+<h1 class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed-dim">WorkFlowOS</h1>
+<p class="font-metadata text-metadata text-secondary">Enterprise Ops</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-md px-sm flex flex-col gap-unit">
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_ind">assignment_ind</span>
+<span>My Work</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="task">task</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="ad_units">ad_units</span>
+<span>Requests</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+<span>Incidents</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Approvals</span>
+</a>
+<!-- Active Tab: SLA -->
+<a class="flex items-center gap-md px-md py-sm rounded-r-lg border-l-4 border-primary bg-secondary-container/30 text-primary font-button-label transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span>SLA</span>
+</a>
+<!-- Inactive Tabs continued -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>Teams</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>Audit Log</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary font-body-sm hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+<!-- Shared Component: TopNavBar -->
+<header class="bg-surface-bright dark:bg-surface-dim sticky top-0 w-full z-[200] flex justify-between items-center h-16 px-lg border-b border-outline-variant dark:border-outline">
+<!-- Mobile Menu Trigger & Contextual Title (Visible on mobile) -->
+<div class="flex items-center gap-md md:hidden">
+<button class="p-unit rounded hover:bg-surface-container-high text-secondary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<span class="font-display-md text-display-md font-black text-on-surface dark:text-inverse-on-surface">WorkFlowOS</span>
+</div>
+<!-- Search (Left aligned per JSON config, visible on desktop) -->
+<div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant rounded-lg px-md py-xs focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition-all w-64">
+<span class="material-symbols-outlined text-secondary mr-sm text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none font-body-sm text-body-sm text-on-surface w-full placeholder:text-outline p-0 focus:ring-0" placeholder="Search..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<button class="relative p-xs rounded-full hover:bg-surface-container-high text-on-surface-variant transition-opacity duration-150 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border border-surface-bright"></span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-unit"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:opacity-80 transition-opacity duration-150">
+<span class="font-button-label text-button-label text-on-surface-variant hidden md:block">Admin</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center border border-outline-variant overflow-hidden">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate administrator in a well-lit office environment, neutral background, modern corporate styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3SCPpwTwkKjV6u1kdwCSQ5j9iljea9FsuqD2ulCugpV41H7kzvlon2GNsGod2pUpNTcYULXQAYtiEVqs-Xsy4l3-V_soLuDFJdh-8crUXtBM_8aOaXUUHwioxAsYoyUfKHkMcOttfZ7GMZSmQLPe_h_LOnMg3BNpIeYlZHxH-Pl2mEgwhrTaBRQm05mMr0yCuX-L_T0jvXx3OspRtyMO7recAqsWHfTWFFYVD_VJlbgOo9E8lheKx"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 p-margin-page flex flex-col gap-xl">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">SLA Monitoring</h2>
+<p class="font-body-base text-body-base text-secondary mt-unit">Pantau kepatuhan Service Level Agreement.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface font-button-label text-button-label rounded-lg hover:bg-surface-container-low transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        Export Report
+                    </button>
+<button class="px-md py-sm bg-primary-container text-on-primary border border-transparent font-button-label text-button-label rounded-lg hover:opacity-90 transition-opacity flex items-center gap-xs shadow-[0_4px_12px_rgba(37,99,235,0.2)]">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        New SLA Policy
+                    </button>
+</div>
+</div>
+<!-- KPI Cards Section (Compact Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Healthy KPI -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-secondary-container rounded-bl-full opacity-20 -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<span class="font-metadata text-metadata text-secondary uppercase tracking-wider">SLA Healthy</span>
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface z-10">842</div>
+<div class="font-metadata text-metadata text-primary z-10 flex items-center gap-xs mt-auto pt-unit">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+                        +5% from last week
+                    </div>
+</div>
+<!-- At Risk KPI -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-tertiary-container rounded-bl-full opacity-10 -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<span class="font-metadata text-metadata text-secondary uppercase tracking-wider">SLA At Risk</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="warning">warning</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface z-10">45</div>
+<div class="font-metadata text-metadata text-tertiary z-10 flex items-center gap-xs mt-auto pt-unit">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+                        &lt; 2 hrs remaining
+                    </div>
+</div>
+<!-- Breached KPI -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-16 h-16 bg-error rounded-bl-full opacity-10 -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<span class="font-metadata text-metadata text-secondary uppercase tracking-wider">SLA Breached</span>
+<span class="material-symbols-outlined text-error" data-icon="error">error</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface z-10">12</div>
+<div class="font-metadata text-metadata text-error z-10 flex items-center gap-xs mt-auto pt-unit">
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span>
+                        Requires immediate action
+                    </div>
+</div>
+</div>
+<!-- Main Data Table Section (Enterprise Grade) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<!-- Table Toolbar -->
+<div class="px-md py-sm border-b border-surface-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-section-title text-section-title text-on-surface">Active Tickets &amp; SLA Status</h3>
+<div class="flex items-center gap-sm">
+<button class="p-unit text-secondary hover:bg-surface-container-high rounded transition-colors" title="Filter">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-unit text-secondary hover:bg-surface-container-high rounded transition-colors" title="Density Toggle">
+<span class="material-symbols-outlined text-sm" data-icon="density_medium">density_medium</span>
+</button>
+</div>
+</div>
+<!-- Table Wrapper for horizontal scroll on small screens -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-variant">
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap">Item</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap">Priority</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap w-48">Response SLA</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap w-48">Resolution SLA</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap text-right">Remaining Time</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap text-center">Status</th>
+<th class="px-md py-sm font-metadata text-metadata text-secondary uppercase whitespace-nowrap w-10"></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1: Breached -->
+<tr class="border-b border-surface-variant hover:bg-surface transition-colors group">
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col">
+<span class="font-medium">INC-2023-089</span>
+<span class="text-secondary text-xs truncate w-40">Database Connection Failure</span>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                                        P1 - Critical
+                                    </div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col gap-1 w-full">
+<div class="flex justify-between text-xs text-secondary">
+<span>Met (12m)</span>
+<span>15m Limit</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[80%] rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col gap-1 w-full">
+<div class="flex justify-between text-xs text-error font-medium">
+<span>Breached (+45m)</span>
+<span>2h Limit</span>
+</div>
+<div class="h-1.5 w-full bg-error-container rounded-full overflow-hidden relative">
+<div class="h-full bg-error w-full rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-md py-sm align-middle text-right font-mono text-error font-medium">
+                                    -00:45:12
+                                </td>
+<td class="px-md py-sm align-middle text-center">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-error-container text-on-error-container font-metadata text-xs">
+                                        Breached
+                                    </span>
+</td>
+<td class="px-md py-sm align-middle text-right">
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: At Risk -->
+<tr class="border-b border-surface-variant hover:bg-surface transition-colors group">
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col">
+<span class="font-medium">REQ-2023-412</span>
+<span class="text-secondary text-xs truncate w-40">New VM Provisioning</span>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                        P2 - High
+                                    </div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col gap-1 w-full">
+<div class="flex justify-between text-xs text-secondary">
+<span>Pending</span>
+<span>4h Limit</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[85%] rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<span class="text-secondary text-xs">N/A (Awaiting Response)</span>
+</td>
+<td class="px-md py-sm align-middle text-right font-mono text-tertiary font-medium">
+                                    00:35:00
+                                </td>
+<td class="px-md py-sm align-middle text-center">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-metadata text-xs">
+                                        At Risk
+                                    </span>
+</td>
+<td class="px-md py-sm align-middle text-right">
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Healthy -->
+<tr class="border-b border-surface-variant hover:bg-surface transition-colors group">
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col">
+<span class="font-medium">TSK-2023-991</span>
+<span class="text-secondary text-xs truncate w-40">Monthly Security Audit Review</span>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                        P3 - Medium
+                                    </div>
+</td>
+<td class="px-md py-sm align-middle">
+<span class="text-secondary text-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="check">check</span> Met (2h)
+                                    </span>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col gap-1 w-full">
+<div class="flex justify-between text-xs text-secondary">
+<span>In Progress</span>
+<span>5d Limit</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[20%] rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-md py-sm align-middle text-right font-mono text-secondary">
+                                    3d 14h
+                                </td>
+<td class="px-md py-sm align-middle text-center">
+<!-- Mapping 'Healthy (Green)' to primary-container per strict config usage rules while maintaining semantic distinction -->
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-primary-container text-on-primary-container font-metadata text-xs">
+                                        Healthy
+                                    </span>
+</td>
+<td class="px-md py-sm align-middle text-right">
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Healthy -->
+<tr class="hover:bg-surface transition-colors group">
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col">
+<span class="font-medium">INC-2023-102</span>
+<span class="text-secondary text-xs truncate w-40">VPN Access Issue (User Group B)</span>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                        P3 - Medium
+                                    </div>
+</td>
+<td class="px-md py-sm align-middle">
+<div class="flex flex-col gap-1 w-full">
+<div class="flex justify-between text-xs text-secondary">
+<span>Pending</span>
+<span>24h Limit</span>
+</div>
+<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[45%] rounded-full"></div>
+</div>
+</div>
+</td>
+<td class="px-md py-sm align-middle">
+<span class="text-secondary text-xs">N/A (Awaiting Response)</span>
+</td>
+<td class="px-md py-sm align-middle text-right font-mono text-secondary">
+                                    13:10:22
+                                </td>
+<td class="px-md py-sm align-middle text-center">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-primary-container text-on-primary-container font-metadata text-xs">
+                                        Healthy
+                                    </span>
+</td>
+<td class="px-md py-sm align-middle text-right">
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination/Footer -->
+<div class="px-md py-sm border-t border-surface-variant flex justify-between items-center bg-surface-bright">
+<span class="font-body-sm text-body-sm text-secondary">Showing 1 to 4 of 42 entries</span>
+<div class="flex items-center gap-unit">
+<button class="px-2 py-1 border border-outline-variant rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low disabled:opacity-50" disabled="">Prev</button>
+<button class="px-3 py-1 border border-primary bg-primary-container text-on-primary rounded">1</button>
+<button class="px-3 py-1 border border-outline-variant rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low">2</button>
+<button class="px-3 py-1 border border-outline-variant rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low">3</button>
+<button class="px-2 py-1 border border-outline-variant rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low">Next</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Approvals - WorkFlowOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-container-highest": "#e2e2e5",
+                    "surface-variant": "#e2e2e5",
+                    "surface-bright": "#f9f9fc",
+                    "inverse-on-surface": "#f0f0f3",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "tertiary-container": "#bc4800",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "surface-dim": "#dadadc",
+                    "outline": "#737686",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-error": "#ffffff",
+                    "secondary": "#505f76",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#54647a",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#943700",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container": "#eeeef0",
+                    "inverse-surface": "#2f3133",
+                    "on-background": "#1a1c1e",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "background": "#f9f9fc",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary-container": "#d0e1fb",
+                    "surface": "#f9f9fc",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f3f3f6",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "primary-container": "#2563eb",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-surface-variant": "#434655",
+                    "on-primary-fixed": "#00174b",
+                    "surface-tint": "#0053db",
+                    "primary": "#004ac6",
+                    "on-surface": "#1a1c1e",
+                    "outline-variant": "#c3c6d7",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-tertiary-container": "#ffede6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "margin-page": "24px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "metadata": ["Inter"],
+                    "body-base": ["Inter"],
+                    "section-title": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-md": ["Inter"],
+                    "button-label": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "metadata": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-base": ["15px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "section-title": ["18px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "display-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "button-label": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-base antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface-dim docked left-0 h-full w-[280px] border-r border-outline-variant dark:border-outline flat no shadows flex flex-col fixed left-0 top-0 h-full z-[100] hidden md:flex">
+<div class="p-lg flex items-center gap-md border-b border-outline-variant dark:border-outline">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary font-display-md text-display-md">
+                W
+            </div>
+<div>
+<h1 class="font-display-md text-display-md font-bold text-on-surface dark:text-inverse-on-surface leading-tight">WorkFlowOS</h1>
+<p class="font-metadata text-metadata text-on-surface-variant">Enterprise Ops</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-md flex flex-col gap-xs px-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">assignment_ind</span>
+<span>My Work</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">task</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">ad_units</span>
+<span>Requests</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">report_problem</span>
+<span>Incidents</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-primary dark:text-primary-fixed-dim font-bold border-l-4 border-primary dark:border-primary-fixed-dim bg-primary-container/10 hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">verified_user</span>
+<span>Approvals</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">timer</span>
+<span>SLA</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>Teams</span>
+</a>
+<div class="my-sm border-t border-outline-variant mx-md"></div>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Audit Log</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-150 active:scale-[0.99] transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[280px] h-full overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim docked top-0 right-0 w-full border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center h-16 px-lg sticky top-0 z-[200]">
+<div class="flex items-center md:hidden gap-md">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-sm rounded-lg hover:bg-surface-container-low">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-display-md text-display-md font-bold text-primary dark:text-primary-fixed-dim">WorkFlowOS</span>
+</div>
+<div class="hidden md:flex items-center gap-md focus-within:ring-2 focus-within:ring-primary/20 bg-surface-container-lowest border border-outline-variant rounded-lg px-md py-sm w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm font-body-sm w-full placeholder:text-outline" placeholder="Search approvals, users, or IDs..." type="text"/>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low p-sm rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low p-sm rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="flex items-center gap-md pl-md border-l border-outline-variant">
+<div class="hidden md:flex flex-col items-end">
+<span class="font-body-sm text-body-sm font-semibold text-on-surface">Admin</span>
+<span class="font-metadata text-metadata text-on-surface-variant">System Administrator</span>
+</div>
+<img alt="User Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional corporate headshot of a mature individual in a modern, brightly lit office environment. Clean corporate aesthetic, soft diffused lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYlo0LXLDwLlgA54qToiMsAP_zuXYJX9GWQbmOfEjcHLd2fXL_rDVhItyLpC9vXilgVPrFW8uQxyoxdK8j69A1G9gosOVNU-BmYMu67ksmBTZc982946kTpDx_p25UE4CRpBIV07iLyvxzZqn_0b8NZTRVGseY3utxmx3syQ4agkvcO8vvBmCVkDnKFdh2i3C3gqJPH8tLNlazqUR-EZqwDN2zZNwzyZiQax1dHvSRQKdCvhgyGfYK"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 overflow-y-auto bg-surface-bright p-margin-page">
+<div class="max-w-7xl mx-auto space-y-lg">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Approvals</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-xs">Permintaan yang membutuhkan persetujuan Anda.</p>
+</div>
+<div class="flex gap-md">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-button-label text-button-label text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter
+                        </button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-button-label text-button-label text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+                            Sort: Urgency
+                        </button>
+</div>
+</div>
+<!-- KPI Summary -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between h-24">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Pending Actions</span>
+<div class="flex items-end justify-between">
+<span class="font-display-md text-display-md text-on-surface">14</span>
+<span class="font-metadata text-metadata text-primary">+2 today</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-error-container rounded-xl p-md flex flex-col justify-between h-24">
+<span class="font-metadata text-metadata text-error uppercase">SLA Breached / At Risk</span>
+<div class="flex items-end justify-between">
+<span class="font-display-md text-display-md text-error">3</span>
+<span class="font-metadata text-metadata text-error font-semibold">Immediate Action</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between h-24">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Total Value Pending</span>
+<div class="flex items-end justify-between">
+<span class="font-display-md text-display-md text-on-surface">$124.5k</span>
+<span class="font-metadata text-metadata text-on-surface-variant">USD</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between h-24">
+<span class="font-metadata text-metadata text-on-surface-variant uppercase">Approved This Week</span>
+<div class="flex items-end justify-between">
+<span class="font-display-md text-display-md text-on-surface">42</span>
+<span class="font-metadata text-metadata text-[#166534]">98% SLA Met</span>
+</div>
+</div>
+</div>
+<!-- Action Queue List -->
+<div class="space-y-md">
+<!-- Item 1: Critical -->
+<div class="bg-surface-container-lowest border-l-4 border-error border-y border-r border-outline-variant rounded-xl p-md md:p-lg flex flex-col md:flex-row gap-lg md:items-center hover:bg-surface-container-low transition-colors duration-150">
+<div class="flex-1 space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="bg-[#fef2f2] text-[#991b1b] px-2 py-1 rounded-full font-metadata text-metadata flex items-center gap-xs border border-[#fca5a5]">
+<span class="material-symbols-outlined text-[14px]">priority_high</span> Critical
+                                </span>
+<span class="font-metadata text-metadata text-error flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">timer</span> SLA Breached (2h ago)
+                                </span>
+<span class="font-metadata text-metadata text-on-surface-variant ml-auto md:hidden">Today, 09:14 AM</span>
+</div>
+<div>
+<h3 class="font-section-title text-section-title text-on-surface">Emergency Server Expansion (APAC)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request ID: #REQ-88291 • Infrastructure Team</p>
+</div>
+<div class="flex flex-wrap gap-x-lg gap-y-sm pt-xs">
+<div class="flex items-center gap-xs">
+<img alt="Requester" class="w-6 h-6 rounded-full object-cover" data-alt="Small circular avatar of a professional male software engineer in a modern tech office setting. High quality, well lit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8DMswrb_ZK-C_IX6NRmR78QNdf2h9mwzXkDG_JTinpHR0363qFTBAH8HjTkII_bzgNTEHgsERhj9CYAtQ5gYyO7J7qB8qbSRg30Vezdn-aJjJso19If3yySv9VkKDFVj2552L7jERmy63YDbu5x4n6jAcNWpH-aF9n1hXyDN1qfy5jb-sm7OlB7LHUSNGPhIM2PLqrjY3rhvJOaj-OrUe3UQvq_bALZKm0iZ1DPbeFh6evMw69zzw"/>
+<span class="font-body-sm text-body-sm text-on-surface">David Chen</span>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">payments</span>
+<span class="font-semibold text-on-surface">$45,000.00</span>
+</div>
+<div class="hidden md:flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                    Submitted: Today, 09:14 AM
+                                </div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col gap-sm shrink-0 mt-md md:mt-0 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-lg py-sm bg-primary-container text-on-primary rounded-lg font-button-label text-button-label hover:bg-primary transition-colors flex items-center justify-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span> Approve
+                            </button>
+<div class="flex gap-sm flex-1 md:flex-none">
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center">
+                                    Reject
+                                </button>
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center" title="Request Changes">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: High -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md md:p-lg flex flex-col md:flex-row gap-lg md:items-center hover:bg-surface-container-low transition-colors duration-150">
+<div class="flex-1 space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="bg-[#fffbeb] text-[#92400e] px-2 py-1 rounded-full font-metadata text-metadata flex items-center gap-xs border border-[#fcd34d]">
+<span class="material-symbols-outlined text-[14px]">warning</span> High Priority
+                                </span>
+<span class="font-metadata text-metadata text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">timer</span> SLA: 4h remaining
+                                </span>
+</div>
+<div>
+<h3 class="font-section-title text-section-title text-on-surface">Budget Review Q3 - Marketing Campaigns</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request ID: #REQ-88245 • Marketing Dept</p>
+</div>
+<div class="flex flex-wrap gap-x-lg gap-y-sm pt-xs">
+<div class="flex items-center gap-xs">
+<img alt="Requester" class="w-6 h-6 rounded-full object-cover" data-alt="Small circular avatar of a professional female marketing director in a bright, contemporary corporate workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWFtgk8L3fJPx3mdxw4-wvaUfYb6dbvcBkiLu54iI1vNp0UZZhxgs9RUF7yaRQ8ZEMt7yzFjCfa9DQg8m_PZZmfNJcKWkeLk33dm7St3NWuWx3K4YKFZamF3BmMjRdGOkox9nLgA640vX5n0_W9mfMXxQMIAEez4GbePIxlnZ5sgjmGvgZADtWk5Oqrk6pG0JVZTYdYKG-YfOaX35D1csMMakX90ODLTsVVUyvaYGFmR4tRj8l4lnk"/>
+<span class="font-body-sm text-body-sm text-on-surface">Sarah Jenkins</span>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">payments</span>
+<span class="font-semibold text-on-surface">$120,500.00</span>
+</div>
+<div class="hidden md:flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                    Submitted: Yesterday, 14:30 PM
+                                </div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col gap-sm shrink-0 mt-md md:mt-0 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-lg py-sm bg-primary-container text-on-primary rounded-lg font-button-label text-button-label hover:bg-primary transition-colors flex items-center justify-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span> Approve
+                            </button>
+<div class="flex gap-sm flex-1 md:flex-none">
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center">
+                                    Reject
+                                </button>
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center" title="Request Changes">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3: Standard -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md md:p-lg flex flex-col md:flex-row gap-lg md:items-center hover:bg-surface-container-low transition-colors duration-150">
+<div class="flex-1 space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="bg-[#f0fdf4] text-[#166534] px-2 py-1 rounded-full font-metadata text-metadata flex items-center gap-xs border border-[#bbf7d0]">
+                                    Standard
+                                </span>
+<span class="font-metadata text-metadata text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">timer</span> SLA: 2 days remaining
+                                </span>
+</div>
+<div>
+<h3 class="font-section-title text-section-title text-on-surface">New Vendor Onboarding: CloudSync Inc.</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request ID: #REQ-88102 • Procurement</p>
+</div>
+<div class="flex flex-wrap gap-x-lg gap-y-sm pt-xs">
+<div class="flex items-center gap-xs">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-metadata text-metadata font-bold">
+                                        MR
+                                    </div>
+<span class="font-body-sm text-body-sm text-on-surface">Marcus Reed</span>
+</div>
+<div class="flex items-center gap-xs font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">description</span>
+<span class="font-semibold text-on-surface">Contract Review</span>
+</div>
+<div class="hidden md:flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                    Submitted: Oct 12, 09:00 AM
+                                </div>
+</div>
+</div>
+<div class="flex flex-row md:flex-col gap-sm shrink-0 mt-md md:mt-0 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-lg py-sm bg-primary-container text-on-primary rounded-lg font-button-label text-button-label hover:bg-primary transition-colors flex items-center justify-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span> Approve
+                            </button>
+<div class="flex gap-sm flex-1 md:flex-none">
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center">
+                                    Reject
+                                </button>
+<button class="flex-1 md:flex-none px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg font-button-label text-button-label hover:bg-surface-container-low transition-colors flex items-center justify-center" title="Request Changes">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center pt-md">
+<button class="text-primary font-button-label text-button-label hover:underline">Load More Approvals</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
