@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtPayload } from './interfaces/jwt.interface';
 import { TokenService } from './token.service';
 import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/auth.dto';
@@ -51,6 +51,15 @@ export class AuthService {
         roleId: memberRole.id,
       },
       include: { role: { include: { permissions: true } } },
+    });
+
+    await this.prisma.userWorkspace.create({
+      data: {
+        userId: user.id,
+        workspaceId: workspace.id,
+        roleId: memberRole.id,
+        current: true,
+      },
     });
 
     const payload: JwtPayload = {

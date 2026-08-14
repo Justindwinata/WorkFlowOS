@@ -22,6 +22,7 @@ model User {
   workspaceId String
 
   teams          TeamMember[]
+  userWorkspaces UserWorkspace[]
   createdTasks   Task[]            @relation("TaskCreator")
   assignments    TaskAssignment[]
   taskComments   TaskComment[]
@@ -40,12 +41,30 @@ model User {
   @@index([deletedAt])
 }
 
+model UserWorkspace {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    String
+  current   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, workspaceId])
+  @@index([userId])
+  @@index([workspaceId])
+}
+
 model Role {
   id          String   @id @default(cuid())
   name        String   @unique
   description String?
   permissions Permission[]
   users       User[]
+  userWorkspaces UserWorkspace[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -62,6 +81,7 @@ model Workspace {
   slug      String   @unique
   logo      String?
   users     User[]
+  userWorkspaces UserWorkspace[]
   teams     Team[]
   projects  Project[]
   createdAt DateTime @default(now())

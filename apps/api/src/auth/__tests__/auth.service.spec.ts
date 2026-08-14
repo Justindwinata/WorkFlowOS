@@ -15,6 +15,9 @@ describe('AuthService', () => {
       findUnique: jest.fn(),
       create: jest.fn(),
     },
+    userWorkspace: {
+      create: jest.fn(),
+    },
     role: {
       findUnique: jest.fn(),
       create: jest.fn(),
