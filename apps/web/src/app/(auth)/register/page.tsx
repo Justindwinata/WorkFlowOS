@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ui';
+import { ActionButton } from '@ui';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,92 +42,109 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/50 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">WorkFlowOS</CardTitle>
-          <CardDescription>Buat akun baru</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold">WorkFlowOS</h1>
+          <p className="text-muted-foreground mt-2">Buat akun baru</p>
+        </div>
+
+        <div className="bg-background border border-border rounded-xl p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
                 {error}
               </div>
             )}
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">Nama Depan</Label>
-                <Input
+                <input
                   id="firstName"
                   name="firstName"
+                  type="text"
                   value={formData.firstName}
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   placeholder="John"
+                  className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">Nama Belakang</Label>
-                <Input
+                <input
                   id="lastName"
                   name="lastName"
+                  type="text"
                   value={formData.lastName}
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   placeholder="Doe"
+                  className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 />
               </div>
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
-              <Input
+              <input
                 id="username"
                 name="username"
+                type="text"
                 value={formData.username}
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 placeholder="johndoe"
                 required
                 disabled={loading}
+                className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input
+              <input
                 id="email"
                 name="email"
                 type="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="john@example.com"
                 required
                 disabled={loading}
+                className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input
+              <input
                 id="password"
                 name="password"
                 type="password"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="Minimal 8 karakter"
                 required
                 disabled={loading}
+                className="w-full px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
+            >
               {loading ? 'Mendaftar...' : 'Daftar'}
-            </Button>
+            </button>
           </form>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-sm text-muted-foreground">
-            Sudah punya akun?{' '}
-            <a href="/login" className="text-primary hover:underline">
-              Masuk
-            </a>
-          </p>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          Sudah punya akun?{' '}
+          <Link href="/login" className="text-primary hover:underline">
+            Masuk
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

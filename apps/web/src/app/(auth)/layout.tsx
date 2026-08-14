@@ -1,15 +1,16 @@
-import React from 'react';
+'use client';
+
+import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import { cn } from '@ui';
-import { Button } from '@ui';
 
-interface LayoutProps {
-  children: React.ReactNode;
+interface AuthLayoutProps {
+  children: ReactNode;
 }
 
-export default function AuthLayout({ children }: LayoutProps) {
+export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={cn('min-h-screen flex flex-col')}>
       <header className="border-b bg-background">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="text-xl font-bold">
@@ -17,10 +18,12 @@ export default function AuthLayout({ children }: LayoutProps) {
           </Link>
           <nav className="flex items-center gap-4">
             <Link href="/login">
-              <Button variant="ghost">Masuk</Button>
+              <span className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Masuk</span>
             </Link>
             <Link href="/register">
-              <Button>Daftar</Button>
+              <span className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">
+                Daftar
+              </span>
             </Link>
           </nav>
         </div>

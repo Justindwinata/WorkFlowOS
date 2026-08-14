@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ui';
+import { ActionButton } from '@ui';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,17 +70,17 @@ export default function LoginPage() {
                 disabled={loading}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <ActionButton type="submit" className="w-full" disabled={loading}>
               {loading ? 'Memuat...' : 'Masuk'}
-            </Button>
+            </ActionButton>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
             Belum punya akun?{' '}
-            <a href="/register" className="text-primary hover:underline">
+            <Link href="/register" className="text-primary hover:underline">
               Daftar
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </Card>
