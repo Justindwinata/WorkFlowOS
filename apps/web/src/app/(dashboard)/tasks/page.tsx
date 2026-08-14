@@ -1,13 +1,12 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
-import { StatusBadge, PriorityBadge } from '@/components/ui/tabs';
-import { ActionButton } from '@/components/ui/action-button';
+import { StatusBadge, PriorityBadge, ActionButton } from '@/components/ui/tabs';
 import { Plus, Edit, Trash2, MessageCircle, Calendar } from 'lucide-react';
-import { useState } from 'react';
 import { format } from 'date-fns';
 
 interface Task {
@@ -23,9 +22,16 @@ interface Task {
 
 export default function TasksPage() {
   const queryClient = useQueryClient();
+  const [projectId, setProjectId] = useState<string | undefined>();
+
   const { data: tasks, isLoading, error } = useQuery({
-    queryKey: QUERY_KEYS.TASKS,
-    queryFn: () => apiClient.get<Task[]>('/tasks'),
+    queryKey: QUERY_KEYS.TASKS(projectId),
+    queryFn: () => apiClient.get<Task[]>('/tasks', { params: projectId ? { projectId } : undefined }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => apiClient.delete(`/tasks/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.TASKS }),
   });
 
   const columns = [
@@ -44,9 +50,7 @@ export default function TasksPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Tasks</h1>
-        <button className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground">
-          <Plus className="h-4 w-4" /> Buat Task
-        </button>
+        <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Task</ActionButton>
       </div>
       <DataTable
         columns={columns}
@@ -56,7 +60,8 @@ export default function TasksPage() {
           <div className="flex justify-center gap-1">
             <ActionButton icon={<MessageCircle className="h-4 w-4" />} />
             <ActionButton icon={<Edit className="h-4 w-4" />} />
-            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive" />
+            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive"
+              onClick={() => deleteMutation.mutate(row.id)} />
           </div>
         )}
       />

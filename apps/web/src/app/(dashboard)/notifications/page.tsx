@@ -1,10 +1,11 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
-import { ActionButton } from '@/components/ui/action-button';
+import { ActionButton } from '@/components/ui/tabs';
 import { Trash2, Check } from 'lucide-react';
 
 interface Notification {
@@ -46,12 +47,9 @@ export default function NotificationsPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Notifications</h1>
-        <button
-          onClick={() => markAllRead.mutate()}
-          className="text-sm text-primary hover:underline"
-        >
+        <ActionButton onClick={() => markAllRead.mutate()} variant="outline">
           Tandai semua dibaca
-        </button>
+        </ActionButton>
       </div>
       <DataTable
         columns={columns}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { User, Bell, Palette, Shield, Save } from 'lucide-react';
 import { StatusBadge } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,14 +17,17 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <h1 className="text-2xl font-bold">Pengaturan</h1>
+      <h1 className="text-2xl font-bold">Settings</h1>
+      <p className="text-muted-foreground">Configure your workspace and preferences</p>
       <div className="flex gap-4 p-4 border-b">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-              activeTab === tab.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted'
+              activeTab === tab.id
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:bg-muted'
             }`}
           >
             <tab.icon className="h-4 w-4" />

@@ -1,11 +1,12 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
+import { ActionButton } from '@/components/ui/tabs';
 import { Plus, Edit, Trash2 } from 'lucide-react';
-import { ActionButton } from '@/components/ui/action-button';
 
 interface Project {
   id: string;
@@ -17,9 +18,16 @@ interface Project {
 }
 
 export default function ProjectsPage() {
+  const queryClient = useQueryClient();
+
   const { data: projects, isLoading, error } = useQuery({
     queryKey: QUERY_KEYS.PROJECTS,
     queryFn: () => apiClient.get<Project[]>('/projects'),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => apiClient.delete(`/projects/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.PROJECTS }),
   });
 
   const columns = [
@@ -37,9 +45,7 @@ export default function ProjectsPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Projects</h1>
-        <button className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground">
-          <Plus className="h-4 w-4" /> Buat Project
-        </button>
+        <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Project</ActionButton>
       </div>
       <DataTable
         columns={columns}
@@ -48,7 +54,8 @@ export default function ProjectsPage() {
         actions={(row) => (
           <div className="flex justify-center gap-1">
             <ActionButton icon={<Edit className="h-4 w-4" />} />
-            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive" />
+            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive"
+              onClick={() => deleteMutation.mutate(row.id)} />
           </div>
         )}
       />

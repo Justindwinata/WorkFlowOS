@@ -1,11 +1,11 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
-import { StatusBadge, PriorityBadge } from '@/components/ui/tabs';
-import { ActionButton } from '@/components/ui/action-button';
+import { StatusBadge, PriorityBadge, ActionButton } from '@/components/ui/tabs';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 
 interface Incident {
@@ -19,9 +19,15 @@ interface Incident {
 }
 
 export default function IncidentsPage() {
+  const queryClient = useQueryClient();
   const { data: incidents, isLoading, error } = useQuery({
     queryKey: QUERY_KEYS.INCIDENTS,
     queryFn: () => apiClient.get<Incident[]>('/incidents'),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => apiClient.delete(`/incidents/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.INCIDENTS }),
   });
 
   const columns = [
@@ -40,9 +46,7 @@ export default function IncidentsPage() {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Incidents</h1>
-        <button className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground">
-          <Plus className="h-4 w-4" /> Buat Incident
-        </button>
+        <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Incident</ActionButton>
       </div>
       <DataTable
         columns={columns}
@@ -51,7 +55,8 @@ export default function IncidentsPage() {
         actions={(row) => (
           <div className="flex justify-center gap-1">
             <ActionButton icon={<Edit className="h-4 w-4" />} />
-            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive" />
+            <ActionButton icon={<Trash2 className="h-4 w-4" />} variant="destructive"
+              onClick={() => deleteMutation.mutate(row.id)} />
           </div>
         )}
       />
