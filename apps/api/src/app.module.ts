@@ -17,6 +17,7 @@ import { AuditLogModule } from './audit-log/audit-log.module';
 import { SlaModule } from './sla/sla.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     SlaModule,
     WorkspacesModule,
     DashboardModule,
+    HealthModule,
   ],
   providers: [
     {
