@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsOptional, MinLength } from 'class-validator';
+import { IsEmail, IsString, IsOptional, MinLength, Matches, MaxLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -8,11 +8,18 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'johndoe' })
   @IsString()
+  @MinLength(3)
+  @MaxLength(50)
+  @Matches(/^[a-zA-Z0-9_.-]+$/, { message: 'Username hanya boleh berisi huruf, angka, titik, garis bawah, atau strip' })
   username: string;
 
   @ApiProperty({ example: 'SecurePass123!' })
   @IsString()
-  @MinLength(8)
+  @MinLength(8, { message: 'Password minimal 8 karakter' })
+  @MaxLength(128)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/, {
+    message: 'Password harus mengandung huruf besar, huruf kecil, dan angka',
+  })
   password: string;
 
   @ApiPropertyOptional({ example: 'John' })
