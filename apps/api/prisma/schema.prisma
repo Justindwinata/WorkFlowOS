@@ -156,6 +156,7 @@ model Task {
   deletedAt   DateTime?
 
   @@index([projectId])
+  @@index([projectId, status])
   @@index([creatorId])
   @@index([status])
   @@index([priority])
