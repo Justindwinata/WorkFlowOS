@@ -18,6 +18,7 @@ import { SlaModule } from './sla/sla.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HealthModule } from './health/health.module';
+import { LoggingModule } from './common/logging/logging.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { HealthModule } from './health/health.module';
     WorkspacesModule,
     DashboardModule,
     HealthModule,
+    LoggingModule,
   ],
   providers: [
     {
