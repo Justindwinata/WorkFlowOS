@@ -41,6 +41,8 @@ export function Tabs({ tabs, defaultValue, className }: TabsProps) {
   );
 }
 
+export { ActionButton } from './action-button';
+
 interface StatusBadgeProps {
   status: string;
 }

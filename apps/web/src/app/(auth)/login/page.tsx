@@ -8,7 +8,6 @@ import { ActionButton } from '@ui';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@ui';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,8 +24,9 @@ export default function LoginPage() {
     try {
       await login(email, password);
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login gagal. Periksa email dan password.');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      setError(e.response?.data?.message || 'Login gagal. Periksa email dan password.');
     } finally {
       setLoading(false);
     }

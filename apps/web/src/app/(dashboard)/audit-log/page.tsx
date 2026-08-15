@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
-import { ActionButton } from '@/components/ui/tabs';
+import { ActionButton } from '@/components/ui/action-button';
 import { Search } from 'lucide-react';
 
 interface AuditLog {

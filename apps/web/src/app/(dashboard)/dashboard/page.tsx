@@ -6,7 +6,7 @@ import { apiClient } from '@/lib/api-client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusBadge, PriorityBadge, ActionButton } from '@/components/ui/tabs';
 import { format } from 'date-fns';
-import { Users, FileText, AlertTriangle, CheckCircle, TrendingUp, Clock, BarChart2, AlertCircle, UserCheck, FileChartColumn } from 'lucide-react';
+import { Users, FileText, AlertTriangle, CheckCircle, TrendingUp, Clock, BarChart2, AlertCircle, UserCheck, FileBarChart } from 'lucide-react';
 
 interface DashboardStats {
   stats: {

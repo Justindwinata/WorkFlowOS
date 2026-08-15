@@ -7,7 +7,7 @@ import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
 import { StatusBadge, PriorityBadge, ActionButton } from '@/components/ui/tabs';
 import { LoadingState, ErrorState, EmptyState } from '@/components/ui/states';
-import { Plus, Edit, Trash2, MessageCircle, Calendar, Task } from 'lucide-react';
+import { Plus, Edit, Trash2, MessageCircle, Calendar, CheckSquare } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Task {
@@ -26,7 +26,7 @@ export default function TasksPage() {
   const [projectId, setProjectId] = useState<string | undefined>();
 
   const { data: tasks, isLoading, error } = useQuery({
-    queryKey: QUERY_KEYS.TASKS(projectId),
+    queryKey: projectId ? ['tasks', projectId] : QUERY_KEYS.TASKS,
     queryFn: () => apiClient.get<Task[]>('/tasks', { params: projectId ? { projectId } : undefined }),
   });
 
@@ -53,7 +53,7 @@ export default function TasksPage() {
           <h1 className="text-2xl font-bold">Tasks</h1>
           <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Task</ActionButton>
         </div>
-        <EmptyState icon={<Task className="h-12 w-12" />} title="Belum ada task" description="Buat task pertama untuk memulai workflow." action={<ActionButton icon={<Plus className="h-4 w-4" />}>Buat Task</ActionButton>} />
+        <EmptyState icon={<CheckSquare className="h-12 w-12" />} title="Belum ada task" description="Buat task pertama untuk memulai workflow." action={<ActionButton icon={<Plus className="h-4 w-4" />}>Buat Task</ActionButton>} />
       </div>
     );
   }

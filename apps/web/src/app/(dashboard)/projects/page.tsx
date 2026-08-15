@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
 import { QUERY_KEYS } from '@/lib/query-client';
 import { DataTable } from '@/components/ui/data-table';
-import { ActionButton } from '@/components/ui/tabs';
+import { ActionButton } from '@/components/ui/action-button';
 import { LoadingState, ErrorState, EmptyState } from '@/components/ui/states';
 import { Plus, Edit, Trash2, FolderOpen } from 'lucide-react';
 

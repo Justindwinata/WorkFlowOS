@@ -4,20 +4,37 @@ import React from 'react';
 import { Button } from '@ui';
 import { cn } from '@ui';
 
-interface ActionButtonProps {
+interface ActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
   icon?: React.ReactNode;
-  onClick?: () => void;
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
   size?: 'default' | 'sm' | 'lg' | 'icon';
-  className?: string;
 }
 
-export function ActionButton({ label, icon, onClick, variant = 'ghost', size = 'sm', className }: ActionButtonProps) {
+export function ActionButton({
+  label,
+  icon,
+  onClick,
+  variant = 'ghost',
+  size = 'sm',
+  className,
+  type,
+  disabled,
+  children,
+  ...rest
+}: ActionButtonProps) {
   return (
-    <Button variant={variant} size={size} className={cn('gap-1', className)} onClick={onClick}>
+    <Button
+      variant={variant}
+      size={size}
+      className={cn('gap-1', className)}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      {...rest}
+    >
       {icon}
-      {label && <span className="ml-1">{label}</span>}
+      {children || (label && <span className="ml-1">{label}</span>)}
     </Button>
   );
 }

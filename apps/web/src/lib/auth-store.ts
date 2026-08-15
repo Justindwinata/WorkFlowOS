@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 import { apiClient } from '@/lib/api-client';
 import { User } from '@types';
@@ -13,32 +15,43 @@ interface AuthState {
   setUser: (user: User | null) => void;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>()((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
 
   login: async (email: string, password: string) => {
     const response = await apiClient.post<{ user: User; accessToken: string; refreshToken: string }>('/auth/login', { email, password });
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
-    set({ user: response.user, isAuthenticated: true });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+    }
+    set({ user: response.user, isAuthenticated: true, isLoading: false });
   },
 
   register: async (data) => {
     const response = await apiClient.post<{ user: User; accessToken: string; refreshToken: string }>('/auth/register', data);
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
-    set({ user: response.user, isAuthenticated: true });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+    }
+    set({ user: response.user, isAuthenticated: true, isLoading: false });
   },
 
   logout: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    set({ user: null, isAuthenticated: false });
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
+    set({ user: null, isAuthenticated: false, isLoading: false });
   },
 
   refreshUser: async () => {
+    if (typeof window === 'undefined') {
+      set({ isAuthenticated: false, isLoading: false });
+      return;
+    }
+
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       set({ isAuthenticated: false, isLoading: false });

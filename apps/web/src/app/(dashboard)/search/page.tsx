@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-import { QUERY_KEYS } from '@/lib/query-client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusBadge, PriorityBadge } from '@/components/ui/tabs';
-import { Search, Users, Task, FileText, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Search, Users, AlertTriangle, FileText } from 'lucide-react';
 
 interface SearchResult {
   users: any[];
@@ -19,7 +18,7 @@ export default function SearchPage() {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => setDebouncedQuery(query), 300);
     return () => clearTimeout(timer);
   }, [query]);
@@ -66,18 +65,12 @@ export default function SearchPage() {
         <div className="space-y-6">
           {results.users.length > 0 && (
             <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5" /> Users ({results.users.length})
-                </CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><Users className="h-5 w-5" /> Users ({results.users.length})</CardTitle></CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   {results.users.slice(0, 5).map((user: any) => (
                     <div key={user.id} className="flex items-center gap-3 p-2 hover:bg-muted rounded-lg transition-colors">
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">
-                        {user.username.charAt(0).toUpperCase()}
-                      </div>
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">{user.username.charAt(0).toUpperCase()}</div>
                       <div>
                         <p className="font-medium">{user.username}</p>
                         <p className="text-sm text-muted-foreground">{user.email}</p>
@@ -85,20 +78,14 @@ export default function SearchPage() {
                       <StatusBadge status={user.status} />
                     </div>
                   ))}
-                  {results.users.length > 5 && (
-                    <p className="text-sm text-muted-foreground">Dan {results.users.length - 5} lagi...</p>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {results.tasks.length > 0 && (
             <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <Task className="h-5 w-5" /> Tasks ({results.tasks.length})
-                </CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" /> Tasks ({results.tasks.length})</CardTitle></CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   {results.tasks.slice(0, 5).map((task: any) => (
@@ -113,20 +100,14 @@ export default function SearchPage() {
                       </div>
                     </div>
                   ))}
-                  {results.tasks.length > 5 && (
-                    <p className="text-sm text-muted-foreground">Dan {results.tasks.length - 5} lagi...</p>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {results.requests.length > 0 && (
             <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" /> Requests ({results.requests.length})
-                </CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" /> Requests ({results.requests.length})</CardTitle></CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   {results.requests.slice(0, 5).map((req: any) => (
@@ -138,20 +119,14 @@ export default function SearchPage() {
                       <StatusBadge status={req.status} />
                     </div>
                   ))}
-                  {results.requests.length > 5 && (
-                    <p className="text-sm text-muted-foreground">Dan {results.requests.length - 5} lagi...</p>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {results.incidents.length > 0 && (
             <Card>
-              <CardHeader className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5" /> Incidents ({results.incidents.length})
-                </CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5" /> Incidents ({results.incidents.length})</CardTitle></CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   {results.incidents.slice(0, 5).map((inc: any) => (
@@ -163,17 +138,13 @@ export default function SearchPage() {
                       <StatusBadge status={inc.status} />
                     </div>
                   ))}
-                  {results.incidents.length > 5 && (
-                    <p className="text-sm text-muted-foreground">Dan {results.incidents.length - 5} lagi...</p>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {(results.users.length + results.tasks.length + results.requests.length + results.incidents.length) === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              Tidak ada hasil untuk "{debouncedQuery}"
-            </div>
+            <div className="text-center py-12 text-muted-foreground">Tidak ada hasil untuk "{debouncedQuery}"</div>
           )}
         </div>
       )}

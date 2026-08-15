@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+'use client';
+
+import React, { useEffect, ReactNode } from 'react';
 import { useAuthStore } from '@/lib/auth-store';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
