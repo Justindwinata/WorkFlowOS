@@ -101,6 +101,66 @@ async function main() {
     },
   });
 
+  // Multi-workspace membership (user belongs to both workspaces)
+  await prisma.userWorkspace.upsert({
+    where: { userId_workspaceId: { userId: admin.id, workspaceId: workspace.id } },
+    update: { roleId: adminRole.id, current: true },
+    create: {
+      userId: admin.id,
+      workspaceId: workspace.id,
+      roleId: adminRole.id,
+      current: true,
+    },
+  });
+  await prisma.userWorkspace.upsert({
+    where: { userId_workspaceId: { userId: manager.id, workspaceId: workspace.id } },
+    update: { roleId: managerRole.id, current: true },
+    create: {
+      userId: manager.id,
+      workspaceId: workspace.id,
+      roleId: managerRole.id,
+      current: true,
+    },
+  });
+  await prisma.userWorkspace.upsert({
+    where: { userId_workspaceId: { userId: member.id, workspaceId: workspace.id } },
+    update: { roleId: memberRole.id, current: true },
+    create: {
+      userId: member.id,
+      workspaceId: workspace.id,
+      roleId: memberRole.id,
+      current: true,
+    },
+  });
+
+  // Second workspace for isolation testing
+  const workspace2 = await prisma.workspace.upsert({
+    where: { slug: 'beta-corp' },
+    update: {},
+    create: { name: 'Beta Corp', slug: 'beta-corp' },
+  });
+
+  await prisma.userWorkspace.upsert({
+    where: { userId_workspaceId: { userId: member.id, workspaceId: workspace2.id } },
+    update: { roleId: memberRole.id, current: false },
+    create: {
+      userId: member.id,
+      workspaceId: workspace2.id,
+      roleId: memberRole.id,
+      current: false,
+    },
+  });
+
+  const team2 = await prisma.team.upsert({
+    where: { workspaceId_name: { workspaceId: workspace2.id, name: 'Beta Team' } },
+    update: {},
+    create: {
+      name: 'Beta Team',
+      description: 'Isolated workspace team for testing',
+      workspaceId: workspace2.id,
+    },
+  });
+
   const team = await prisma.team.upsert({
     where: { workspaceId_name: { workspaceId: workspace.id, name: 'Engineering' } },
     update: {},
