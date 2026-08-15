@@ -25,8 +25,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       include: { role: { include: { permissions: true } } },
     });
 
-    if (!user) {
-      throw new UnauthorizedException('User tidak ditemukan');
+    if (!user || user.deletedAt || user.status !== 'active') {
+      throw new UnauthorizedException('User tidak ditemukan atau tidak aktif');
     }
 
     return {

@@ -128,6 +128,16 @@ export class AuthService {
   async refresh(dto: RefreshTokenDto) {
     try {
       const payload = this.tokenService.verifyRefreshToken(dto.refreshToken);
+
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.sub },
+        select: { id: true, status: true, deletedAt: true },
+      });
+
+      if (!user || user.status !== 'active' || user.deletedAt) {
+        throw new UnauthorizedException('Refresh token tidak valid');
+      }
+
       const tokens = await this.tokenService.generateTokenPair(payload);
       return tokens;
     } catch {
