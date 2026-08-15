@@ -14,7 +14,8 @@
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "validate": "npm run build && npm run test && npm run lint"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -22,7 +23,7 @@
     "typescript": "^5.4.5"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "npm": ">=9.0.0"
   },
   "dependencies": {
