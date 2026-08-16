@@ -92,7 +92,22 @@ export class ApiClient {
     }
   }
 
-  async get<T>(url: string, params?: object) {
+  async get<T>(url: string, params?: object, options?: { dedupe?: boolean }) {
+    const key = JSON.stringify({ url, params });
+
+    if (options?.dedupe !== false) {
+      if (this.inflightGet.has(key)) {
+        return this.inflightGet.get(key)!;
+      }
+
+      const promise = this.client.get<T>(url, { params }).then((r) => r.data).finally(() => {
+        this.inflightGet.delete(key);
+      });
+
+      this.inflightGet.set(key, promise);
+      return promise;
+    }
+
     const response = await this.client.get<T>(url, { params });
     return response.data;
   }
@@ -116,6 +131,8 @@ export class ApiClient {
     const response = await this.client.delete<T>(url);
     return response.data;
   }
+
+  private inflightGet = new Map<string, Promise<any>>();
 }
 
 export const apiClient = new ApiClient();

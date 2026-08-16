@@ -38,7 +38,10 @@ export default function TeamsPage() {
   if (isLoading) return <div className="p-4">Memuat...</div>;
   if (error) return <div className="p-4 text-destructive">Gagal memuat data</div>;
 
-  const teamsWithMembers = (teams || []).map((t) => ({ ...t, members: t.members.length }));
+  const teamsWithMembers: Array<Team & { membersCount: number }> = (teams || []).map((t: Team) => ({
+    ...t,
+    membersCount: Array.isArray(t.members) ? t.members.length : 0,
+  }));
 
   return (
     <div className="space-y-4">
@@ -47,7 +50,7 @@ export default function TeamsPage() {
         <ActionButton icon={<Plus className="h-4 w-4" />}>Buat Tim</ActionButton>
       </div>
       <DataTable
-        columns={[{ ...columns[2], key: 'members' }, ...columns.slice(0, 2), columns[3]]}
+        columns={[{ ...columns[2], key: 'membersCount' }, ...columns.slice(0, 2), columns[3]]}
         data={teamsWithMembers}
         rowKey="id"
         actions={(row) => (
