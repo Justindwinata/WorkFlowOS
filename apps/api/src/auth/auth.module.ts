@@ -3,6 +3,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
+import { AccountSecurityService } from './account-security.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -25,7 +26,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, JwtStrategy, JwtAuthGuard],
-  exports: [AuthService, TokenService, JwtAuthGuard],
+  providers: [AuthService, TokenService, AccountSecurityService, JwtStrategy, JwtAuthGuard],
+  exports: [AuthService, TokenService, AccountSecurityService, JwtAuthGuard],
 })
 export class AuthModule {}

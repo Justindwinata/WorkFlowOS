@@ -2,6 +2,7 @@ import { Injectable, ConflictException, UnauthorizedException, NotFoundException
 import { JwtPayload } from './interfaces/jwt.interface';
 import { TokenService } from './token.service';
 import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/auth.dto';
+import { AccountSecurityService } from './account-security.service';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private tokenService: TokenService,
+    private accountSecurity: AccountSecurityService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -88,19 +90,28 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
+    const lockKey = `login:${dto.email}`;
+    if (this.accountSecurity.isLocked(lockKey)) {
+      throw new UnauthorizedException('Akun terkunci sementara setelah terlalu banyak percobaan gagal');
+    }
+
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
       include: { role: { include: { permissions: true } } },
     });
 
     if (!user) {
+      this.accountSecurity.recordFailure(lockKey);
       throw new UnauthorizedException('Email atau password salah');
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, user.password);
     if (!isPasswordValid) {
+      this.accountSecurity.recordFailure(lockKey);
       throw new UnauthorizedException('Email atau password salah');
     }
+
+    this.accountSecurity.clearFailures(lockKey);
 
     const payload: JwtPayload = {
       sub: user.id,

@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../auth.service';
 import { TokenService } from '../token.service';
+import { AccountSecurityService } from '../account-security.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 describe('AuthService', () => {
@@ -39,6 +40,7 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         TokenService,
+        AccountSecurityService,
         { provide: PrismaService, useValue: mockPrisma },
       ],
     }).compile();
