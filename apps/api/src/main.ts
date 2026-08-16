@@ -12,11 +12,34 @@ async function bootstrap() {
   app.useGlobalInterceptors(new AuditLogInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  
+  const corsOrigin = process.env.WEB_URL || 'http://localhost:3000';
   app.enableCors({
-    origin: process.env.WEB_URL || 'http://localhost:3000',
+    origin: corsOrigin.split(',').map((s) => s.trim()),
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
-  app.use(helmet());
+
+  const helmetConfig = {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https:'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https:'],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        fontSrc: ["'self'", 'https:', 'data:'],
+        connectSrc: ["'self'", 'https:'],
+      },
+    },
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true,
+    },
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' as const },
+  };
+  app.use(helmet(helmetConfig));
 
   const config = new DocumentBuilder()
     .setTitle('WorkFlowOS API')
