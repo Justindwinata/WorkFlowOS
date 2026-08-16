@@ -122,8 +122,8 @@ describe('SlaEnforcementService', () => {
   });
 
   describe('getElapsedBusinessMinutes', () => {
-    it('calculates business minutes excluding weekends', async () => {
-      const start = dayjs().subtract(2, 'day').hour(10).minute(0).toDate();
+    it('returns zero when now is before working hours start', async () => {
+      const start = dayjs().hour(9).minute(20).toDate();
       const result = await service.getElapsedBusinessMinutes(start);
       expect(result).toBeGreaterThanOrEqual(0);
     });

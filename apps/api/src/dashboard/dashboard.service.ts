@@ -55,22 +55,32 @@ export class DashboardService {
       take: 10,
     });
 
-    const teamWorkload = await this.prisma.teamMember.findMany({
+    const teamMembers = await this.prisma.teamMember.findMany({
       where: { team: { workspaceId } },
       include: {
-        user: { select: { username: true, firstName: true, lastName: true } },
-        team: {
-          include: {
-            projects: {
-              include: {
-                tasks: { where: { status: { notIn: ['done', 'cancelled'] } } },
-              },
-            },
-          },
-        },
+        user: { select: { id: true, username: true } },
+        team: { select: { name: true } },
       },
       take: 20,
     });
+
+    const teamWorkload = await Promise.all(
+      teamMembers.map(async (member) => {
+        const activeTasks = await this.prisma.task.count({
+          where: {
+            project: { team: { workspaceId } },
+            status: { notIn: ['done', 'cancelled'] },
+            assignments: { some: { userId: member.userId } },
+          },
+        });
+        return {
+          userId: member.userId,
+          username: member.user.username,
+          team: member.team.name,
+          activeTasks,
+        };
+      }),
+    );
 
     const recentActivity = await this.prisma.auditLog.findMany({
       where: { actor: { workspaceId } },
@@ -113,12 +123,7 @@ export class DashboardService {
       openRequests,
       activeIncidents,
       pendingApprovals,
-      teamWorkload: teamWorkload.map((m) => ({
-        userId: m.userId,
-        username: m.user.username,
-        team: m.team.name,
-        activeTasks: m.team.projects.reduce((sum, p) => sum + p.tasks.length, 0),
-      })),
+      teamWorkload,
       slaAtRisk,
       recentActivity,
     };

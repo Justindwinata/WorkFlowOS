@@ -100,6 +100,7 @@ export class SlaEnforcementService {
 
       if (current.hour() < this.defaultBusinessHours.workingHoursStart) {
         current = current.hour(this.defaultBusinessHours.workingHoursStart).minute(0).second(0);
+        if (!current.isBefore(now)) break;
       } else if (current.hour() >= this.defaultBusinessHours.workingHoursEnd) {
         current = current.add(1, 'day').startOf('day');
         continue;
@@ -112,11 +113,13 @@ export class SlaEnforcementService {
 
       const endOfDay = current.hour(this.defaultBusinessHours.workingHoursEnd).minute(0).second(0);
       const nextSlot = now.isBefore(endOfDay) ? now : endOfDay;
-      elapsedMinutes += nextSlot.diff(current, 'minute');
+      const diff = nextSlot.diff(current, 'minute');
+      if (diff <= 0) break;
+      elapsedMinutes += diff;
       current = nextSlot;
     }
 
-    return elapsedMinutes;
+    return Math.max(0, elapsedMinutes);
   }
 
   private async escalateIncident(incidentId: string, assigneeId?: string | null) {
