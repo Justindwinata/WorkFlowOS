@@ -17,6 +17,7 @@ import { AuditLogModule } from './audit-log/audit-log.module';
 import { SlaModule } from './sla/sla.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { CommonModule } from './common/common.module';
 import { HealthModule } from './health/health.module';
 import { LoggingModule } from './common/logging/logging.module';
 import { MetricsModule } from './metrics/metrics.module';
@@ -56,6 +57,7 @@ import { MetricsModule } from './metrics/metrics.module';
     HealthModule,
     LoggingModule,
     MetricsModule,
+    CommonModule,
   ],
   providers: [
     {
