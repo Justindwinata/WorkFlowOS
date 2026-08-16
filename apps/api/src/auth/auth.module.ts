@@ -9,11 +9,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { TotpModule } from './totp.module';
+import { TotpService } from './totp.service';
 
 @Module({
   imports: [
     PrismaModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    TotpModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -26,7 +29,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, AccountSecurityService, JwtStrategy, JwtAuthGuard],
-  exports: [AuthService, TokenService, AccountSecurityService, JwtAuthGuard],
+  providers: [AuthService, TokenService, AccountSecurityService, JwtStrategy, JwtAuthGuard, TotpService],
+  exports: [AuthService, TokenService, AccountSecurityService, TotpService, JwtAuthGuard],
 })
 export class AuthModule {}
