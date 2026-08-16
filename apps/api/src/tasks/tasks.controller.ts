@@ -32,9 +32,19 @@ export class TasksController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Daftar semua task' })
-  async findAll(@Query('projectId') projectId?: string, @CurrentUser('workspaceId') workspaceId?: string) {
-    return this.tasksService.findAll(projectId, workspaceId);
+  @ApiOperation({ summary: 'Daftar semua task (dengan pagination)' })
+  async findAll(
+    @Query('projectId') projectId?: string,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+    @CurrentUser('workspaceId') workspaceId?: string,
+  ) {
+    return this.tasksService.findAll(
+      projectId,
+      workspaceId,
+      limit ? Math.min(parseInt(limit, 10) || 100, 500) : 100,
+      offset ? parseInt(offset, 10) || 0 : 0,
+    );
   }
 
   @Get(':id')

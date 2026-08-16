@@ -30,11 +30,17 @@ export class TasksService {
     return task;
   }
 
-  async findAll(projectId?: string, workspaceId?: string) {
+  async findAll(projectId?: string, workspaceId?: string, limit = 100, offset = 0) {
     return this.prisma.task.findMany({
       where: projectId ? { projectId } : { project: { workspaceId } },
-      include: { assignments: { include: { user: true } }, comments: true, creator: true },
+      include: {
+        assignments: { include: { user: true } },
+        creator: { select: { id: true, username: true } },
+        project: { select: { id: true, name: true } },
+      },
       orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
     });
   }
 
