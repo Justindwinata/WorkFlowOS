@@ -3,6 +3,7 @@ import { JwtPayload } from './interfaces/jwt.interface';
 import { TokenService } from './token.service';
 import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/auth.dto';
 import { AccountSecurityService } from './account-security.service';
+import { TotpService } from './totp.service';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 
@@ -12,6 +13,7 @@ export class AuthService {
     private prisma: PrismaService,
     private tokenService: TokenService,
     private accountSecurity: AccountSecurityService,
+    private totpService: TotpService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -223,7 +225,60 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role.name,
+      twoFactorEnabled: !!user.totpSecret,
       permissions: (user.role.permissions as any).map((p: any) => p.name),
     };
+  }
+
+  async setup2FA(userId: string, email: string) {
+    const { secret, otpauthUrl } = this.totpService.generateSecret(email);
+    const qrCode = await this.totpService.generateQrCode(otpauthUrl);
+    return { secret, qrCode, message: 'Scan QR code dengan authenticator app, lalu verifikasi dengan kode 6 digit' };
+  }
+
+  async enable2FA(userId: string, token: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || !user.totpSecret) {
+      throw new UnauthorizedException('TOTP belum diatur, jalankan /2fa/setup terlebih dahulu');
+    }
+
+    const valid = this.totpService.verifyToken(user.totpSecret, token);
+    if (!valid) {
+      throw new UnauthorizedException('Kode TOTP tidak valid');
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { tokenVersion: { increment: 1 } },
+    });
+
+    return { message: '2FA berhasil diaktifkan', twoFactorEnabled: true };
+  }
+
+  async disable2FA(userId: string, token: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || !user.totpSecret) {
+      throw new UnauthorizedException('TOTP tidak aktif');
+    }
+
+    const valid = this.totpService.verifyToken(user.totpSecret, token);
+    if (!valid) {
+      throw new UnauthorizedException('Kode TOTP tidak valid');
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { totpSecret: null, tokenVersion: { increment: 1 } },
+    });
+
+    return { message: '2FA berhasil dinonaktifkan', twoFactorEnabled: false };
+  }
+
+  async verify2FACode(userId: string, secret: string, token: string) {
+    const valid = this.totpService.verifyToken(secret, token);
+    if (!valid) {
+      throw new UnauthorizedException('Kode TOTP tidak valid');
+    }
+    return { valid: true, message: 'Kode valid' };
   }
 }

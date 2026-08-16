@@ -75,9 +75,23 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Generate TOTP secret and QR code' })
   async setup2FA(@Req() req: any) {
-    const { secret, otpauthUrl } = this.totpService.generateSecret(req.user.email);
-    const qrCode = await this.totpService.generateQrCode(otpauthUrl);
-    return { secret, qrCode };
+    return this.authService.setup2FA(req.user.id, req.user.email);
+  }
+
+  @Post('2fa/enable')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Enable 2FA by verifying a TOTP code' })
+  async enable2FA(@Req() req: any, @Body() dto: { token: string }) {
+    return this.authService.enable2FA(req.user.id, dto.token);
+  }
+
+  @Post('2fa/disable')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Disable 2FA' })
+  async disable2FA(@Req() req: any, @Body() dto: { token: string }) {
+    return this.authService.disable2FA(req.user.id, dto.token);
   }
 
   @Post('2fa/verify')
@@ -85,10 +99,6 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Verify a TOTP code' })
   async verify2FA(@Req() req: any, @Body() dto: { secret: string; token: string }) {
-    const valid = this.totpService.verifyToken(dto.secret, dto.token);
-    if (!valid) {
-      return { valid: false, message: 'Kode tidak valid' };
-    }
-    return { valid: true, message: 'Kode valid' };
+    return this.authService.verify2FACode(req.user.id, dto.secret, dto.token);
   }
 }

@@ -4,7 +4,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../auth.service';
 import { TokenService } from '../token.service';
 import { AccountSecurityService } from '../account-security.service';
+import { TotpService } from '../totp.service';
 import { PrismaService } from '../../prisma/prisma.service';
+import * as bcrypt from 'bcryptjs';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -15,6 +18,7 @@ describe('AuthService', () => {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
       create: jest.fn(),
+      update: jest.fn(),
     },
     userWorkspace: {
       create: jest.fn(),
@@ -29,6 +33,16 @@ describe('AuthService', () => {
     },
   };
 
+  const mockTotpService = {
+    generateSecret: jest.fn().mockReturnValue({ secret: 'SECRET', otpauthUrl: 'url' }),
+    generateQrCode: jest.fn().mockResolvedValue('qr-code'),
+    verifyToken: jest.fn().mockReturnValue(true),
+  };
+
+  const setTotpValid = (valid: boolean) => {
+    (mockTotpService.verifyToken as jest.Mock).mockReturnValue(valid);
+  };
+
   beforeEach(async () => {
     process.env.JWT_ACCESS_SECRET = 'test-access-secret';
     process.env.JWT_REFRESH_SECRET = 'test-refresh-secret';
@@ -41,6 +55,7 @@ describe('AuthService', () => {
         AuthService,
         TokenService,
         AccountSecurityService,
+        { provide: TotpService, useValue: mockTotpService },
         { provide: PrismaService, useValue: mockPrisma },
       ],
     }).compile();
@@ -51,10 +66,14 @@ describe('AuthService', () => {
     mockPrisma.user.findFirst.mockReset();
     mockPrisma.user.findUnique.mockReset();
     mockPrisma.user.create.mockReset();
+    mockPrisma.user.update.mockReset();
     mockPrisma.role.findUnique.mockReset();
     mockPrisma.role.create.mockReset();
     mockPrisma.workspace.findFirst.mockReset();
     mockPrisma.workspace.create.mockReset();
+    mockPrisma.userWorkspace.create.mockReset();
+    (mockTotpService.verifyToken as jest.Mock).mockReset();
+    (mockTotpService.verifyToken as jest.Mock).mockReturnValue(true);
   });
 
   it('should be defined', () => {
@@ -117,6 +136,24 @@ describe('AuthService', () => {
         service.login({ email: 'test@test.com', password: 'password123' }),
       ).rejects.toThrow('Email atau password salah');
     });
+
+    it('should return tokens on successful login', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        email: 'test@test.com',
+        username: 'test',
+        password: await bcrypt.hash('password123', 10),
+        firstName: null,
+        lastName: null,
+        role: { id: 'role-1', name: 'member', permissions: [{ name: 'read' }] },
+        tokenVersion: 0,
+        workspaceId: 'ws-1',
+      });
+
+      const result = await service.login({ email: 'test@test.com', password: 'password123' });
+      expect(result.accessToken).toBeDefined();
+      expect(result.refreshToken).toBeDefined();
+    });
   });
 
   describe('TokenService', () => {
@@ -132,6 +169,119 @@ describe('AuthService', () => {
       const tokens = await tokenService.generateTokenPair(payload);
       expect(tokens.accessToken).toBeDefined();
       expect(tokens.refreshToken).toBeDefined();
+    });
+  });
+
+  describe('Refresh Token', () => {
+    it('should throw UnauthorizedException for invalid refresh token', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+      await expect(
+        service.refresh({ refreshToken: 'invalid' }),
+      ).rejects.toThrow('Refresh token tidak valid');
+    });
+  });
+
+  describe('Logout', () => {
+    it('should revoke user sessions', async () => {
+      mockPrisma.user.update.mockResolvedValue({ id: 'user-1', tokenVersion: 2 });
+
+      const result = await service.revokeUserSessions('user-1');
+      expect(result.message).toBe('Sesi berhasil direvoke');
+      expect(mockPrisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'user-1' },
+        data: { tokenVersion: { increment: 1 } },
+        select: { id: true, tokenVersion: true },
+      });
+    });
+  });
+
+  describe('Change Password', () => {
+    it('should change password and revoke sessions', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        password: await bcrypt.hash('currentPass123', 10),
+      });
+      mockPrisma.user.update.mockResolvedValue({ id: 'user-1' });
+
+      await expect(
+        service.changePassword('user-1', 'currentPass123', 'newPass123!'),
+      ).resolves.toEqual({ message: 'Password berhasil diubah, semua sesi direvoke' });
+    });
+
+    it('should throw UnauthorizedException for invalid current password', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        password: await bcrypt.hash('currentPass123', 10),
+      });
+
+      await expect(
+        service.changePassword('user-1', 'wrongPass', 'newPass123!'),
+      ).rejects.toThrow('Password saat ini salah');
+    });
+  });
+
+  describe('2FA', () => {
+    it('should generate secret and QR code for 2FA setup', async () => {
+      const result = await service.setup2FA('user-1', 'test@test.com');
+      expect(result).toHaveProperty('secret');
+      expect(result).toHaveProperty('qrCode');
+      expect(result.message).toContain('QR code');
+    });
+
+    it('should enable 2FA with valid token', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        totpSecret: 'SECRET',
+      });
+      mockPrisma.user.update.mockResolvedValue({ id: 'user-1', tokenVersion: 1 });
+
+      const result = await service.enable2FA('user-1', '123456');
+      expect(result.message).toBe('2FA berhasil diaktifkan');
+      expect(result.twoFactorEnabled).toBe(true);
+    });
+
+    it('should throw UnauthorizedException if 2FA not set up', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({ id: 'user-1', totpSecret: null });
+
+      await expect(service.enable2FA('user-1', '123456')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw UnauthorizedException for invalid token', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        totpSecret: 'SECRET',
+      });
+      setTotpValid(false);
+
+      await expect(service.enable2FA('user-1', 'wrong')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should disable 2FA with valid token', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        totpSecret: 'SECRET',
+      });
+      mockPrisma.user.update.mockResolvedValue({ id: 'user-1', tokenVersion: 1 });
+
+      const result = await service.disable2FA('user-1', '123456');
+      expect(result.message).toBe('2FA berhasil dinonaktifkan');
+      expect(result.twoFactorEnabled).toBe(false);
+    });
+
+    it('should throw UnauthorizedException for invalid disable token', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        totpSecret: 'SECRET',
+      });
+      setTotpValid(false);
+
+      await expect(service.disable2FA('user-1', 'wrong')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 });
