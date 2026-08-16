@@ -68,6 +68,7 @@ export class AuthService {
       username: user.username,
       roleId: user.roleId,
       workspaceId: user.workspaceId,
+      version: user.tokenVersion,
     };
 
     const tokens = await this.tokenService.generateTokenPair(payload);
@@ -107,6 +108,7 @@ export class AuthService {
       username: user.username,
       roleId: user.roleId,
       workspaceId: user.workspaceId,
+      version: user.tokenVersion,
     };
 
     const tokens = await this.tokenService.generateTokenPair(payload);
@@ -131,11 +133,15 @@ export class AuthService {
 
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
-        select: { id: true, status: true, deletedAt: true },
+        select: { id: true, status: true, deletedAt: true, tokenVersion: true },
       });
 
       if (!user || user.status !== 'active' || user.deletedAt) {
         throw new UnauthorizedException('Refresh token tidak valid');
+      }
+
+      if (payload.version !== user.tokenVersion) {
+        throw new UnauthorizedException('Refresh token telah di-revoke');
       }
 
       const tokens = await this.tokenService.generateTokenPair(payload);
@@ -143,6 +149,50 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException('Refresh token tidak valid');
     }
+  }
+
+  async revokeUserSessions(userId: string) {
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: { tokenVersion: { increment: 1 } },
+      select: { id: true, tokenVersion: true },
+    });
+
+    return {
+      message: 'Sesi berhasil direvoke',
+      userId: user.id,
+      tokenVersion: user.tokenVersion,
+    };
+  }
+
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User tidak ditemukan');
+    }
+
+    const isCurrentValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isCurrentValid) {
+      throw new UnauthorizedException('Password saat ini salah');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword, tokenVersion: { increment: 1 } },
+    });
+
+    await this.revokeUserSessions(userId);
+
+    return { message: 'Password berhasil diubah, semua sesi direvoke' };
   }
 
   async getCurrentUser(userId: string) {

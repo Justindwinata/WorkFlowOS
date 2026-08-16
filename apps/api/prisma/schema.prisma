@@ -16,6 +16,7 @@ model User {
   lastName  String?
   avatar    String?
   status    String   @default("active")
+  tokenVersion Int    @default(0)
   role      Role     @relation(fields: [roleId], references: [id])
   roleId    String
   workspace Workspace @relation(fields: [workspaceId], references: [id])

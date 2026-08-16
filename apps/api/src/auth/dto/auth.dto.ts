@@ -48,3 +48,18 @@ export class RefreshTokenDto {
   @IsString()
   refreshToken: string;
 }
+
+export class ChangePasswordDto {
+  @ApiProperty()
+  @IsString()
+  currentPassword: string;
+
+  @ApiProperty()
+  @IsString()
+  @MinLength(8, { message: 'Password minimal 8 karakter' })
+  @MaxLength(128)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/, {
+    message: 'Password harus mengandung huruf besar, huruf kecil, dan angka',
+  })
+  newPassword: string;
+}

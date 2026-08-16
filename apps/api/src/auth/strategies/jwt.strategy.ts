@@ -29,6 +29,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('User tidak ditemukan atau tidak aktif');
     }
 
+    if (payload.version !== undefined && payload.version !== user.tokenVersion) {
+      throw new UnauthorizedException('Sesi telah di-revoke');
+    }
+
     return {
       id: user.id,
       email: user.email,

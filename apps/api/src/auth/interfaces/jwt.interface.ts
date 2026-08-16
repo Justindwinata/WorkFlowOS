@@ -4,6 +4,7 @@ export interface JwtPayload {
   username: string;
   roleId: string;
   workspaceId: string;
+  version?: number;
 }
 
 export interface TokenPair {
