@@ -6,12 +6,6 @@ export class TransactionalService {
   constructor(private prisma: PrismaService) {}
 
   async runTransaction<T>(fn: (tx: any) => Promise<any>): Promise<any> {
-    return this.prisma.$transaction(async (tx) => {
-      try {
-        return await fn(tx);
-      } catch (error) {
-        throw error;
-      }
-    });
+    return this.prisma.$transaction((tx) => fn(tx));
   }
 }
