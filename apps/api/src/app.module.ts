@@ -19,6 +19,7 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HealthModule } from './health/health.module';
 import { LoggingModule } from './common/logging/logging.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { LoggingModule } from './common/logging/logging.module';
     DashboardModule,
     HealthModule,
     LoggingModule,
+    MetricsModule,
   ],
   providers: [
     {
