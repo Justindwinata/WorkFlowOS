@@ -59,7 +59,7 @@ export class AuthController {
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token tidak valid');
     }
-    const result = await this.authService.refresh({ refreshToken });
+    const result = await this.authService.refresh(refreshToken);
     this.setRefreshCookie(res, result.refreshToken);
     return { accessToken: result.accessToken };
   }

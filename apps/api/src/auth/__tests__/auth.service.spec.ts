@@ -176,7 +176,7 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException for invalid refresh token', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(null);
       await expect(
-        service.refresh({ refreshToken: 'invalid' }),
+        service.refresh('invalid'),
       ).rejects.toThrow('Refresh token tidak valid');
     });
   });
