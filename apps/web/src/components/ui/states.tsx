@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ActionButton } from './action-button';
-import { AlertCircle, Search, RefreshCw, Lock, Clock, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, Search, RefreshCw, Lock, Clock, CheckCircle2, CloudOff } from 'lucide-react';
 
 export function LoadingState({ message = 'Memuat...' }: { message?: string }) {
   return (
@@ -79,6 +79,29 @@ export function SessionExpiredState({ onLoginAgain }: { onLoginAgain?: () => voi
       <h3 className="text-lg font-medium mb-2">Sesi Berakhir</h3>
       <p className="text-sm text-muted-foreground mb-4">Untuk alasan keamanan, sesi Anda telah berakhir karena tidak ada aktivitas.</p>
       {onLoginAgain && <ActionButton onClick={onLoginAgain}>Login Again</ActionButton>}
+    </div>
+  );
+}
+
+export function BackendUnavailableState({
+  title = 'Backend Tidak Tersedia',
+  description = 'Tidak dapat terhubung ke server. Silakan coba lagi nanti.',
+  onRetry,
+}: {
+  title?: string;
+  description?: string;
+  onRetry?: () => void;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center py-12 text-center max-w-md mx-auto">
+      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/10 text-destructive mb-4">
+        <span className="material-symbols-outlined text-2xl text-destructive">cloud_off</span>
+      </div>
+      <h3 className="text-lg font-medium mb-2">{title}</h3>
+      <p className="text-sm text-muted-foreground mb-4">{description}</p>
+      <ActionButton icon={<RefreshCw className="h-4 w-4" />} onClick={onRetry}>
+        Coba Lagi
+      </ActionButton>
     </div>
   );
 }
