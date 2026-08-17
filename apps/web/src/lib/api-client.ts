@@ -16,7 +16,7 @@ export class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: false,
+      withCredentials: true,
     });
 
     this.setupInterceptors();
@@ -69,14 +69,8 @@ export class ApiClient {
     }
 
     this.refreshTokenPromise = (async () => {
-      const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : null;
-      if (!refreshToken) {
-        throw new Error('No refresh token');
-      }
-
-      const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-        refreshToken,
-      });
+      // Refresh token is stored in httpOnly cookie; the client sends it via withCredentials
+      const response = await this.client.post<{ accessToken: string }>('/auth/refresh');
 
       const { accessToken } = response.data;
       if (typeof window !== 'undefined') {

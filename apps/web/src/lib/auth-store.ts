@@ -10,7 +10,7 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: { email: string; username: string; password: string; firstName?: string; lastName?: string }) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
   setUser: (user: User | null) => void;
 }
@@ -21,27 +21,29 @@ export const useAuthStore = create<AuthState>()((set) => ({
   isLoading: true,
 
   login: async (email: string, password: string) => {
-    const response = await apiClient.post<{ user: User; accessToken: string; refreshToken: string }>('/auth/login', { email, password });
+    const response = await apiClient.post<{ user: User; accessToken: string }>('/auth/login', { email, password });
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
     }
     set({ user: response.user, isAuthenticated: true, isLoading: false });
   },
 
   register: async (data) => {
-    const response = await apiClient.post<{ user: User; accessToken: string; refreshToken: string }>('/auth/register', data);
+    const response = await apiClient.post<{ user: User; accessToken: string }>('/auth/register', data);
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
     }
     set({ user: response.user, isAuthenticated: true, isLoading: false });
   },
 
-  logout: () => {
+  logout: async () => {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch {
+      // Ignore logout API errors; clear local state regardless
+    }
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
     }
     set({ user: null, isAuthenticated: false, isLoading: false });
   },
@@ -63,7 +65,6 @@ export const useAuthStore = create<AuthState>()((set) => ({
       set({ user, isAuthenticated: true, isLoading: false });
     } catch {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
       set({ user: null, isAuthenticated: false, isLoading: false });
     }
   },

@@ -140,9 +140,9 @@ export class AuthService {
     };
   }
 
-  async refresh(dto: RefreshTokenDto) {
+  async refresh(refreshToken: string) {
     try {
-      const payload = this.tokenService.verifyRefreshToken(dto.refreshToken);
+      const payload = this.tokenService.verifyRefreshToken(refreshToken);
 
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
