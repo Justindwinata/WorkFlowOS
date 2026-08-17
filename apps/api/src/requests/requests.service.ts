@@ -6,7 +6,7 @@ import { CreateRequestDto, UpdateRequestStatusDto } from './dto/request.dto';
 export class RequestsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateRequestDto, userId: string) {
+  async create(dto: CreateRequestDto, userId: string, workspaceId: string) {
     return this.prisma.request.create({
       data: {
         title: dto.title,
@@ -14,14 +14,15 @@ export class RequestsService {
         type: dto.type,
         priority: dto.priority || 'medium',
         requesterId: userId,
+        workspaceId,
       },
       include: { requester: true, approvals: true },
     });
   }
 
-  async findAll(userId?: string) {
+  async findAll(workspaceId: string) {
     return this.prisma.request.findMany({
-      where: userId ? { requesterId: userId } : {},
+      where: { workspaceId },
       include: { requester: true, approvals: { include: { approver: true } } },
       orderBy: { createdAt: 'desc' },
     });

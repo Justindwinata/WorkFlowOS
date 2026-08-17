@@ -242,6 +242,7 @@ async function main() {
       status: 'submitted',
       priority: 'medium',
       requesterId: member.id,
+      workspaceId: workspace.id,
     },
   });
 
@@ -264,6 +265,7 @@ async function main() {
       status: 'investigating',
       affectedService: 'PostgreSQL Database',
       assigneeId: member.id,
+      workspaceId: workspace.id,
     },
   });
 

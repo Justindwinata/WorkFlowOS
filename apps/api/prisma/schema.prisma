@@ -86,6 +86,8 @@ model Workspace {
   userWorkspaces UserWorkspace[]
   teams     Team[]
   projects  Project[]
+  requests  Request[]
+  incidents Incident[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -208,12 +210,15 @@ model Request {
   priority    String   @default("medium")
   requester   User     @relation(fields: [requesterId], references: [id])
   requesterId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
   approvals   Approval[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 
   @@index([requesterId])
+  @@index([workspaceId])
   @@index([status])
   @@index([deletedAt])
 }
@@ -229,11 +234,14 @@ model Incident {
   assignee        User?    @relation(fields: [assigneeId], references: [id])
   assigneeId      String?
   resolution      String?
+  workspace       Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId     String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   deletedAt       DateTime?
 
   @@index([assigneeId])
+  @@index([workspaceId])
   @@index([status])
   @@index([severity])
   @@index([deletedAt])

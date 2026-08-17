@@ -26,14 +26,14 @@ export class RequestsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Buat request baru' })
-  async create(@Body() dto: CreateRequestDto, @CurrentUser('id') userId: string) {
-    return this.requestsService.create(dto, userId);
+  async create(@Body() dto: CreateRequestDto, @CurrentUser('id') userId: string, @CurrentUser('workspaceId') workspaceId: string) {
+    return this.requestsService.create(dto, userId, workspaceId);
   }
 
   @Get()
   @ApiOperation({ summary: 'Daftar semua request' })
-  async findAll(@CurrentUser('id') userId: string) {
-    return this.requestsService.findAll(userId);
+  async findAll(@CurrentUser('workspaceId') workspaceId: string) {
+    return this.requestsService.findAll(workspaceId);
   }
 
   @Get(':id')

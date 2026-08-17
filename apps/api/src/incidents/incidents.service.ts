@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateIncidentDto, UpdateIncidentDto, AssignIncidentDto } from './dto/incident.dto';
 
@@ -6,7 +6,7 @@ import { CreateIncidentDto, UpdateIncidentDto, AssignIncidentDto } from './dto/i
 export class IncidentsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateIncidentDto) {
+  async create(dto: CreateIncidentDto, workspaceId: string) {
     return this.prisma.incident.create({
       data: {
         title: dto.title,
@@ -14,21 +14,23 @@ export class IncidentsService {
         severity: dto.severity || 'medium',
         priority: dto.priority || 'medium',
         affectedService: dto.affectedService,
+        workspaceId,
       },
       include: { assignee: true },
     });
   }
 
-  async findAll() {
+  async findAll(workspaceId: string) {
     return this.prisma.incident.findMany({
+      where: { workspaceId },
       include: { assignee: true },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
-    const incident = await this.prisma.incident.findUnique({
-      where: { id },
+  async findOne(id: string, workspaceId: string) {
+    const incident = await this.prisma.incident.findFirst({
+      where: { id, workspaceId },
       include: { assignee: true },
     });
 
@@ -39,9 +41,9 @@ export class IncidentsService {
     return incident;
   }
 
-  async update(id: string, dto: UpdateIncidentDto) {
-    const incident = await this.prisma.incident.findUnique({
-      where: { id },
+  async update(id: string, dto: UpdateIncidentDto, workspaceId: string) {
+    const incident = await this.prisma.incident.findFirst({
+      where: { id, workspaceId },
     });
 
     if (!incident) {
@@ -62,9 +64,9 @@ export class IncidentsService {
     });
   }
 
-  async assignUser(id: string, dto: AssignIncidentDto) {
-    const incident = await this.prisma.incident.findUnique({
-      where: { id },
+  async assignUser(id: string, dto: AssignIncidentDto, workspaceId: string) {
+    const incident = await this.prisma.incident.findFirst({
+      where: { id, workspaceId },
     });
 
     if (!incident) {
@@ -78,9 +80,9 @@ export class IncidentsService {
     });
   }
 
-  async delete(id: string) {
-    const incident = await this.prisma.incident.findUnique({
-      where: { id },
+  async delete(id: string, workspaceId: string) {
+    const incident = await this.prisma.incident.findFirst({
+      where: { id, workspaceId },
     });
 
     if (!incident) {
