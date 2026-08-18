@@ -8,14 +8,20 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
+    "setup": "node scripts/setup.js",
+    "dev": "node scripts/dev.js",
+    "dev:api": "turbo run dev --filter=api",
+    "dev:web": "turbo run dev --filter=web",
     "build": "turbo run build",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "turbo run clean",
-    "validate": "npm run build && npm run test && npm run lint"
+    "validate": "npm run build && npm run test && npm run lint",
+    "db:migrate": "cd apps/api && npx prisma migrate deploy",
+    "db:seed": "cd apps/api && npm run seed",
+    "db:reset": "cd apps/api && npx prisma migrate reset --force && npm run seed"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

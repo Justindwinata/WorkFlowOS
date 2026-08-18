@@ -51,6 +51,21 @@ async function main() {
   await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'member' AND p.name IN ('create_task','edit_task','view_all_tasks','submit_requests','manage_incidents','assign_incidents')`;
   await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'viewer' AND p.name IN ('view_all_tasks','view_users')`;
 
+  // Clean dependent records first to avoid FK constraint errors
+  await prisma.taskAssignment.deleteMany();
+  await prisma.taskComment.deleteMany();
+  await prisma.taskLabel.deleteMany();
+  await prisma.notification.deleteMany();
+  await prisma.auditLog.deleteMany();
+  await prisma.approval.deleteMany();
+  await prisma.incident.deleteMany();
+  await prisma.request.deleteMany();
+  await prisma.task.deleteMany();
+  await prisma.project.deleteMany();
+  await prisma.teamMember.deleteMany();
+  await prisma.team.deleteMany();
+  await prisma.userWorkspace.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.workspace.deleteMany();
 
   const workspace = await prisma.workspace.create({
