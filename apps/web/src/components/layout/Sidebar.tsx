@@ -17,10 +17,12 @@ import {
   ScrollText,
   Settings,
   Clock,
+  ListChecks,
 } from 'lucide-react';
 
 const routes = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/my-work', icon: ListChecks, label: 'My Work' },
   { href: '/users', icon: Users, label: 'Users' },
   { href: '/teams', icon: Users2, label: 'Teams' },
   { href: '/projects', icon: FolderOpen, label: 'Projects' },
