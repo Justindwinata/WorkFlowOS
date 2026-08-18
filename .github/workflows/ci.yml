@@ -23,6 +23,24 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: workflowos
+          POSTGRES_PASSWORD: workflowos_dev
+          POSTGRES_DB: workflowos
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U workflowos"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,6 +48,14 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Set up database
+        env:
+          DATABASE_URL: postgresql://workflowos:workflowos_dev@localhost:5432/workflowos
+        run: |
+          cd apps/api
+          npx prisma generate
+          npx prisma migrate deploy --skip-generate
+          npm run seed
       - run: cd apps/api && npm run test -- --coverage --coverageReporters=text-lcov
       - run: cd apps/web && npm test -- --coverage
       - name: Upload API coverage
