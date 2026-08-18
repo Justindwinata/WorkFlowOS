@@ -115,6 +115,16 @@ export class AuthService {
 
     this.accountSecurity.clearFailures(lockKey);
 
+    // Check if user has TOTP enabled
+    if (user.totpSecret) {
+      return {
+        requires2FA: true,
+        userId: user.id,
+        email: user.email,
+        message: '2FA required. Please provide TOTP code.',
+      };
+    }
+
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,

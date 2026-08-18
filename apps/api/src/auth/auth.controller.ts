@@ -43,8 +43,14 @@ export class AuthController {
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ status: 200, description: 'Login berhasil' })
   @ApiResponse({ status: 401, description: 'Email atau password salah' })
+  @ApiResponse({ status: 200, description: '2FA required' })
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(dto);
+    
+    if (result.require2FA) {
+      return { require2FA: true, userId: result.userId, email: result.email };
+    }
+    
     this.setRefreshCookie(res, result.refreshToken);
     return { user: result.user, accessToken: result.accessToken };
   }
