@@ -3,24 +3,40 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SlaService } from './sla.service';
 import * as dayjs from 'dayjs';
 
+export interface BusinessHoursConfig {
+  workingDays: number[];
+  workingHoursStart: number;
+  workingHoursEnd: number;
+  timezone: string;
+  holidayExceptions: string[];
+}
+
 @Injectable()
 export class SlaEnforcementService {
   private readonly logger = new Logger(SlaEnforcementService.name);
   private intervalId: NodeJS.Timeout | null = null;
   private readonly CHECK_INTERVAL = 60000;
 
-  private readonly defaultBusinessHours = {
+  private businessHours: BusinessHoursConfig = {
     workingDays: [1, 2, 3, 4, 5],
     workingHoursStart: 9,
     workingHoursEnd: 18,
     timezone: 'Asia/Jakarta',
-    holidayExceptions: [] as string[],
+    holidayExceptions: [],
   };
 
   constructor(
     private prisma: PrismaService,
     private slaService: SlaService,
   ) {}
+
+  setBusinessHours(config: Partial<BusinessHoursConfig>) {
+    this.businessHours = { ...this.businessHours, ...config };
+  }
+
+  getBusinessHours(): BusinessHoursConfig {
+    return { ...this.businessHours };
+  }
 
   onModuleInit() {
     this.logger.log('SLA Enforcement Service started');
@@ -85,33 +101,34 @@ export class SlaEnforcementService {
     }
   }
 
-  async getElapsedBusinessMinutes(startTime: Date): Promise<number> {
+  async getElapsedBusinessMinutes(startTime: Date, endTime?: Date, customConfig?: Partial<BusinessHoursConfig>): Promise<number> {
+    const config = customConfig ? { ...this.businessHours, ...customConfig } : this.businessHours;
     let current = dayjs(startTime);
-    const now = dayjs();
+    const now = endTime ? dayjs(endTime) : dayjs();
     let elapsedMinutes = 0;
 
     while (current.isBefore(now)) {
       const dayOfWeek = current.day();
 
-      if (!this.defaultBusinessHours.workingDays.includes(dayOfWeek)) {
+      if (!config.workingDays.includes(dayOfWeek)) {
         current = current.add(1, 'day').startOf('day');
         continue;
       }
 
-      if (current.hour() < this.defaultBusinessHours.workingHoursStart) {
-        current = current.hour(this.defaultBusinessHours.workingHoursStart).minute(0).second(0);
+      if (config.holidayExceptions.includes(current.format('YYYY-MM-DD'))) {
+        current = current.add(1, 'day').startOf('day');
+        continue;
+      }
+
+      if (current.hour() < config.workingHoursStart) {
+        current = current.hour(config.workingHoursStart).minute(0).second(0);
         if (!current.isBefore(now)) break;
-      } else if (current.hour() >= this.defaultBusinessHours.workingHoursEnd) {
+      } else if (current.hour() >= config.workingHoursEnd) {
         current = current.add(1, 'day').startOf('day');
         continue;
       }
 
-      if (this.defaultBusinessHours.holidayExceptions.includes(current.format('YYYY-MM-DD'))) {
-        current = current.add(1, 'day').startOf('day');
-        continue;
-      }
-
-      const endOfDay = current.hour(this.defaultBusinessHours.workingHoursEnd).minute(0).second(0);
+      const endOfDay = current.hour(config.workingHoursEnd).minute(0).second(0);
       const nextSlot = now.isBefore(endOfDay) ? now : endOfDay;
       const diff = nextSlot.diff(current, 'minute');
       if (diff <= 0) break;
