@@ -41,6 +41,7 @@ export class LoggingInterceptor implements NestInterceptor {
               userAgent,
               userId,
               workspaceId,
+              body: this.sanitizeBody(request.body),
             }),
           );
         },
@@ -88,7 +89,34 @@ export class LoggingInterceptor implements NestInterceptor {
       .replace(/(password[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]')
       .replace(/(refresh[_-]?token[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]')
       .replace(/(access[_-]?token[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]')
-      .replace(/(authorization[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]');
+      .replace(/(authorization[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]')
+      .replace(/(secret[=: ]+)[^\s,;"]+/gi, '$1[REDACTED]');
+  }
+
+  private SENSITIVE_FIELDS = new Set([
+    'password',
+    'refreshToken',
+    'accessToken',
+    'currentPassword',
+    'newPassword',
+    'secret',
+    'token',
+    'authorization',
+  ]);
+
+  private sanitizeBody(body: any): any {
+    if (!body || typeof body !== 'object') return undefined;
+    if (Array.isArray(body)) return body.map((b) => this.sanitizeBody(b));
+
+    const sanitized: Record<string, any> = {};
+    for (const [key, value] of Object.entries(body)) {
+      if (this.SENSITIVE_FIELDS.has(key.toLowerCase())) {
+        sanitized[key] = '[REDACTED]';
+      } else {
+        sanitized[key] = value;
+      }
+    }
+    return sanitized;
   }
 
   private randomId(): string {
