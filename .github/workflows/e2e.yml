@@ -47,9 +47,9 @@ jobs:
         run: |
           cd apps/api
           npx prisma generate
-          npx prisma migrate deploy
-          npx prisma db push --force-reset
+          npx prisma migrate deploy --skip-generate
           npm run seed
+          echo "Database setup complete"
 
       - name: Start API
         env:
@@ -57,18 +57,34 @@ jobs:
           JWT_ACCESS_SECRET: test-access-secret
           JWT_REFRESH_SECRET: test-refresh-secret
           API_PORT: 3001
+          NODE_ENV: test
         run: |
           cd apps/api
-          npm run start:dev &
-          npx wait-on http://localhost:3001/health --timeout 60000
+          npm run start:dev > api.log 2>&1 &
+          API_PID=$!
+          echo "API PID: $API_PID"
+          
+          echo "Waiting for API to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:3001/health > /dev/null 2>&1; then
+              echo "API is ready"
+              exit 0
+            fi
+            echo "Attempt $i: API not ready yet, waiting..."
+            sleep 1
+          done
+          echo "API failed to start"
+          cat api.log
+          exit 1
 
       - name: Run Playwright E2E
         env:
           DATABASE_URL: postgresql://workflowos:workflowos_dev@localhost:5432/workflowos
           NEXT_PUBLIC_API_URL: http://localhost:3001
+          CI: true
         run: |
           cd apps/web
-          npm run test:e2e
+          npm run test:e2e -- --reporter=list
 
       - name: Upload Playwright report
         if: always()
@@ -76,4 +92,12 @@ jobs:
         with:
           name: playwright-report
           path: apps/web/playwright-report/
+          retention-days: 7
+
+      - name: Upload API logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-logs
+          path: apps/api/api.log
           retention-days: 7
