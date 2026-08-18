@@ -137,7 +137,7 @@ describe('AuthService', () => {
       ).rejects.toThrow('Email atau password salah');
     });
 
-    it('should return tokens on successful login', async () => {
+    it('should return tokens on successful login without 2FA', async () => {
       mockPrisma.user.findUnique.mockResolvedValue({
         id: 'user-1',
         email: 'test@test.com',
@@ -148,11 +148,36 @@ describe('AuthService', () => {
         role: { id: 'role-1', name: 'member', permissions: [{ name: 'read' }] },
         tokenVersion: 0,
         workspaceId: 'ws-1',
+        totpSecret: null,
       });
 
       const result = await service.login({ email: 'test@test.com', password: 'password123' });
       expect(result.accessToken).toBeDefined();
       expect(result.refreshToken).toBeDefined();
+      expect(result.user).toBeDefined();
+      expect(result.require2FA).toBeUndefined();
+    });
+
+    it('should return require2FA when user has TOTP enabled', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        email: 'test@test.com',
+        username: 'test',
+        password: await bcrypt.hash('password123', 10),
+        firstName: null,
+        lastName: null,
+        role: { id: 'role-1', name: 'member', permissions: [{ name: 'read' }] },
+        tokenVersion: 0,
+        workspaceId: 'ws-1',
+        totpSecret: 'SECRET',
+      });
+
+      const result = await service.login({ email: 'test@test.com', password: 'password123' });
+      expect(result.require2FA).toBe(true);
+      expect(result.userId).toBe('user-1');
+      expect(result.email).toBe('test@test.com');
+      expect(result.accessToken).toBeUndefined();
+      expect(result.refreshToken).toBeUndefined();
     });
   });
 
