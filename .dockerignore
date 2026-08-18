@@ -1,13 +1,62 @@
-workflowos-app/
+# Dependencies
+node_modules/
+.pnp/
+.pnp.loader.mjs
+
+# Build outputs
+.vercel_output/
+.vercel_build_output/
+.next/
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker
+docker-compose*.yml
+.dockerignore
+Dockerfile*
+docker/
+
+# Testing
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Logs
+*.log
+logs/
+
+# OS
 .DS_Store
 Thumbs.db
 *.pid
-.env
-.env.local
-.pnp/
-.pnp.loader.mjs
-node_modules/
 
-# Build output
-.vercel_output/
-.vercel_build_output/
+# Misc
+*.md
+!README.md
+.github/
+.husky/
+.prettierrc
+.eslintrc*
+.prettierrc*
+tsconfig.json
+turbo.json
