@@ -21,4 +21,11 @@ export class HealthController {
     const result = await this.healthService.readiness();
     return res.status(result.status === 'ready' ? 200 : 503).json(result);
   }
+
+  @Get('startup')
+  @ApiOperation({ summary: 'Startup probe - service is starting' })
+  async startup(@Res() res: Response) {
+    const result = await this.healthService.startup();
+    return res.status(result.status === 'started' ? 200 : 503).json(result);
+  }
 }
