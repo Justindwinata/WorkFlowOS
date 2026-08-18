@@ -45,11 +45,11 @@ async function main() {
     });
   }
 
-  await prisma.$executeRaw`DELETE FROM "_RoleToPermission"`;
-  await prisma.$executeRaw`INSERT INTO "_RoleToPermission" ("A", "B") SELECT r.id, p.id FROM "Role" r, "Permission" p WHERE r.name = 'admin'`;
-  await prisma.$executeRaw`INSERT INTO "_RoleToPermission" ("A", "B") SELECT r.id, p.id FROM "Role" r, "Permission" p WHERE r.name = 'manager' AND p.name IN ('create_task','edit_task','assign_task','view_all_tasks','view_users','manage_teams','manage_projects','submit_requests','manage_requests','approve_requests','manage_incidents','assign_incidents','view_audit_log')`;
-  await prisma.$executeRaw`INSERT INTO "_RoleToPermission" ("A", "B") SELECT r.id, p.id FROM "Role" r, "Permission" p WHERE r.name = 'member' AND p.name IN ('create_task','edit_task','view_all_tasks','submit_requests','manage_incidents','assign_incidents')`;
-  await prisma.$executeRaw`INSERT INTO "_RoleToPermission" ("A", "B") SELECT r.id, p.id FROM "Role" r, "Permission" p WHERE r.name = 'viewer' AND p.name IN ('view_all_tasks','view_users')`;
+  await prisma.$executeRaw`DELETE FROM "_PermissionToRole"`;
+  await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'admin'`;
+  await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'manager' AND p.name IN ('create_task','edit_task','assign_task','view_all_tasks','view_users','manage_teams','manage_projects','submit_requests','manage_requests','approve_requests','manage_incidents','assign_incidents','view_audit_log')`;
+  await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'member' AND p.name IN ('create_task','edit_task','view_all_tasks','submit_requests','manage_incidents','assign_incidents')`;
+  await prisma.$executeRaw`INSERT INTO "_PermissionToRole" ("A", "B") SELECT p.id, r.id FROM "Role" r, "Permission" p WHERE r.name = 'viewer' AND p.name IN ('view_all_tasks','view_users')`;
 
   await prisma.workspace.deleteMany();
 
