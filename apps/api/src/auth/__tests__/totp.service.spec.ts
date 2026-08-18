@@ -34,7 +34,7 @@ describe('TOTP Service - Regression Tests', () => {
       const email = 'test@example.com';
       const { otpauthUrl } = service.generateSecret(email);
       expect(otpauthUrl).toContain('otpauth://totp/');
-      expect(otpauthUrl).toContain(email);
+      expect(otpauthUrl).toContain('test%40example.com'); // URL-encoded @
       expect(otpauthUrl).toContain('WorkFlowOS');
     });
   });

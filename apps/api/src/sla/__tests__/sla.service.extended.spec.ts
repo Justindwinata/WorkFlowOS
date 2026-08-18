@@ -94,7 +94,8 @@ describe('SLA Service - Regression Tests', () => {
       });
 
       const result = await service.findByName('Critical');
-      expect(result.name).toBe('Critical');
+      expect(result).not.toBeNull();
+      expect(result!.name).toBe('Critical');
       expect(mockPrisma.sLA.findUnique).toHaveBeenCalledWith({ where: { name: 'Critical' } });
     });
 
