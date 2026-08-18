@@ -35,10 +35,10 @@ export default function MyWorkPage() {
 
   const now = new Date();
   const overdue = myTasks.filter(
-    (t) => t.dueDate && new Date(t.dueDate) < now && !['done', 'cancelled'].includes(t.status),
+    (t: Task) => t.dueDate && new Date(t.dueDate) < now && !['done', 'cancelled'].includes(t.status),
   );
-  const inProgress = myTasks.filter((t) => ['in_progress', 'review'].includes(t.status));
-  const pending = myTasks.filter((t) => ['backlog', 'todo'].includes(t.status));
+  const inProgress = myTasks.filter((t: Task) => ['in_progress', 'review'].includes(t.status));
+  const pending = myTasks.filter((t: Task) => ['backlog', 'todo'].includes(t.status));
 
   if (isLoading) return <LoadingState message="Memuat tugas Anda..." />;
 
@@ -87,7 +87,7 @@ export default function MyWorkPage() {
           <div key={section.label}>
             <h2 className={`text-lg font-semibold mb-2 ${section.tone}`}>{section.label}</h2>
             <div className="divide-y border rounded-lg bg-card">
-              {section.items.map((task) => (
+              {section.items.map((task: Task) => (
                 <Link
                   key={task.id}
                   href={`/tasks/${task.id}`}
