@@ -20,11 +20,35 @@ export class IncidentsService {
     });
   }
 
-  async findAll(workspaceId: string) {
+  async findAll(
+    workspaceId: string,
+    status?: string,
+    severity?: string,
+    priority?: string,
+    assigneeId?: string,
+    search?: string,
+    limit = 100,
+    offset = 0,
+  ) {
+    const where: any = { workspaceId, deletedAt: null };
+
+    if (status) where.status = status;
+    if (severity) where.severity = severity;
+    if (priority) where.priority = priority;
+    if (assigneeId) where.assigneeId = assigneeId;
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     return this.prisma.incident.findMany({
-      where: { workspaceId },
+      where,
       include: { assignee: true },
       orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
     });
   }
 

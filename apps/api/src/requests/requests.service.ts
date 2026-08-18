@@ -20,11 +20,33 @@ export class RequestsService {
     });
   }
 
-  async findAll(workspaceId: string) {
+  async findAll(
+    workspaceId: string,
+    status?: string,
+    priority?: string,
+    type?: string,
+    search?: string,
+    limit = 100,
+    offset = 0,
+  ) {
+    const where: any = { workspaceId, deletedAt: null };
+
+    if (status) where.status = status;
+    if (priority) where.priority = priority;
+    if (type) where.type = type;
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     return this.prisma.request.findMany({
-      where: { workspaceId },
+      where,
       include: { requester: true, approvals: { include: { approver: true } } },
       orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
     });
   }
 

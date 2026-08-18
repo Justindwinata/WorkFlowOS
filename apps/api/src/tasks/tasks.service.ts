@@ -30,9 +30,46 @@ export class TasksService {
     return task;
   }
 
-  async findAll(projectId?: string, workspaceId?: string, limit = 100, offset = 0) {
+  async findAll(
+    projectId?: string,
+    workspaceId?: string,
+    limit = 100,
+    offset = 0,
+    status?: string,
+    priority?: string,
+    assigneeId?: string,
+    search?: string,
+  ) {
+    const where: any = {
+      project: { workspaceId },
+      deletedAt: null,
+    };
+
+    if (projectId) {
+      where.projectId = projectId;
+    }
+
+    if (status) {
+      where.status = status;
+    }
+
+    if (priority) {
+      where.priority = priority;
+    }
+
+    if (assigneeId) {
+      where.assignments = { some: { userId: assigneeId } };
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     return this.prisma.task.findMany({
-      where: projectId ? { projectId } : { project: { workspaceId } },
+      where,
       include: {
         assignments: { include: { user: true } },
         creator: { select: { id: true, username: true } },
