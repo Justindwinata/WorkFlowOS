@@ -3,7 +3,7 @@ import { useAuthStore } from '@/lib/auth-store';
 import { useRouter } from 'next/navigation';
 
 export function useAuth() {
-  const { user, isAuthenticated, logout, login, register } = useAuthStore();
+  const { user, isAuthenticated, logout, login, register, verify2FALogin } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -13,6 +13,10 @@ export function useAuth() {
 
   const handleLogin = async (email: string, password: string) => {
     await login(email, password);
+  };
+
+  const handleVerify2FALogin = async (token: string) => {
+    await verify2FALogin(token);
     router.push('/dashboard');
   };
 
@@ -26,6 +30,7 @@ export function useAuth() {
     isAuthenticated,
     logout: handleLogout,
     login: handleLogin,
+    verify2FALogin: handleVerify2FALogin,
     register: handleRegister,
   };
 }

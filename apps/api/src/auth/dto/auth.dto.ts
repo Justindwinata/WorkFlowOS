@@ -50,6 +50,16 @@ export class RefreshTokenDto {
   refreshToken?: string;
 }
 
+export class Verify2FALoginDto {
+  @ApiProperty({ example: 'usr_123' })
+  @IsString()
+  userId: string;
+
+  @ApiProperty({ example: '123456' })
+  @IsString()
+  token: string;
+}
+
 export class ChangePasswordDto {
   @ApiProperty()
   @IsString()

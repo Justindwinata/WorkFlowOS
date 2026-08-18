@@ -7,6 +7,22 @@ import { TotpService } from './totp.service';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 
+export type LoginResult =
+  | { requires2FA: true; userId: string; email: string; message: string }
+  | {
+      user: {
+        id: string;
+        email: string;
+        username: string;
+        firstName: string | null;
+        lastName: string | null;
+        role: string;
+        permissions: string[];
+      };
+      accessToken: string;
+      refreshToken: string;
+    };
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -91,7 +107,7 @@ export class AuthService {
     };
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto): Promise<LoginResult> {
     const lockKey = `login:${dto.email}`;
     if (this.accountSecurity.isLocked(lockKey)) {
       throw new UnauthorizedException('Akun terkunci sementara setelah terlalu banyak percobaan gagal');
@@ -290,5 +306,49 @@ export class AuthService {
       throw new UnauthorizedException('Kode TOTP tidak valid');
     }
     return { valid: true, message: 'Kode valid' };
+  }
+
+  async verify2FALogin(userId: string, token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { role: { include: { permissions: true } } },
+    });
+
+    if (!user || user.status !== 'active' || user.deletedAt) {
+      throw new UnauthorizedException('User tidak ditemukan atau tidak aktif');
+    }
+
+    if (!user.totpSecret) {
+      throw new UnauthorizedException('TOTP belum diaktifkan');
+    }
+
+    const valid = this.totpService.verifyToken(user.totpSecret, token);
+    if (!valid) {
+      throw new UnauthorizedException('Kode TOTP tidak valid');
+    }
+
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      username: user.username,
+      roleId: user.roleId,
+      workspaceId: user.workspaceId,
+      version: user.tokenVersion,
+    };
+
+    const tokens = await this.tokenService.generateTokenPair(payload);
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role.name,
+        permissions: (user.role.permissions as any).map((p: any) => p.name),
+      },
+      ...tokens,
+    };
   }
 }

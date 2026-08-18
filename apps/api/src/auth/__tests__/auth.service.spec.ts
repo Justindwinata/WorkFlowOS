@@ -152,13 +152,13 @@ describe('AuthService', () => {
       });
 
       const result = await service.login({ email: 'test@test.com', password: 'password123' });
-      expect(result.accessToken).toBeDefined();
-      expect(result.refreshToken).toBeDefined();
-      expect(result.user).toBeDefined();
-      expect(result.require2FA).toBeUndefined();
+      expect((result as any).accessToken).toBeDefined();
+      expect((result as any).refreshToken).toBeDefined();
+      expect((result as any).user).toBeDefined();
+      expect((result as any).requires2FA).toBeUndefined();
     });
 
-    it('should return require2FA when user has TOTP enabled', async () => {
+    it('should return requires2FA when user has TOTP enabled', async () => {
       mockPrisma.user.findUnique.mockResolvedValue({
         id: 'user-1',
         email: 'test@test.com',
@@ -173,11 +173,11 @@ describe('AuthService', () => {
       });
 
       const result = await service.login({ email: 'test@test.com', password: 'password123' });
-      expect(result.require2FA).toBe(true);
-      expect(result.userId).toBe('user-1');
-      expect(result.email).toBe('test@test.com');
-      expect(result.accessToken).toBeUndefined();
-      expect(result.refreshToken).toBeUndefined();
+      expect((result as any).requires2FA).toBe(true);
+      expect((result as any).userId).toBe('user-1');
+      expect((result as any).email).toBe('test@test.com');
+      expect((result as any).accessToken).toBeUndefined();
+      expect((result as any).refreshToken).toBeUndefined();
     });
   });
 

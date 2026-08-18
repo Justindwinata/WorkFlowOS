@@ -14,7 +14,7 @@ import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { TotpService } from './totp.service';
-import { RegisterDto, LoginDto, RefreshTokenDto, ChangePasswordDto } from './dto/auth.dto';
+import { RegisterDto, LoginDto, RefreshTokenDto, ChangePasswordDto, Verify2FALoginDto } from './dto/auth.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 
 const REFRESH_COOKIE = 'refresh_token';
@@ -47,7 +47,7 @@ export class AuthController {
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(dto);
     
-    if (result.require2FA) {
+    if ('requires2FA' in result) {
       return { require2FA: true, userId: result.userId, email: result.email };
     }
     
@@ -132,6 +132,17 @@ export class AuthController {
   @ApiOperation({ summary: 'Verify a TOTP code' })
   async verify2FA(@Req() req: any, @Body() dto: { secret: string; token: string }) {
     return this.authService.verify2FACode(req.user.id, dto.secret, dto.token);
+  }
+
+  @Post('2fa/login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Verifikasi TOTP untuk menyelesaikan login 2FA' })
+  @ApiResponse({ status: 200, description: 'Login 2FA berhasil' })
+  @ApiResponse({ status: 401, description: 'Kode TOTP tidak valid' })
+  async verify2FALogin(@Body() dto: Verify2FALoginDto, @Res({ passthrough: true }) res: Response) {
+    const result = await this.authService.verify2FALogin(dto.userId, dto.token);
+    this.setRefreshCookie(res, result.refreshToken);
+    return { user: result.user, accessToken: result.accessToken };
   }
 
   private setRefreshCookie(res: Response, token: string) {
