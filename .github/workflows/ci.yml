@@ -30,8 +30,18 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
-      - run: cd apps/api && npm run test
-      - run: cd apps/web && npm test
+      - run: cd apps/api && npm run test -- --coverage --coverageReporters=text-lcov
+      - run: cd apps/web && npm test -- --coverage
+      - name: Upload API coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-coverage
+          path: apps/api/coverage/
+      - name: Upload Web coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-coverage
+          path: apps/web/coverage/
 
   build:
     runs-on: ubuntu-latest
@@ -64,6 +74,13 @@ jobs:
             exit 1
           fi
           echo "No .env files committed"
+      - name: Check for hardcoded secrets
+        run: |
+          if grep -r "password.*=.*["'\"]" --include="*.ts" --include="*.js" apps/ 2>/dev/null | grep -v ".spec.ts" | grep -v "hashed" | grep -v "test" | grep -v "REDACTED"; then
+            echo "ERROR: Potential hardcoded password found"
+            exit 1
+          fi
+          echo "No hardcoded secrets found"
 
   docker:
     runs-on: ubuntu-latest
@@ -71,4 +88,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
-      - run: docker compose config
+      - name: Verify docker-compose config
+        run: docker compose -f docker-compose.prod.yml config
+      - name: Verify API Dockerfile syntax
+        run: docker build -f docker/api.Dockerfile --target production --dry-run .
+      - name: Verify Web Dockerfile syntax
+        run: docker build -f docker/web.Dockerfile --target production --dry-run .
