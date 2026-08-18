@@ -35,10 +35,12 @@ export default function MyWorkPage() {
 
   const now = new Date();
   const overdue = myTasks.filter(
-    (t: Task) => t.dueDate && new Date(t.dueDate) < now && !['done', 'cancelled'].includes(t.status),
+    (t) => t.dueDate && new Date(t.dueDate) < now && !['done', 'cancelled'].includes(t.status),
   );
-  const inProgress = myTasks.filter((t: Task) => ['in_progress', 'review'].includes(t.status));
-  const pending = myTasks.filter((t: Task) => ['backlog', 'todo'].includes(t.status));
+  const inProgress = myTasks.filter((t) => ['in_progress', 'review'].includes(t.status));
+  const pending = myTasks.filter((t) => ['backlog', 'todo'].includes(t.status));
+
+  if (isLoading) return <LoadingState message="Memuat tugas Anda..." />;
 
   if (isLoading) return <LoadingState message="Memuat tugas Anda..." />;
   if (error) return <ErrorState title="Data belum dapat dimuat" onRetry={() => {}} />;
