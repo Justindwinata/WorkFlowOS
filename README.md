@@ -8,99 +8,110 @@ WorkFlowOS is a comprehensive enterprise platform designed to centralize company
 
 ## Current Status
 
-**Phase 2 Complete** - Production-ready prototype with:
-- �� Monorepo architecture (Next.js + NestJS)
-- �� PostgreSQL + Prisma ORM
-- �� JWT Authentication + RBAC
-- �� Multi-workspace support
-- �� Soft delete for core entities
-- �� SLA enforcement engine
-- �� Real-time notifications (SSE)
-- �� TanStack Query data layer
-- �� Complete frontend modules
-- �� Live dashboard
-- �� 18 backend tests passing
-- �� Backend integration tests
-- �� Playwright E2E tests configured
+Release Candidate - Enterprise work management platform with:
+
+- Monorepo architecture (Next.js + NestJS)
+- PostgreSQL + Prisma ORM
+- JWT Authentication + Refresh tokens + TOTP 2FA
+- RBAC (Admin / Manager / Member / Viewer)
+- Multi-workspace isolation
+- Soft delete for core entities
+- SLA enforcement engine + business calendar
+- Real-time notifications (SSE)
+- TanStack Query data layer
+- Complete frontend modules
+- Live dashboard, global search, filters, pagination
+- 232 automated tests (154 backend + 78 frontend)
+- Playwright E2E configured (Chromium, Firefox, WebKit)
+- Health/Readiness/Startup probes
+- Structured logging + security headers + CORS + rate limiting
+- Production Dockerfiles + staging config
 
 ## Tech Stack
 
 ### Frontend
 - Next.js 14 (App Router)
 - TypeScript
-- Tailwind CSS
-- shadcn/ui components
+- Tailwind CSS + shadcn/ui-style components
 - React Hook Form + Zod
 - TanStack Query
 - Zustand (auth state)
-- Axios with JWT interceptors
+- Axios with JWT interceptors + 401 refresh retry
+- Vitest (unit) + Playwright (E2E)
 
 ### Backend
 - NestJS 10
 - TypeScript
 - PostgreSQL 15
-- Prisma ORM
-- JWT (access + refresh tokens)
-- Passport.js
-- RBAC with guards
-- SLA enforcement engine
-- Server-Sent Events (SSE)
+- Prisma ORM (deploy migrations, deterministic seed)
+- JWT (access 15m + refresh 7d, httpOnly cookie)
+- TOTP (speakeasy, QR enrollment)
+- RBAC + workspace-isolation guards
+- Per-user throttling (60 req/min default)
+- Helmet + CORS + structured logging
+- Jest
 
 ### Infrastructure
 - Docker Compose (PostgreSQL, Redis)
-- GitHub Actions CI
+- GitHub Actions CI (lint, typecheck, tests, build, Docker config)
 - Turbo monorepo
+- Vercel (web) + standalone API container
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js 20+
-- PostgreSQL 15+ (or Docker)
+- PostgreSQL 15+ running locally (or Docker)
+- Redis 7+ running locally (or Docker)
 - npm 9+
 
-### Quick Start
+### Quick Start (Recommended)
 
 ```bash
 # Clone
 git clone https://github.com/Justindwinata/WorkFlowOS.git
 cd WorkFlowOS
 
-# Install dependencies
-npm install
+# First-time setup: install deps, run migrations, seed
+make setup
 
-# Setup environment
-cp .env.example .env
-# Edit .env with your database URL and secrets
-
-# Start database
-docker-compose up -d
-
-# Run migrations
-cd apps/api
-npx prisma migrate dev --name init
-
-# Seed database
-npm run seed
-
-# Start development servers
-# Terminal 1 - API
-cd apps/api && npm run dev
-
-# Terminal 2 - Web
-cd apps/web && npm run dev
+# Daily development: start API + Web with health-check orchestration
+make dev
 ```
+
+`make setup` is idempotent and safe to re-run; it ensures dependencies are installed,
+the database is migrated, and seed data is present.
+
+`make dev` starts the API on `:3001` and Web on `:3000`, waits for the API
+`/health` endpoint, then launches the web server.
 
 ### Access
-- Frontend: http://localhost:3000
-- API: http://localhost:3001
-- API Docs: http://localhost:3001/api
 
-### Default Credentials
+- Frontend: http://localhost:3000
+- API:      http://localhost:3001
+- API Docs: http://localhost:3001/api
+- Health:   http://localhost:3001/health
+- Readiness: http://localhost:3001/readiness
+
+### Default Credentials (seeded)
+
 ```
-Email: admin@workflowos.id
+Email:    admin@workflowos.id
 Username: admin
 Password: Admin123!
-Role: Admin
+Role:     Admin
+```
+
+A second workspace (Beta Corp) and additional users are seeded to exercise
+multi-workspace isolation and RBAC.
+
+### Manual Setup (without `make`)
+
+```bash
+npm ci
+cp apps/api/.env.example apps/api/.env  # if not already present
+cd apps/api && npx prisma migrate deploy && npm run seed
+cd ../.. && npm run dev
 ```
 
 ## Project Structure
@@ -197,32 +208,40 @@ WorkFlowOS/
 ### Commands
 
 ```bash
-# Root level
-npm run dev          # Start all dev servers
-npm run build        # Build all apps
-npm run test         # Run all tests
-npm run lint         # Lint all apps
-npm run format       # Format with Prettier
-npm run clean        # Clean build artifacts
+# Root level (via turbo)
+make dev           # Start API + Web with health checks (recommended)
+make setup         # First-time install + migrate + seed
+npm run dev        # Start all dev servers (alias for make dev)
+npm run build      # Build all apps
+npm run test       # Run all unit tests (232 tests)
+npm run lint       # Lint all apps
+npm run format     # Format with Prettier
+npm run clean      # Clean build artifacts
+
+# Database
+make db-migrate    # Run migrations (npx prisma migrate deploy)
+make db-seed       # Seed database
+make db-reset      # Reset DB + migrate + seed
+make db-status     # Check migration status
 
 # API
 cd apps/api
-npm run dev          # Dev server with watch
-npm run build        # Build
-npm run test         # Unit tests
-npm run test:watch   # Watch mode
-npm run test:cov     # Coverage
-npm run lint         # ESLint
-npm run seed         # Seed database
+npm run dev        # Dev server with watch
+npm run build      # Build
+npm run test       # Unit tests (154 tests)
+npm run test:watch # Watch mode
+npm run test:cov   # Coverage
+npm run lint       # ESLint
+npm run seed       # Seed database
 npm run seed:validate # Validate seed
 
 # Web
 cd apps/web
-npm run dev          # Next.js dev server
-npm run build        # Production build
-npm run test         # Vitest
-npm run test:e2e     # Playwright E2E
-npm run lint         # ESLint
+npm run dev        # Next.js dev server
+npm run build      # Production build
+npm run test       # Vitest (78 tests)
+npm run test:e2e   # Playwright E2E
+npm run lint       # ESLint
 ```
 
 ### Database Commands
