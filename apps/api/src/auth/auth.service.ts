@@ -185,7 +185,8 @@ export class AuthService {
 
       const tokens = await this.tokenService.generateTokenPair(payload);
       return tokens;
-    } catch {
+    } catch (e) {
+      if (e instanceof UnauthorizedException) throw e;
       throw new UnauthorizedException('Refresh token tidak valid');
     }
   }

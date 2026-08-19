@@ -204,6 +204,52 @@ describe('AuthService', () => {
         service.refresh('invalid'),
       ).rejects.toThrow('Refresh token tidak valid');
     });
+
+    it('should reject refresh token after sessions revoked (tokenVersion changed)', async () => {
+      const payload = {
+        sub: 'user-1',
+        email: 'test@test.com',
+        username: 'test',
+        roleId: 'role-1',
+        workspaceId: 'ws-1',
+        version: 1,
+      };
+      const { refreshToken } = await tokenService.generateTokenPair(payload);
+
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        status: 'active',
+        deletedAt: null,
+        tokenVersion: 2, // bumped by logout/change-password
+      });
+
+      await expect(service.refresh(refreshToken)).rejects.toThrow(
+        'Refresh token telah di-revoke',
+      );
+    });
+
+    it('should reject refresh token for deleted user', async () => {
+      const payload = {
+        sub: 'user-1',
+        email: 'test@test.com',
+        username: 'test',
+        roleId: 'role-1',
+        workspaceId: 'ws-1',
+        version: 1,
+      };
+      const { refreshToken } = await tokenService.generateTokenPair(payload);
+
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        status: 'active',
+        deletedAt: new Date(),
+        tokenVersion: 1,
+      });
+
+      await expect(service.refresh(refreshToken)).rejects.toThrow(
+        'Refresh token tidak valid',
+      );
+    });
   });
 
   describe('Logout', () => {
