@@ -21,6 +21,7 @@ describe('Health Service - Regression Tests', () => {
           useValue: {
             get: jest.fn((key: string) => {
               if (key === 'npm_package_version') return '0.1.0';
+              if (key === 'REDIS_URL') return 'redis://localhost:6379';
               return null;
             }),
           },
@@ -29,6 +30,7 @@ describe('Health Service - Regression Tests', () => {
     }).compile();
 
     service = module.get<HealthService>(HealthService);
+    jest.spyOn(service as any, 'checkRedis').mockResolvedValue(undefined);
   });
 
   describe('Liveness Check', () => {
@@ -71,6 +73,14 @@ describe('Health Service - Regression Tests', () => {
 
       expect(result.status).toBe('not_ready');
       expect(result.checks.database).toBe('down');
+    });
+
+    it('returns ready when redis is up', async () => {
+      prisma.$queryRaw.mockResolvedValueOnce(undefined); // DB
+      prisma.$queryRaw.mockResolvedValueOnce([{ count: 5 }]); // Migrations
+
+      const result = await service.readiness();
+      expect(result.checks.redis).toBe('up');
     });
   });
 
