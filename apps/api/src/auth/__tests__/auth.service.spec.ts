@@ -308,5 +308,17 @@ describe('AuthService', () => {
         UnauthorizedException,
       );
     });
+
+    it('should throw UnauthorizedException if 2FA login verification called but 2FA not enabled', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        status: 'active',
+        totpSecret: null,
+      });
+
+      await expect(service.verify2FALogin('user-1', '123456')).rejects.toThrow(
+        'TOTP belum diaktifkan',
+      );
+    });
   });
 });
