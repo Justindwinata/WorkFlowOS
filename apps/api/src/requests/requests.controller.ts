@@ -38,20 +38,24 @@ export class RequestsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Detail request' })
-  async findOne(@Param('id') id: string) {
-    return this.requestsService.findOne(id);
+  async findOne(@Param('id') id: string, @CurrentUser('workspaceId') workspaceId: string) {
+    return this.requestsService.findOne(id, workspaceId);
   }
 
   @Patch(':id/status')
   @ApiOperation({ summary: 'Update status request' })
-  async updateStatus(@Param('id') id: string, @Body() dto: UpdateRequestStatusDto) {
-    return this.requestsService.updateStatus(id, dto);
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateRequestStatusDto,
+    @CurrentUser('workspaceId') workspaceId: string,
+  ) {
+    return this.requestsService.updateStatus(id, dto, workspaceId);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Hapus request' })
-  async delete(@Param('id') id: string) {
-    return this.requestsService.delete(id);
+  async delete(@Param('id') id: string, @CurrentUser('workspaceId') workspaceId: string) {
+    return this.requestsService.delete(id, workspaceId);
   }
 }

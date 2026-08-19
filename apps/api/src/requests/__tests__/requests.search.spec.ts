@@ -9,6 +9,7 @@ describe('Requests Service - Search & Filter Regression Tests', () => {
     request: {
       findMany: jest.fn(),
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
@@ -158,6 +159,40 @@ describe('Requests Service - Search & Filter Regression Tests', () => {
       expect(callArgs.include).toBeDefined();
       expect(callArgs.include.requester).toBeDefined();
       expect(callArgs.include.approvals).toBeDefined();
+    });
+  });
+
+  describe('Workspace Isolation', () => {
+    it('scopes findOne by workspace', async () => {
+      mockPrisma.request.findFirst.mockResolvedValue(null);
+
+      await expect(service.findOne('req-1', 'ws-1')).rejects.toThrow('Request tidak ditemukan');
+      expect(mockPrisma.request.findFirst).toHaveBeenCalledWith({
+        where: { id: 'req-1', workspaceId: 'ws-1' },
+        include: { requester: true, approvals: { include: { approver: true } } },
+      });
+    });
+
+    it('rejects status update of request in another workspace', async () => {
+      mockPrisma.request.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.updateStatus('req-2', { status: 'approved' }, 'ws-1'),
+      ).rejects.toThrow('Request tidak ditemukan');
+      expect(mockPrisma.request.findFirst).toHaveBeenCalledWith({
+        where: { id: 'req-2', workspaceId: 'ws-1' },
+      });
+      expect(mockPrisma.request.update).not.toHaveBeenCalled();
+    });
+
+    it('rejects delete of request in another workspace', async () => {
+      mockPrisma.request.findFirst.mockResolvedValue(null);
+
+      await expect(service.delete('req-3', 'ws-2')).rejects.toThrow('Request tidak ditemukan');
+      expect(mockPrisma.request.findFirst).toHaveBeenCalledWith({
+        where: { id: 'req-3', workspaceId: 'ws-2' },
+      });
+      expect(mockPrisma.request.delete).not.toHaveBeenCalled();
     });
   });
 });

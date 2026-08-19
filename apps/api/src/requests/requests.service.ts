@@ -50,9 +50,9 @@ export class RequestsService {
     });
   }
 
-  async findOne(id: string) {
-    const request = await this.prisma.request.findUnique({
-      where: { id },
+  async findOne(id: string, workspaceId: string) {
+    const request = await this.prisma.request.findFirst({
+      where: { id, workspaceId },
       include: { requester: true, approvals: { include: { approver: true } } },
     });
 
@@ -63,9 +63,9 @@ export class RequestsService {
     return request;
   }
 
-  async updateStatus(id: string, dto: UpdateRequestStatusDto) {
-    const request = await this.prisma.request.findUnique({
-      where: { id },
+  async updateStatus(id: string, dto: UpdateRequestStatusDto, workspaceId: string) {
+    const request = await this.prisma.request.findFirst({
+      where: { id, workspaceId },
     });
 
     if (!request) {
@@ -79,9 +79,9 @@ export class RequestsService {
     });
   }
 
-  async delete(id: string) {
-    const request = await this.prisma.request.findUnique({
-      where: { id },
+  async delete(id: string, workspaceId: string) {
+    const request = await this.prisma.request.findFirst({
+      where: { id, workspaceId },
     });
 
     if (!request) {
