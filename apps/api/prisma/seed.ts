@@ -72,7 +72,8 @@ async function main() {
     data: { name: 'Acme Corp', slug: 'acme-corp' },
   });
 
-  const hashedPassword = await bcrypt.hash('Admin123!', 10);
+  const password = process.env.SEED_ADMIN_PASSWORD || 'Admin123!';
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const admin = await prisma.user.upsert({
     where: { email: 'admin@workflowos.id' },
@@ -317,7 +318,7 @@ async function main() {
   console.log(`- User: ${admin.email} (admin)`);
   console.log(`- User: ${manager.email} (manager)`);
   console.log(`- User: ${member.email} (member)`);
-  console.log(`- Password: Admin123! (all demo accounts)`);
+  console.log(`- Password: ${password} (all demo accounts)`);
 }
 
 main()
