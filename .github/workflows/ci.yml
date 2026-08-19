@@ -79,6 +79,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - run: cd apps/api && npx prisma generate
       - run: cd apps/api && npm run build
       - run: cd apps/web && npm run build
 
