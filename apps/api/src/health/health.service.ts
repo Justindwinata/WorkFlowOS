@@ -98,10 +98,14 @@ export class HealthService {
     if (!this.redisClient) {
       this.redisClient = createClient({
         url: this.config.get('REDIS_URL'),
-        socket: { connectTimeout: 3000 },
+        socket: { connectTimeout: 3000, reconnectStrategy: (retries) => Math.min(retries * 50, 500) },
       });
-      await this.redisClient.connect();
     }
+    if (this.redisClient.isReady) {
+      await this.redisClient.ping();
+      return;
+    }
+    await this.redisClient.connect();
     await this.redisClient.ping();
   }
 
