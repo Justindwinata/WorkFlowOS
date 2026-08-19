@@ -1,11 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 
-interface Metric {
-  name: string;
-  count: number;
-}
-
 @Injectable()
 export class MetricsService implements OnModuleInit {
   private readonly logger = new Logger(MetricsService.name);

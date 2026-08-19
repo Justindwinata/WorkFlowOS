@@ -1,7 +1,7 @@
-import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './interfaces/jwt.interface';
 import { TokenService } from './token.service';
-import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/auth.dto';
+import { RegisterDto, LoginDto } from './dto/auth.dto';
 import { AccountSecurityService } from './account-security.service';
 import { TotpService } from './totp.service';
 import { PrismaService } from '../prisma/prisma.service';

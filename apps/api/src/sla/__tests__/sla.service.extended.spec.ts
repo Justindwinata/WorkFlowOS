@@ -4,7 +4,6 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 describe('SLA Service - Regression Tests', () => {
   let service: SlaService;
-  let prisma: PrismaService;
 
   const mockPrisma = {
     sLA: {
@@ -23,7 +22,6 @@ describe('SLA Service - Regression Tests', () => {
     }).compile();
 
     service = module.get<SlaService>(SlaService);
-    prisma = module.get<PrismaService>(PrismaService);
 
     jest.clearAllMocks();
   });

@@ -7,7 +7,6 @@ const dayjs = require('dayjs');
 
 describe('SlaEnforcementService', () => {
   let service: SlaEnforcementService;
-  let slaService: SlaService;
 
   const mockPrisma = {
     incident: {

@@ -4,7 +4,6 @@ import {
   Post,
   Patch,
   Delete,
-  Body,
   Param,
   UseGuards,
   HttpCode,
@@ -12,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { NotificationsService } from './notifications.service';
-import { MarkReadDto } from './dto/notification.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
@@ -24,33 +22,33 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Daftar semua notifikasi user' })
+  @ApiOperation({ summary: 'List all notifications for current user' })
   async findAll(@CurrentUser('id') userId: string) {
     return this.notificationsService.findAll(userId);
   }
 
   @Get('unread')
-  @ApiOperation({ summary: 'Daftar notifikasi belum dibaca' })
+  @ApiOperation({ summary: 'List unread notifications for current user' })
   async findUnread(@CurrentUser('id') userId: string) {
     return this.notificationsService.findUnread(userId);
   }
 
   @Patch(':id/read')
-  @ApiOperation({ summary: 'Tandai notifikasi sebagai dibaca' })
+  @ApiOperation({ summary: 'Mark notification as read' })
   async markAsRead(@Param('id') id: string, @CurrentUser('id') userId: string) {
     return this.notificationsService.markAsRead(id, userId);
   }
 
   @Post('mark-all-read')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Tandai semua notifikasi sebagai dibaca' })
+  @ApiOperation({ summary: 'Mark all notifications as read' })
   async markAllAsRead(@CurrentUser('id') userId: string) {
     return this.notificationsService.markAllAsRead(userId);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Hapus notifikasi' })
+  @ApiOperation({ summary: 'Delete notification' })
   async delete(@Param('id') id: string, @CurrentUser('id') userId: string) {
     return this.notificationsService.delete(id, userId);
   }

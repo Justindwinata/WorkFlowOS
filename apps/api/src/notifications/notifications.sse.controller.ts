@@ -1,7 +1,6 @@
 import { Controller, Sse, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Observable, interval, switchMap, of, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, interval, switchMap } from 'rxjs';
 import { NotificationsService } from './notifications.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';

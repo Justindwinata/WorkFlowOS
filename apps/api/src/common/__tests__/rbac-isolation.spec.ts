@@ -86,7 +86,6 @@ describe('RBAC Regression Coverage', () => {
 describe('Workspace Isolation', () => {
   let guard: WorkspacePermissionsGuard;
   let reflector: Reflector;
-  let prisma: PrismaService;
 
   const mockPrisma = {
     userWorkspace: {
@@ -106,7 +105,6 @@ describe('Workspace Isolation', () => {
 
     guard = module.get<WorkspacePermissionsGuard>(WorkspacePermissionsGuard);
     reflector = module.get<Reflector>(Reflector);
-    prisma = module.get<PrismaService>(PrismaService);
   });
 
   const mockContext = (user: any, params: any = {}, query: any = {}): ExecutionContext => {

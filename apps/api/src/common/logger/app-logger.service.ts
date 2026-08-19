@@ -36,9 +36,9 @@ export class AppLogger extends Logger {
     const level = this.isErrorStatus(statusCode) ? 'error' : 'log';
     const message = `${method} ${url} ${duration}ms`;
     if (level === 'error') {
-      this.error(message);
+      this.error(message, undefined, context);
     } else {
-      this.log(message);
+      this.log(message, context);
     }
   }
 

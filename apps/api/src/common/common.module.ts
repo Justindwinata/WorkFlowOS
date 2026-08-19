@@ -4,7 +4,5 @@ import { TransactionalService } from './utils/transactional.service';
 
 @Module({
   imports: [PrismaModule],
-  providers: [TransactionalService],
-  exports: [TransactionalService],
 })
 export class CommonModule {}

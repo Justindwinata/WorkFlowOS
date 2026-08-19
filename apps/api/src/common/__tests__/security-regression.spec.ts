@@ -1,13 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ExecutionContext, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { PermissionsGuard } from '../guards/permissions.guard';
 import { WorkspaceIsolationGuard } from '../guards/workspace-isolation.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { TokenService } from '../../auth/token.service';
-import { PrismaService } from '../../prisma/prisma.service';
 
 describe('Security Regression Tests', () => {
   describe('PermissionsGuard (RBAC)', () => {
