@@ -23,9 +23,8 @@ export function useCreateUser() {
 // Tasks hooks
 export function useTasks(projectId?: string) {
   return useQuery({
-    queryKey: QUERY_KEYS.TASKS,
+    queryKey: projectId ? [...QUERY_KEYS.TASKS, { projectId }] : QUERY_KEYS.TASKS,
     queryFn: () => apiClient.get<any[]>('/tasks', { params: projectId ? { projectId } : undefined }),
-    enabled: !!projectId || true,
   });
 }
 
