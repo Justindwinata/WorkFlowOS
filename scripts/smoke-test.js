@@ -5,13 +5,16 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 const checks = [
   { path: '/health', description: 'API health endpoint' },
+  { path: '/readiness', description: 'API readiness endpoint' },
+  { path: '/startup', description: 'API startup endpoint' },
   { path: '/api', description: 'Swagger API documentation' },
 ];
 
 async function check(url, description) {
   return new Promise((resolve) => {
     http.get(url, (res) => {
-      resolve({ url, description, status: res.statusCode, ok: res.statusCode < 500 });
+      // Readiness/Startup probes return 200 or 503, both are "running" if body matches
+      resolve({ url, description, status: res.statusCode, ok: res.statusCode === 200 });
     }).on('error', (e) => {
       resolve({ url, description, error: e.message, ok: false });
     });
