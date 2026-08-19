@@ -1,6 +1,10 @@
+import { API_BASE_URL } from '@config';
+
+const HEALTH_URL = `${API_BASE_URL}/health`;
+
 export async function checkApiHealth(): Promise<boolean> {
   try {
-    const response = await fetch('/api/health', {
+    const response = await fetch(HEALTH_URL, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });

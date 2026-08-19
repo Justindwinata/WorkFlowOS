@@ -1,4 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { API_BASE_URL } from '@config';
+
+const HEALTH_URL = `${API_BASE_URL}/health`;
 
 export function useApiHealth() {
   const [isHealthy, setIsHealthy] = useState<boolean | null>(null);
@@ -7,7 +10,7 @@ export function useApiHealth() {
 
   const checkHealth = useCallback(async () => {
     try {
-      const response = await fetch('/api/health', {
+      const response = await fetch(HEALTH_URL, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -46,7 +49,7 @@ export function useBackendStatus() {
 
   const checkBackend = useCallback(async () => {
     try {
-      const response = await fetch('/api/health', {
+      const response = await fetch(HEALTH_URL, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(5000),
