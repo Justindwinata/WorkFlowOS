@@ -4,10 +4,14 @@ import { create } from 'zustand';
 import { apiClient } from '@/lib/api-client';
 import { User } from '@types';
 
+export type AuthStatus = 'checking' | 'authenticated' | 'unauthenticated';
+
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  status: AuthStatus;
+  initError: string | null;
   // 2FA state
   require2FA: boolean;
   twoFactorUserId: string | null;
@@ -19,33 +23,52 @@ interface AuthState {
   refreshUser: () => Promise<void>;
   setUser: (user: User | null) => void;
   clear2FA: () => void;
+  clearInitError: () => void;
+}
+
+function resolvedState(authStatus: AuthStatus, user: User | null, extra?: Partial<AuthState>): Partial<AuthState> {
+  return {
+    user,
+    isAuthenticated: authStatus === 'authenticated',
+    isLoading: authStatus === 'checking',
+    status: authStatus,
+    initError: null,
+    ...extra,
+  };
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
+  status: 'checking',
+  initError: null,
   require2FA: false,
   twoFactorUserId: null,
   twoFactorEmail: null,
 
   login: async (email: string, password: string) => {
     const response = await apiClient.post<{ user: User; accessToken: string } | { require2FA: boolean; userId: string; email: string }>('/auth/login', { email, password });
-    
+
     if ('require2FA' in response) {
-      set({ 
-        require2FA: true, 
-        twoFactorUserId: response.userId, 
+      set({
+        require2FA: true,
+        twoFactorUserId: response.userId,
         twoFactorEmail: response.email,
-        isLoading: false 
+        ...resolvedState('unauthenticated', null),
       });
       return;
     }
-    
+
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', response.accessToken);
     }
-    set({ user: response.user, isAuthenticated: true, isLoading: false, require2FA: false, twoFactorUserId: null, twoFactorEmail: null });
+    set({
+      ...resolvedState('authenticated', response.user),
+      require2FA: false,
+      twoFactorUserId: null,
+      twoFactorEmail: null,
+    });
   },
 
   verify2FALogin: async (token: string) => {
@@ -53,13 +76,18 @@ export const useAuthStore = create<AuthState>()((set) => ({
     if (!twoFactorUserId) {
       throw new Error('No 2FA session');
     }
-    
+
     const response = await apiClient.post<{ user: User; accessToken: string }>('/auth/2fa/login', { userId: twoFactorUserId, token });
-    
+
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', response.accessToken);
     }
-    set({ user: response.user, isAuthenticated: true, isLoading: false, require2FA: false, twoFactorUserId: null, twoFactorEmail: null });
+    set({
+      ...resolvedState('authenticated', response.user),
+      require2FA: false,
+      twoFactorUserId: null,
+      twoFactorEmail: null,
+    });
   },
 
   register: async (data) => {
@@ -67,7 +95,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', response.accessToken);
     }
-    set({ user: response.user, isAuthenticated: true, isLoading: false });
+    set(resolvedState('authenticated', response.user));
   },
 
   logout: async () => {
@@ -79,31 +107,39 @@ export const useAuthStore = create<AuthState>()((set) => ({
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
     }
-    set({ user: null, isAuthenticated: false, isLoading: false, require2FA: false, twoFactorUserId: null, twoFactorEmail: null });
+    set({
+      ...resolvedState('unauthenticated', null),
+      require2FA: false,
+      twoFactorUserId: null,
+      twoFactorEmail: null,
+    });
   },
 
   refreshUser: async () => {
     if (typeof window === 'undefined') {
-      set({ isAuthenticated: false, isLoading: false });
+      set(resolvedState('unauthenticated', null));
       return;
     }
 
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
-      set({ isAuthenticated: false, isLoading: false });
+      set(resolvedState('unauthenticated', null));
       return;
     }
 
     try {
       const user = await apiClient.get<User>('/auth/me');
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch {
+      set(resolvedState('authenticated', user));
+    } catch (error) {
       localStorage.removeItem('accessToken');
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      const message = error instanceof Error ? error.message : 'Gagal memverifikasi sesi';
+      set({ ...resolvedState('unauthenticated', null), initError: message });
     }
   },
 
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-  
+  setUser: (user) => set({ ...resolvedState(user ? 'authenticated' : 'unauthenticated', user) }),
+
   clear2FA: () => set({ require2FA: false, twoFactorUserId: null, twoFactorEmail: null }),
+
+  clearInitError: () => set({ initError: null }),
 }));
