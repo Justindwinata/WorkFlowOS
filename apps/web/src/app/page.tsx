@@ -1,8 +1,32 @@
+'use client';
+
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/auth-store';
+import { BootSplash } from '@/components/BootSplash';
+
 export default function HomePage() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold">WorkFlowOS</h1>
-      <p className="mt-4 text-xl">Enterprise Work Management & Service Operations Platform</p>
-    </main>
-  );
+  const router = useRouter();
+  const { status, initError, refreshUser, clearInitError } = useAuthStore();
+
+  useEffect(() => {
+    if (status !== 'checking') {
+      router.replace(status === 'authenticated' ? '/dashboard' : '/login');
+    }
+  }, [status, router]);
+
+  const handleRetry = useCallback(() => {
+    clearInitError();
+    refreshUser();
+  }, [clearInitError, refreshUser]);
+
+  if (status === 'checking') {
+    return <BootSplash message="Memverifikasi sesi..." />;
+  }
+
+  if (initError) {
+    return <BootSplash error={initError} onRetry={handleRetry} />;
+  }
+
+  return <BootSplash message="Mengalihkan..." />;
 }

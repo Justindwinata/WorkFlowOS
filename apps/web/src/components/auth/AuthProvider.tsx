@@ -2,20 +2,17 @@
 
 import React, { useEffect, ReactNode } from 'react';
 import { useAuthStore } from '@/lib/auth-store';
+import { BootSplash } from '@/components/BootSplash';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { isLoading, refreshUser } = useAuthStore();
+  const { status, refreshUser } = useAuthStore();
 
   useEffect(() => {
     refreshUser();
   }, [refreshUser]);
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent" />
-      </div>
-    );
+  if (status === 'checking') {
+    return <BootSplash message="Inisialisasi aplikasi..." />;
   }
 
   return <>{children}</>;
