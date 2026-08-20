@@ -1,4 +1,4 @@
-.PHONY: help setup dev dev-api dev-web build test lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor
+.PHONY: help setup env dev dev-api dev-web build test lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor validate
 
 ## WorkFlowOS Development Commands
 
@@ -38,7 +38,15 @@ help:
 
 setup:
 	@echo "🚀 Running first-time setup..."
-	npm run setup
+	node scripts/ensure-env.js
+	@make doctor
+	npm ci
+	@echo "🗄️  Running database migrations..."
+	cd apps/api && npx prisma generate && npx prisma migrate deploy
+	@echo "🌱  Seeding database..."
+	cd apps/api && npm run seed
+	@echo "\n✨ WorkFlowOS setup complete!"
+	@echo '   Run "make dev" to start development servers.'
 
 db-migrate:
 	@echo "🗄️  Running database migrations..."
@@ -60,7 +68,13 @@ db-status:
 
 dev:
 	@echo "🚀 Starting WorkFlowOS development servers..."
-	npm run dev
+	node scripts/dev.js
+
+env:
+	@echo "🔧 Initializing local environment file..."
+	node scripts/ensure-env.js
+	@echo "🔍 Validating environment..."
+	node scripts/validate-env.js
 
 dev-api:
 	npm run dev:api
@@ -80,6 +94,9 @@ doctor:
 	@command -v redis-cli >/dev/null 2>&1 || { echo "❌ redis-cli not found (brew install redis)"; exit 1; }
 	@pg_isready -h localhost -p 5432 >/dev/null 2>&1 && echo "✅ PostgreSQL ready (localhost:5432)" || { echo "❌ PostgreSQL not ready — brew services start postgresql@15"; exit 1; }
 	@redis-cli ping 2>/dev/null | grep -q PONG && echo "✅ Redis ready (localhost:6379)" || { echo "❌ Redis not ready — brew services start redis"; exit 1; }
+	@command -v node >/dev/null 2>&1 || { echo "❌ Node.js not found (install Node 20+)"; exit 1; }
+	@node -v 2>/dev/null | grep -qE '^v(2[0-9]|[3-9][0-9])' || { echo "❌ Node.js 20+ required (current: $$(node -v))"; exit 1; }
+	@node scripts/validate-env.js --strict
 	@echo ""
 
 # === Build & Test ===
