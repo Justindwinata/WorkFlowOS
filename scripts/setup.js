@@ -34,11 +34,11 @@ try {
 // 4. Check PostgreSQL
 console.log('🐘 Checking PostgreSQL...');
 try {
-  execSync('pg_isready -U workflowos -h localhost', { stdio: 'ignore' });
-  console.log('✅ PostgreSQL is running');
+  execSync('pg_isready -h localhost -p 5432', { stdio: 'ignore' });
+  console.log('✅ PostgreSQL service responding on port 5432');
 } catch {
-  console.error('❌ PostgreSQL is not running or workflowos user is not available');
-  console.error('   Please ensure PostgreSQL is started via Homebrew: brew services start postgresql@15');
+  console.error('❌ PostgreSQL is not running locally on port 5432');
+  console.error('   Action required: Start PostgreSQL via Homebrew: brew services start postgresql@15');
   process.exit(1);
 }
 
@@ -46,13 +46,14 @@ try {
 console.log('⚡ Checking Redis...');
 try {
   execSync('redis-cli ping', { stdio: 'ignore' });
-  console.log('✅ Redis is running');
+  console.log('✅ Redis service responding on port 6379');
 } catch {
-  console.warn('⚠️  Redis is not running. Starting Redis via brew or skipping cache...');
+  console.warn('⚠️  Redis is not running on port 6379. Attempting to start service...');
   try {
     execSync('brew services start redis', { stdio: 'ignore' });
+    console.log('✅ Started Redis via Homebrew');
   } catch {
-    // Ignore if brew service start fails
+    console.warn('⚠️  Could not start Redis via Homebrew automatically. Ensure Redis is installed and running.');
   }
 }
 
