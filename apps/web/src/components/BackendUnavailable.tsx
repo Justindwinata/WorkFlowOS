@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useBackendStatus } from '@/lib/api-health';
-import { AlertCircle, RefreshCw, Server } from 'lucide-react';
+import { RefreshCw, Server, RotateCw } from 'lucide-react';
 import { ActionButton } from '@ui';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
-export function BackendUnavailableState({ 
-  title = 'Backend Tidak Tersedia', 
+export function BackendUnavailableState({
+  title = 'Backend Tidak Tersedia',
   description = 'Tidak dapat terhubung ke server. Silakan coba lagi nanti.',
   onRetry,
 }: {
@@ -16,25 +16,24 @@ export function BackendUnavailableState({
   onRetry?: () => void;
 }) {
   const { status, lastCheck, checkBackend } = useBackendStatus();
-  const [showRetry, setShowRetry] = useState(false);
+  const [retrying, setRetrying] = useState(false);
 
-  useEffect(() => {
-    if (status === 'unavailable') {
-      setShowRetry(true);
-    } else if (status === 'available') {
-      setShowRetry(false);
-    }
-  }, [status]);
-
-  const handleRetry = () => {
-    setShowRetry(false);
-    // This will trigger a fresh check
-    window.location.reload();
-  };
-
-  if (status === 'available') {
+  if (status === 'checking' || status === 'available') {
     return null;
   }
+
+  const handleRetry = async () => {
+    setRetrying(true);
+    await checkBackend();
+    setRetrying(false);
+    if (onRetry) {
+      onRetry();
+    }
+  };
+
+  const handleFullReload = () => {
+    window.location.reload();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm p-4">
@@ -55,33 +54,31 @@ export function BackendUnavailableState({
               <p>Terakhir diperiksa: {lastCheck.toLocaleTimeString()}</p>
             )}
           </div>
-          
+
           <div className="flex gap-2">
-            <ActionButton 
-              variant="outline" 
-              className="flex-1" 
+            <ActionButton
+              variant="outline"
+              className="flex-1"
               onClick={handleRetry}
-              disabled={!showRetry}
+              disabled={retrying}
             >
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className={`h-4 w-4 mr-2 ${retrying ? 'animate-spin' : ''}`} />
               Coba Lagi
             </ActionButton>
-            
-            <ActionButton 
-              variant="default" 
-              className="flex-1" 
-              onClick={() => window.location.reload()}
+
+            <ActionButton
+              variant="default"
+              className="flex-1"
+              onClick={handleFullReload}
             >
+              <RotateCw className="h-4 w-4 mr-2" />
               Muat Ulang Halaman
             </ActionButton>
           </div>
-          
-          {showRetry && (
+
+          {retrying && (
             <div className="text-center text-sm text-muted-foreground">
               <p>Mencoba menghubungkan kembali...</p>
-              <div className="flex justify-center mt-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
-              </div>
             </div>
           )}
         </CardContent>
