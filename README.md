@@ -61,8 +61,8 @@ Release Candidate - Enterprise work management platform with:
 
 ### Prerequisites
 - Node.js 20+
-- PostgreSQL 15+ running locally (or Docker)
-- Redis 7+ running locally (or Docker)
+- PostgreSQL 15+ running locally (`brew services start postgresql@15`)
+- Redis running locally (`brew services start redis`)
 - npm 9+
 
 ### Quick Start (Recommended)
@@ -72,18 +72,24 @@ Release Candidate - Enterprise work management platform with:
 git clone https://github.com/Justindwinata/WorkFlowOS.git
 cd WorkFlowOS
 
-# First-time setup: install deps, run migrations, seed
+# First-time setup (validates environment, installs deps, runs migrations, seeds db):
 make setup
 
-# Daily development: start API + Web with health-check orchestration
+# Daily development (checks infra, starts API + Web with health/readiness orchestration):
 make dev
+
+# Stop all processes cleanly:
+make stop   # or Ctrl+C
 ```
 
 `make setup` is idempotent and safe to re-run; it ensures dependencies are installed,
-the database is migrated, and seed data is present.
+the database is migrated, and seed data is present without destroying existing data.
 
 `make dev` starts the API on `:3001` and Web on `:3000`, waits for the API
-`/health` endpoint, then launches the web server.
+`/readiness` endpoint (database + Redis verified), then launches the web server.
+A process lockfile prevents duplicate instances; Ctrl+C performs graceful shutdown.
+
+`make doctor` validates prerequisites (PostgreSQL, Redis, Node, env file) anytime.
 
 ### Access
 
@@ -109,10 +115,24 @@ multi-workspace isolation and RBAC.
 
 ```bash
 npm ci
-cp apps/api/.env.example apps/api/.env  # if not already present
-cd apps/api && npx prisma migrate deploy && npm run seed
-cd ../.. && npm run dev
+cp apps/api/.env.example apps/api/.env
+node scripts/ensure-env.js   # generates secure dev JWT secrets
+cd apps/api && npx prisma generate && npx prisma migrate deploy && npm run seed
+cd ../.. && node scripts/dev.js
 ```
+
+### Troubleshooting
+
+| Problem | Action |
+|---------|--------|
+| "PostgreSQL is not running" | `brew services start postgresql@15` |
+| "Redis is not available" | `brew services start redis` |
+| "Port 3001 already in use" | `lsof -ti:3001 \| xargs kill -9` |
+| "API did not become ready in time" | Run `make doctor` and inspect apps/api logs |
+| "Database migration failed" | Verify `DATABASE_URL` in `apps/api/.env`; `npm run db:status` |
+| Frontend shows "Backend unavailable" | API at `:3001` not running — `make dev` or check CORS |
+| Lockfile blocks restart | `make stop` (or `rm scripts/.dev.lock`) |
+| Wrong/weak dev JWT secrets | `make env` regenerates `apps/api/.env` |
 
 ## Project Structure
 
