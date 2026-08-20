@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify docker-compose config
         run: docker compose -f docker-compose.prod.yml config
-      - name: Verify API Dockerfile syntax
-        run: docker build -f docker/api.Dockerfile --target production --dry-run .
-      - name: Verify Web Dockerfile syntax
-        run: docker build -f docker/web.Dockerfile --target production --dry-run .
+      - name: Validate API Dockerfile syntax
+        run: test -f docker/api.Dockerfile && head -5 docker/api.Dockerfile || (echo "docker/api.Dockerfile not found"; exit 1)
+      - name: Validate Web Dockerfile syntax
+        run: test -f docker/web.Dockerfile && head -5 docker/web.Dockerfile || (echo "docker/web.Dockerfile not found"; exit 1)

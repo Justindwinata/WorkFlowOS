@@ -1,4 +1,4 @@
-.PHONY: help setup env dev dev-api dev-web build test lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor validate
+.PHONY: help setup env dev stop dev-api dev-web build test lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor validate
 
 ## WorkFlowOS Development Commands
 
@@ -7,7 +7,8 @@ help:
 	@echo ''
 	@echo 'Setup & Health:'
 	@echo '  setup        First-time setup (install, migrations, seed)'
-	@echo '  doctor       Check PostgreSQL and Redis readiness'
+	@echo '  env          Initialize local environment file'
+	@echo '  doctor       Check PostgreSQL, Redis, Node, and environment'
 	@echo '  health       Check API/Web health endpoints'
 	@echo '  db-migrate   Run database migrations'
 	@echo '  db-seed      Run database seed'
@@ -18,13 +19,14 @@ help:
 	@echo '  dev          Start API + Web servers with health checks'
 	@echo '  dev-api      Start only API server'
 	@echo '  dev-web      Start only Web server'
-	@echo '  health       Check API/Web health endpoints'
+	@echo '  stop         Stop all dev processes cleanly'
 	@echo ''
 	@echo 'Build & Test:'
 	@echo '  build        Build all applications'
 	@echo '  test         Run all unit tests'
 	@echo '  lint         Run linter across all packages'
 	@echo '  format       Format code with Prettier'
+	@echo '  validate     Validate env, build, and run tests'
 	@echo ''
 	@echo 'Docker:'
 	@echo '  docker-up    Start Docker services (Postgres, Redis)'
@@ -81,6 +83,16 @@ dev-api:
 
 dev-web:
 	npm run dev:web
+
+stop:
+	@echo "🛑 Stopping WorkFlowOS dev processes..."
+	@pkill -f "npm run start:dev" 2>/dev/null && echo "  ✅ API stopped" || echo "  ℹ️  API not running"
+	@pkill -f "next dev" 2>/dev/null && echo "  ✅ Web stopped" || echo "  ℹ️  Web not running"
+	@pkill -f "node scripts/dev.js" 2>/dev/null && echo "  ✅ Orchestrator stopped" || echo "  ℹ️  Orchestrator not running"
+	@lsof -ti:3001 | xargs kill -9 2>/dev/null && echo "  ✅ Port 3001 freed" || true
+	@lsof -ti:3000 | xargs kill -9 2>/dev/null && echo "  ✅ Port 3000 freed" || true
+	@rm -f scripts/.dev.lock
+	@echo "✅ All WorkFlowOS processes stopped"
 
 health:
 	@echo "🏥  Checking API health..."
