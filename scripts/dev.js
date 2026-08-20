@@ -8,6 +8,25 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const API_PORT = process.env.API_PORT || 3001;
 const WEB_PORT = process.env.WEB_PORT || 3000;
 
+// Helper: check if port is available
+function checkPortInUse(port) {
+  return new Promise((resolve) => {
+    const server = require('net').createServer();
+    server.once('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+    server.once('listening', () => {
+      server.close();
+      resolve(false);
+    });
+    server.listen(port, '127.0.0.1');
+  });
+}
+
 // Helper: wait for HTTP endpoint
 function waitForHealth(url, name, timeout = 60000, interval = 1000) {
   return new Promise((resolve, reject) => {
@@ -58,7 +77,22 @@ async function main() {
     }
   }
 
-  console.log('✅ Environment variables validated');
+  // Check port availability before starting
+  const apiPortInUse = await checkPortInUse(API_PORT);
+  if (apiPortInUse) {
+    console.error(`❌ Port ${API_PORT} is already in use. Cannot start API server.`);
+    console.error(`   Please terminate process using port ${API_PORT} or set API_PORT environment variable.`);
+    process.exit(1);
+  }
+
+  const webPortInUse = await checkPortInUse(WEB_PORT);
+  if (webPortInUse) {
+    console.error(`❌ Port ${WEB_PORT} is already in use. Cannot start Web server.`);
+    console.error(`   Please terminate process using port ${WEB_PORT} or set WEB_PORT environment variable.`);
+    process.exit(1);
+  }
+
+  console.log('✅ Environment and ports validated');
 
   // 2. Start API
   console.log('\n📡 Starting API server on port ' + API_PORT + '...');
@@ -96,13 +130,21 @@ async function main() {
   console.log('   Web:  http://localhost:' + WEB_PORT);
   console.log('   \nPress Ctrl+C to stop all servers.');
 
-  // Handle graceful shutdown
-  process.on('SIGINT', () => {
-    console.log('\n🛑 Shutting down...');
-    apiProcess.kill('SIGINT');
-    webProcess.kill('SIGINT');
-    process.exit(0);
-  });
+  // Handle graceful shutdown and signal forwarding
+  const cleanup = (signal) => {
+    console.log(`\n🛑 Received ${signal}, shutting down processes...`);
+    if (apiProcess && !apiProcess.killed) apiProcess.kill('SIGTERM');
+    if (webProcess && !webProcess.killed) webProcess.kill('SIGTERM');
+    setTimeout(() => {
+      if (apiProcess && !apiProcess.killed) apiProcess.kill('SIGKILL');
+      if (webProcess && !webProcess.killed) webProcess.kill('SIGKILL');
+      process.exit(0);
+    }, 2000);
+  };
+
+  process.on('SIGINT', () => cleanup('SIGINT'));
+  process.on('SIGTERM', () => cleanup('SIGTERM'));
+  process.on('SIGHUP', () => cleanup('SIGHUP'));
 }
 
 main().catch((err) => {
