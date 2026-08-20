@@ -82,6 +82,26 @@ describe('Health Service - Regression Tests', () => {
       const result = await service.readiness();
       expect(result.checks.redis).toBe('up');
     });
+
+    it('returns not_ready when redis is down but database is up', async () => {
+      prisma.$queryRaw.mockResolvedValueOnce(undefined); // DB
+      prisma.$queryRaw.mockResolvedValueOnce([{ count: 5 }]); // Migrations
+      jest.spyOn(service as any, 'checkRedis').mockRejectedValueOnce(new Error('Redis unavailable'));
+
+      const result = await service.readiness();
+      expect(result.status).toBe('not_ready');
+      expect(result.checks.redis).toBe('down');
+    });
+
+    it('returns ready when redis is not configured', async () => {
+      (service as any).config.get = jest.fn((key: string) => (key === 'REDIS_URL' ? null : null));
+      prisma.$queryRaw.mockResolvedValueOnce(undefined); // DB
+      prisma.$queryRaw.mockResolvedValueOnce([{ count: 5 }]); // Migrations
+
+      const result = await service.readiness();
+      expect(result.status).toBe('ready');
+      expect(result.checks.redis).toBe('not_configured');
+    });
   });
 
   describe('Startup Check', () => {

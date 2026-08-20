@@ -56,7 +56,7 @@ export class HealthService {
       checks.redis = 'down';
     }
 
-    const ready = checks.database === 'up';
+    const ready = checks.database === 'up' && (checks.redis !== 'down');
 
     return {
       status: ready ? 'ready' : 'not_ready',
