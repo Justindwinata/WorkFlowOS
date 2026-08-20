@@ -21,12 +21,14 @@ import { CommonModule } from './common/common.module';
 import { HealthModule } from './health/health.module';
 import { LoggingModule } from './common/logging/logging.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { validateEnv } from './config/env.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '../../.env',
+      envFilePath: ['.env', '../../.env'],
+      validate: validateEnv,
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
