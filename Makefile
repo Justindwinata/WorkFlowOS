@@ -1,4 +1,4 @@
-.PHONY: help setup env dev stop dev-api dev-web build test lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor validate
+.PHONY: help setup env dev stop dev-api dev-web build test e2e verify-startup lint format clean docker-up docker-down docker-ps db-migrate db-seed db-reset db-status health doctor validate
 
 ## WorkFlowOS Development Commands
 
@@ -24,6 +24,8 @@ help:
 	@echo 'Build & Test:'
 	@echo '  build        Build all applications'
 	@echo '  test         Run all unit tests'
+	@echo '  e2e          Run Playwright browser tests'
+	@echo '  verify-startup  Verify running application endpoints'
 	@echo '  lint         Run linter across all packages'
 	@echo '  format       Format code with Prettier'
 	@echo '  validate     Validate env, build, and run tests'
@@ -118,6 +120,14 @@ build:
 
 test:
 	npm run test
+
+e2e:
+	@echo "🎭 Running E2E browser tests..."
+	cd apps/web && npm run test:e2e
+
+verify-startup:
+	@echo "🔍 Verifying application startup..."
+	node scripts/verify-startup.js
 
 lint:
 	npm run lint
